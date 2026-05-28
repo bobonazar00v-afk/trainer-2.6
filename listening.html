@@ -337,7 +337,15 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <div class="intro-card"><div class="intro-card-num">40</div><div class="intro-card-label">Questions</div></div>
       <div class="intro-card"><div class="intro-card-num">30<span style="font-size:18px;color:rgba(96,165,250,.7)">min</span></div><div class="intro-card-label">Duration</div></div>
     </div>
-    <button class="intro-btn" id="start-test-btn">Start Test</button>
+    <div style="position:relative; display:inline-block;">
+      <button class="intro-btn" id="start-test-btn" style="position:relative; z-index:1; pointer-events:none;">Start Test</button>
+      <audio id="global-audio-player"
+        src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3"
+        preload="auto"
+        controls
+        style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; z-index:2; cursor:pointer;">
+      </audio>
+    </div>
   </div>
 </div>
 
@@ -802,12 +810,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('main-container').style.display = 'flex';
     document.getElementById('nav-arrows').style.display = 'flex';
     document.getElementById('nav-row').style.display = 'flex';
-    document.getElementById('global-audio-player').play();
     switchToPart(1);
     setupDragAndDrop();
     setupCheckboxLimits();
     setupInputListeners();
     updateAnsweredIndicators();
+  });
+
+  document.getElementById('global-audio-player').addEventListener('play', function() {
+    if (document.getElementById('intro-screen').style.display !== 'none') {
+      document.getElementById('intro-screen').style.display = 'none';
+      document.getElementById('main-header').style.display = 'flex';
+      document.getElementById('main-container').style.display = 'flex';
+      document.getElementById('nav-arrows').style.display = 'flex';
+      document.getElementById('nav-row').style.display = 'flex';
+      switchToPart(1);
+      setupDragAndDrop();
+      setupCheckboxLimits();
+      setupInputListeners();
+      updateAnsweredIndicators();
+    }
   });
   document.getElementById('logout-btn').addEventListener('click', function() {
     if (confirm('Logout?')) window.location.reload();
