@@ -802,7 +802,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('main-container').style.display = 'flex';
     document.getElementById('nav-arrows').style.display = 'flex';
     document.getElementById('nav-row').style.display = 'flex';
-    document.getElementById('global-audio-player').play();
+    const audio = document.getElementById('global-audio-player');
+    if (audio.readyState >= 2) {
+      audio.play();
+    } else {
+      audio.addEventListener('canplay', function() { audio.play(); }, { once: true });
+    }
     switchToPart(1);
     setupDragAndDrop();
     setupCheckboxLimits();
