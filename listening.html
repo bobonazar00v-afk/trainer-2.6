@@ -361,7 +361,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
   </div>
 </div>
 
-<audio id="global-audio-player" src="audio_fixed.m4a" style="display:none;"></audio>
+<audio id="global-audio-player" src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3" preload="auto" style="display:none;"></audio>
 
 <!-- MAIN -->
 <div class="main-container" id="main-container">
@@ -802,12 +802,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('main-container').style.display = 'flex';
     document.getElementById('nav-arrows').style.display = 'flex';
     document.getElementById('nav-row').style.display = 'flex';
-    const audio = document.getElementById('global-audio-player');
-    if (audio.readyState >= 2) {
-      audio.play();
-    } else {
-      audio.addEventListener('canplay', function() { audio.play(); }, { once: true });
-    }
+    document.getElementById('global-audio-player').play();
     switchToPart(1);
     setupDragAndDrop();
     setupCheckboxLimits();
