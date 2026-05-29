@@ -337,22 +337,35 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <div class="intro-card"><div class="intro-card-num">40</div><div class="intro-card-label">Questions</div></div>
       <div class="intro-card"><div class="intro-card-num">30<span style="font-size:18px;color:rgba(96,165,250,.7)">min</span></div><div class="intro-card-label">Duration</div></div>
     </div>
-    <div style="position:relative; display:inline-block;">
-      <button class="intro-btn" id="start-test-btn" style="position:relative; z-index:1; pointer-events:none;">Start Test</button>
-      <audio id="global-audio-player"
-        src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3"
-        preload="auto"
-        controls
-        style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; z-index:2; cursor:pointer;">
-      </audio>
+    <button class="intro-btn" id="start-test-btn">Start Test</button>
+  </div>
+</div>
+
+<!-- AUDIO MODAL -->
+<div id="audio-modal" style="display:none; position:fixed; inset:0; z-index:20000; align-items:center; justify-content:center;">
+  <div style="position:absolute; inset:0; backdrop-filter:blur(6px); background:rgba(10,15,40,0.65);"></div>
+  <div style="position:relative; background:white; border-radius:20px; padding:44px 40px; max-width:420px; width:90%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.5); animation:cardIn .4s cubic-bezier(.22,1,.36,1);">
+    <div style="font-size:64px; margin-bottom:14px;">🎧</div>
+    <h2 style="font-size:22px; font-weight:800; color:#1a1a2e; margin-bottom:10px;">Ready to start?</h2>
+    <p style="color:#555; font-size:14px; margin-bottom:16px;">Press Play to begin the audio. The test will start automatically.</p>
+    <div style="background:#fff3cd; border:1px solid #ffc107; border-radius:10px; padding:12px 16px; margin-bottom:24px; text-align:left;">
+      <p style="font-size:13px; color:#856404; margin:0;">⚠️ Once started, the audio <strong>cannot be paused, rewound or replayed.</strong></p>
     </div>
+    <audio id="global-audio-player"
+      src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3"
+      preload="auto"
+      controls
+      controlsList="nodownload nofullscreen noremoteplayback"
+      style="width:100%; border-radius:8px; margin-bottom:10px;">
+    </audio>
+    <p style="color:#888; font-size:13px;">click <strong>▶</strong>to start</p>
   </div>
 </div>
 
 <!-- COMPLETION -->
 <div class="completion-screen" id="completion-screen">
   <div class="completion-message">Listening section ended</div>
-  <a class="navigation-button" href="Reading.html">Please move to reading section</a>
+  <a class="navigation-button" href="reading.html">Please move to reading section</a>
 </div>
 
 <!-- HEADER -->
@@ -805,30 +818,30 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('login-screen').style.display = 'flex';
   });
   document.getElementById('start-test-btn').addEventListener('click', function() {
+    // Показываем тест но заблюренный
     document.getElementById('intro-screen').style.display = 'none';
     document.getElementById('main-header').style.display = 'flex';
     document.getElementById('main-container').style.display = 'flex';
     document.getElementById('nav-arrows').style.display = 'flex';
     document.getElementById('nav-row').style.display = 'flex';
+    document.getElementById('main-container').style.filter = 'blur(6px)';
+    document.getElementById('main-header').style.filter = 'blur(6px)';
+    document.getElementById('nav-row').style.filter = 'blur(6px)';
     switchToPart(1);
     setupDragAndDrop();
     setupCheckboxLimits();
     setupInputListeners();
     updateAnsweredIndicators();
+    // Показываем модалку
+    document.getElementById('audio-modal').style.display = 'flex';
   });
 
   document.getElementById('global-audio-player').addEventListener('play', function() {
-    if (document.getElementById('intro-screen').style.display !== 'none') {
-      document.getElementById('intro-screen').style.display = 'none';
-      document.getElementById('main-header').style.display = 'flex';
-      document.getElementById('main-container').style.display = 'flex';
-      document.getElementById('nav-arrows').style.display = 'flex';
-      document.getElementById('nav-row').style.display = 'flex';
-      switchToPart(1);
-      setupDragAndDrop();
-      setupCheckboxLimits();
-      setupInputListeners();
-      updateAnsweredIndicators();
+    if (document.getElementById('audio-modal').style.display !== 'none') {
+      document.getElementById('audio-modal').style.display = 'none';
+      document.getElementById('main-container').style.filter = '';
+      document.getElementById('main-header').style.filter = '';
+      document.getElementById('nav-row').style.filter = '';
     }
   });
   document.getElementById('logout-btn').addEventListener('click', function() {
@@ -863,6 +876,18 @@ const audioEl = document.getElementById('global-audio-player');
 // Автосабмит когда аудио закончилось
 audioEl.addEventListener('ended', function() {
   submitTest();
+});
+
+// Блокируем паузу и перемотку после старта теста
+audioEl.addEventListener('pause', function() {
+  if (document.getElementById('main-container').style.display !== 'none') {
+    audioEl.play();
+  }
+});
+audioEl.addEventListener('seeking', function() {
+  if (document.getElementById('main-container').style.display !== 'none') {
+    audioEl.currentTime = audioEl.currentTime; // запрещаем перемотку
+  }
 });
 
 function fmt(s) {
@@ -1109,7 +1134,7 @@ function submitTest() {
   if (!confirm('Submit test and download your PDF results?')) return;
   downloadResultsPDF();
   setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
-  setTimeout(() => { window.location.href = 'Reading.html'; }, 800);
+  setTimeout(() => { window.location.href = 'reading.html'; }, 800);
 }
 
 function downloadResultsPDF() {
