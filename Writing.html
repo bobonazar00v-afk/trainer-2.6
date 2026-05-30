@@ -233,11 +233,11 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <p><strong>Task 1</strong> — You should spend about 20 minutes on this task. Write at least <strong>150 words</strong>.</p>
         </div>
         <div class="task-prompt">
-          <p><strong>The maps show the changes made to a small museum and its surroundings in 1990 and 2010.</strong></p>
+          <p><strong>The graph below gives information about the percentage of the population in four Asian countries living in cities from 1970 to 2020, with predictions for 2030 and 2040.</strong></p>
           <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>
         </div>
         <div class="chart-container">
-          <img src="map.jpg" alt="Museum maps 1990 and 2010" onerror="this.style.display='none'"/>
+          <img src="graph.jpg" alt="Asian urbanisation graph 1970-2040" onerror="this.style.display='none'"/>
         </div>
       </div>
 
@@ -247,9 +247,9 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <p><strong>Task 2</strong> — You should spend about 40 minutes on this task. Write at least <strong>250 words</strong>.</p>
         </div>
         <div class="task-prompt">
-          <p><em><strong>Some people believe that people should be free to completely reinvent themselves several times during life — including changing careers, lifestyles, identities, and social circles — while others believe stability and consistency are more important.</strong></em></p>
+          <p><em><strong>It is important for children to learn the difference between right and wrong at an early age. Punishment is necessary to help them learn this distinction.</strong></em></p>
           <br/>
-          <p><em><strong>Discuss both views and give your own opinion.</strong></em></p>
+          <p><em><strong>To what extent do you agree or disagree with this opinion? What sort of punishment should parents and teachers be allowed to use to teach good behaviour to children?</strong></em></p>
         </div>
       </div>
     </div>
@@ -468,44 +468,66 @@ function downloadPDF() {
     const doc = new jsPDF();
     const date = new Date().toLocaleDateString();
     const time = new Date().toLocaleTimeString();
+    const LINE_H = 5;
+    const MARGIN = 20;
+    const MAX_Y = 280;
+    const PAGE_W = 170;
+
+    function addPageIfNeeded(y, needed) {
+      if (y + needed > MAX_Y) { doc.addPage(); return MARGIN; }
+      return y;
+    }
+
+    function writeLines(lines, y) {
+      for (const line of lines) {
+        y = addPageIfNeeded(y, LINE_H);
+        doc.text(line, MARGIN, y);
+        y += LINE_H;
+      }
+      return y;
+    }
 
     doc.setFontSize(20); doc.setFont('helvetica','bold');
     doc.text('IELTS Writing Test', 105, 18, { align: 'center' });
     doc.setFontSize(11); doc.setFont('helvetica','normal');
-    doc.text('Candidate: ' + candidateId, 20, 30);
-    doc.text('Date: ' + date + '  Time: ' + time, 20, 37);
+    doc.text('Candidate: ' + candidateId, MARGIN, 30);
+    doc.text('Date: ' + date + '  Time: ' + time, MARGIN, 37);
 
     // Task 1
     doc.setFontSize(15); doc.setFont('helvetica','bold');
-    doc.text('TASK 1', 20, 52);
+    doc.text('TASK 1', MARGIN, 52);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q1 = 'The maps show the changes made to a small museum and its surroundings in 1990 and 2010. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
-    const sq1 = doc.splitTextToSize(q1, 170);
-    doc.text(sq1, 20, 60);
+    const q1 = 'The graph below gives information about the percentage of the population in four Asian countries living in cities from 1970 to 2020, with predictions for 2030 and 2040. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
+    const sq1 = doc.splitTextToSize(q1, PAGE_W);
+    let y = 60;
+    y = writeLines(sq1, y);
+    y += 4;
     const wc1 = task1Content.trim() === '' ? 0 : task1Content.trim().split(/\s+/).length;
+    y = addPageIfNeeded(y, LINE_H);
     doc.setFont('helvetica','bold');
-    doc.text('Word count: ' + wc1, 20, 60 + sq1.length * 5 + 4);
+    doc.text('Word count: ' + wc1, MARGIN, y); y += LINE_H + 4;
     doc.setFont('helvetica','normal');
-    const resp1 = task1Content || '[No response]';
-    const sr1 = doc.splitTextToSize(resp1, 170);
-    doc.text(sr1, 20, 60 + sq1.length * 5 + 12);
+    const sr1 = doc.splitTextToSize(task1Content || '[No response]', PAGE_W);
+    y = writeLines(sr1, y);
 
     doc.addPage();
 
     // Task 2
     doc.setFontSize(15); doc.setFont('helvetica','bold');
-    doc.text('TASK 2', 20, 18);
+    doc.text('TASK 2', MARGIN, 18);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q2 = 'Some people believe that people should be free to completely reinvent themselves several times during life — including changing careers, lifestyles, identities, and social circles — while others believe stability and consistency are more important. Discuss both views and give your own opinion.';
-    const sq2 = doc.splitTextToSize(q2, 170);
-    doc.text(sq2, 20, 26);
+    const q2 = 'It is important for children to learn the difference between right and wrong at an early age. Punishment is necessary to help them learn this distinction. To what extent do you agree or disagree with this opinion? What sort of punishment should parents and teachers be allowed to use to teach good behaviour to children?';
+    const sq2 = doc.splitTextToSize(q2, PAGE_W);
+    y = 26;
+    y = writeLines(sq2, y);
+    y += 4;
     const wc2 = task2Content.trim() === '' ? 0 : task2Content.trim().split(/\s+/).length;
+    y = addPageIfNeeded(y, LINE_H);
     doc.setFont('helvetica','bold');
-    doc.text('Word count: ' + wc2, 20, 26 + sq2.length * 5 + 4);
+    doc.text('Word count: ' + wc2, MARGIN, y); y += LINE_H + 4;
     doc.setFont('helvetica','normal');
-    const resp2 = task2Content || '[No response]';
-    const sr2 = doc.splitTextToSize(resp2, 170);
-    doc.text(sr2, 20, 26 + sq2.length * 5 + 12);
+    const sr2 = doc.splitTextToSize(task2Content || '[No response]', PAGE_W);
+    y = writeLines(sr2, y);
 
     doc.save('IELTS_Writing_' + candidateId + '.pdf');
   } catch(e) { console.error('PDF error:', e); }
