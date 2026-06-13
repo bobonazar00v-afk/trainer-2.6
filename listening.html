@@ -246,46 +246,46 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 
 <!-- Answer Key -->
 <div id="answer-key" style="display:none;">
-"1": "15",
-"2": "actors",
-"3": ["animal", "an animal"],
-"4": "music",
-"5": "subtitles",
-"6": "script",
-"7": "comedy",
-"8": "Hyslop",
-"9": "Imagine",
-"10": "Bridge",
-"11": ["A", "B"],
-"12": ["A", "B"],
-"13": ["A", "E"],
-"14": ["A", "E"],
-"15": "C",
-"16": "D",
-"17": "G",
-"18": "H",
+"1": "pets",
+"2": "fridge",
+"3": "shelves",
+"4": "lamp",
+"5": "gas",
+"6": "Connaught",
+"7": "interglobe",
+"8": "E7382991TP",
+"9": ["7 April", "7th April", "April 7", "7th of April"],
+"10": "450",
+"11": "C",
+"12": "B",
+"13": "B",
+"14": "A",
+"15": "A",
+"16": "C",
+"17": "A",
+"18": "B",
 "19": "B",
-"20": "A",
-"21": "A",
-"22": "B",
-"23": "A",
-"24": "A",
-"25": "C",
-"26": "C",
-"27": "A",
-"28": "D",
-"29": "B",
-"30": "F",
-"31": "chest",
-"32": "calcium",
-"33": "muscle",
-"34": ["vision", "eyesight"],
-"35": "sweat",
-"36": "light",
-"37": "paint",
-"38": "windows",
-"39": "museum",
-"40": "qualification"
+"20": "C",
+"21": ["B", "E"],
+"22": ["B", "E"],
+"23": ["B", "C"],
+"24": ["B", "C"],
+"25": ["A", "D"],
+"26": ["A", "D"],
+"27": "C",
+"28": "F",
+"29": "A",
+"30": "E",
+"31": "academic",
+"32": "doctors",
+"33": "floods",
+"34": "models",
+"35": "investor",
+"36": "ships",
+"37": "erosion",
+"38": "breakfast",
+"39": "gym",
+"40": "graduated"
 </div>
 
 <!-- LOGIN -->
@@ -396,40 +396,59 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <div class="questions-container">
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 1–10</strong></p>
+            <p><strong>Questions 1–5</strong></p>
             <p>Complete the notes below.</p>
+            <p>Write <strong>NO MORE THAN ONE WORD</strong> for each answer.</p>
+          </div>
+          <div class="notes-box" style="width:100%;max-width:750px;">
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">New Apartment</p>
+            <p><em>Example — Landlady's Name: Mary Jones</em></p>
+            <h3>General</h3>
+            <ul>
+              <li>partly furnished</li>
+              <li>no <input class="answer-input" id="q1" type="text" placeholder="1" style="width:150px;"/> are allowed</li>
+            </ul>
+            <h3>Kitchen</h3>
+            <ul>
+              <li>nice and big</li>
+              <li>there is a new <input class="answer-input" id="q2" type="text" placeholder="2" style="width:150px;"/></li>
+            </ul>
+            <h3>Lounge</h3>
+            <ul>
+              <li>some <input class="answer-input" id="q3" type="text" placeholder="3" style="width:150px;"/> will be built soon</li>
+            </ul>
+            <h3>Bedroom</h3>
+            <ul>
+              <li>good clothes storage</li>
+              <li>need to bring a <input class="answer-input" id="q4" type="text" placeholder="4" style="width:150px;"/></li>
+            </ul>
+            <h3>Bathroom</h3>
+            <ul>
+              <li>only a shower</li>
+              <li>the water is heated by <input class="answer-input" id="q5" type="text" placeholder="5" style="width:150px;"/></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question">
+          <div class="question-prompt">
+            <p><strong>Questions 6–10</strong></p>
+            <p>Complete the form below.</p>
             <p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
           </div>
           <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">Short Film Competition</p>
-            <h3>Rules</h3>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">Tenancy Form</p>
+            <h3>Tenant details</h3>
             <ul>
-              <li>The film must be no more than 20 minutes long.</li>
-              <li>The film must be submitted before Wednesday, <input class="answer-input" id="q1" type="text" placeholder="1" style="width:90px;"/>.</li>
-              <li>Don't use any professional <input class="answer-input" id="q2" type="text" placeholder="2" style="width:140px;"/> with experience.</li>
-              <li>For the film, it's necessary to:
-                <ul>
-                  <li>include a child or an <input class="answer-input" id="q3" type="text" placeholder="3" style="width:140px;"/> this year.</li>
-                  <li>get permission for any <input class="answer-input" id="q4" type="text" placeholder="4" style="width:140px;"/> used.</li>
-                  <li>check that English <input class="answer-input" id="q5" type="text" placeholder="5" style="width:150px;"/> contain no mistakes.</li>
-                </ul>
-              </li>
+              <li>Full name: Andrew <input class="answer-input" id="q6" type="text" placeholder="6" style="width:160px;"/></li>
+              <li>Best contact: andrew171@<input class="answer-input" id="q7" type="text" placeholder="7" style="width:140px;"/>.com</li>
+              <li>Driver's licence: <input class="answer-input" id="q8" type="text" placeholder="8" style="width:160px;"/></li>
             </ul>
-            <h3>Advice</h3>
+            <h3>Tenancy details</h3>
             <ul>
-              <li>Focus on the <input class="answer-input" id="q6" type="text" placeholder="6" style="width:150px;"/> before doing anything else.</li>
-              <li>Stick to a few characters and locations.</li>
-              <li>Avoid making a <input class="answer-input" id="q7" type="text" placeholder="7" style="width:150px;"/> because not all the judges will like it.</li>
-            </ul>
-            <h3>Last year's competition</h3>
-            <ul>
-              <li>The winner was Greg <input class="answer-input" id="q8" type="text" placeholder="8" style="width:160px;"/>.</li>
-              <li>The title of Greg's film was <input class="answer-input" id="q9" type="text" placeholder="9" style="width:160px;"/>.</li>
-            </ul>
-            <h3>Prizes</h3>
-            <ul>
-              <li>Winners receive between $500 and $2000.</li>
-              <li>The best films are shown in the <input class="answer-input" id="q10" type="text" placeholder="10" style="width:150px;"/> Theatre.</li>
+              <li>Moving-in date: <input class="answer-input" id="q9" type="text" placeholder="9" style="width:150px;"/></li>
+              <li>Rent per week: $315</li>
+              <li>Bond paid: $<input class="answer-input" id="q10" type="text" placeholder="10" style="width:120px;"/></li>
             </ul>
           </div>
         </div>
@@ -443,68 +462,65 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       </div>
       <div class="questions-container">
 
-        <!-- Q11–12 -->
+        <!-- Q11–15 MCQ -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 11–12</strong></p>
-            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>Which TWO tasks will volunteers be required to do at Eskdale Wood?</p>
+            <p><strong>Questions 11–15</strong></p>
+            <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
           </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q11-12" value="A"/> A. fix fences</label>
-            <label><input type="checkbox" name="q11-12" value="B"/> B. remove branches</label>
-            <label><input type="checkbox" name="q11-12" value="C"/> C. collect litter</label>
-            <label><input type="checkbox" name="q11-12" value="D"/> D. build bird boxes</label>
-            <label><input type="checkbox" name="q11-12" value="E"/> E. cut down trees</label>
+          <div class="single-choice-container">
+            <div class="single-choice">
+              <p><strong>11</strong> What is new about the Writers' Festival this year?</p>
+              <label><input type="radio" name="q11" value="A"/> A. more international guests</label>
+              <label><input type="radio" name="q11" value="B"/> B. extra time for questions</label>
+              <label><input type="radio" name="q11" value="C"/> C. additional locations for events</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>12</strong> Tickets for the Wearable Art event</p>
+              <label><input type="radio" name="q12" value="A"/> A. are selling out quickly.</label>
+              <label><input type="radio" name="q12" value="B"/> B. have been reduced in price.</label>
+              <label><input type="radio" name="q12" value="C"/> C. must be booked in advance.</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>13</strong> Ocean Times at Bright's Beach is</p>
+              <label><input type="radio" name="q13" value="A"/> A. a sporting competition for adults.</label>
+              <label><input type="radio" name="q13" value="B"/> B. an educational event for all ages.</label>
+              <label><input type="radio" name="q13" value="C"/> C. a play day for young children.</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>14</strong> People going to the Artscape Exhibition</p>
+              <label><input type="radio" name="q14" value="A"/> A. should wear appropriate clothing.</label>
+              <label><input type="radio" name="q14" value="B"/> B. must keep to the proper path.</label>
+              <label><input type="radio" name="q14" value="C"/> C. need to arrive at a certain time.</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>15</strong> Tours of the Civil Theatre</p>
+              <label><input type="radio" name="q15" value="A"/> A. do not happen often.</label>
+              <label><input type="radio" name="q15" value="B"/> B. have never happened before.</label>
+              <label><input type="radio" name="q15" value="C"/> C. may happen more regularly in future.</label>
+            </div>
           </div>
         </div>
 
-        <!-- Q13–14 -->
+        <!-- Q16–20 Matching -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 13–14</strong></p>
-            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>Which TWO things must volunteers bring with them?</p>
+            <p><strong>Questions 16–20</strong></p>
+            <p>What comment does the speaker make about each of the following events?</p>
+            <p>Write the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>, next to Questions 16–20.</p>
+            <p><em>You may use any letter more than once.</em></p>
           </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q13-14" value="A"/> A. gloves</label>
-            <label><input type="checkbox" name="q13-14" value="B"/> B. tools</label>
-            <label><input type="checkbox" name="q13-14" value="C"/> C. snacks</label>
-            <label><input type="checkbox" name="q13-14" value="D"/> D. sunscreen</label>
-            <label><input type="checkbox" name="q13-14" value="E"/> E. boots</label>
+          <div class="matching-form-container" style="max-width:600px;">
+            <div class="matching-form-row"><label class="matching-form-label"><strong>16</strong>&nbsp;&nbsp;Night Market</label><select class="answer-input" id="q16"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>17</strong>&nbsp;&nbsp;Buskers' Festival</label><select class="answer-input" id="q17"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>18</strong>&nbsp;&nbsp;Stand Up For Kids</label><select class="answer-input" id="q18"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>19</strong>&nbsp;&nbsp;Sunday Unplugged</label><select class="answer-input" id="q19"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>20</strong>&nbsp;&nbsp;Ignite Dance Finals</label><select class="answer-input" id="q20"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
           </div>
-        </div>
-
-        <!-- Q15–20 Flow chart drag and drop -->
-        <div class="question">
-          <div class="question-prompt">
-            <p><strong>Questions 15–20</strong></p>
-            <p>Complete the flow-chart below.</p>
-            <p>Choose SIX answers from the box and write the correct letter, <strong>A–H</strong>, next to Questions 15–20.</p>
-          </div>
-          <div style="display:inline-block;width:100%;"><div class="flow-chart" style="max-width:750px;">
-            <p style="font-weight:bold;text-align:center;margin-bottom:12px;">To Take Part in the Bird Count</p>
-            <div class="flow-step">Set up a <span class="drop-zone flow-drop-zone" id="q15"><span class="placeholder">15</span></span> for a mobile app.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Decide on a <span class="drop-zone flow-drop-zone" id="q16"><span class="placeholder">16</span></span> for the day of the bird count.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Organise a <span class="drop-zone flow-drop-zone" id="q17"><span class="placeholder">17</span></span> for support.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Ensure everyone has access to a <span class="drop-zone flow-drop-zone" id="q18"><span class="placeholder">18</span></span>.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Agree on a <span class="drop-zone flow-drop-zone" id="q19"><span class="placeholder">19</span></span> for observed birds.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Submit a <span class="drop-zone flow-drop-zone" id="q20"><span class="placeholder">20</span></span> with your collected data.</div>
-          </div>
-          </div><div class="flow-options" id="flow-options-15-20" style="max-width:750px;">
-            <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> clear photograph</div>
-            <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> rough estimate</div>
-            <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> new account</div>
-            <div class="drag-item" data-value="D" draggable="true"><strong>D</strong> suitable location</div>
-            <div class="drag-item" data-value="E" draggable="true"><strong>E</strong> council permit</div>
-            <div class="drag-item" data-value="F" draggable="true"><strong>F</strong> basic competition</div>
-            <div class="drag-item" data-value="G" draggable="true"><strong>G</strong> good team</div>
-            <div class="drag-item" data-value="H" draggable="true"><strong>H</strong> visual guide</div>
+          <div class="notes-box" style="max-width:600px;margin-top:14px;">
+            <p><strong>A.</strong> the location has changed</p>
+            <p><strong>B.</strong> transport will be a problem</p>
+            <p><strong>C.</strong> the event might be crowded</p>
           </div>
         </div>
 
@@ -518,69 +534,75 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       </div>
       <div class="questions-container">
 
-        <!-- Q21–25 MCQ -->
+        <!-- Q21–22 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 21–25</strong></p>
-            <p>Presentation on restoring and reproduction of paintings.</p>
-            <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+            <p><strong>Questions 21–22</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>What TWO problems do the students identify with 'learning videos'?</p>
           </div>
-          <div class="single-choice-container">
-            <div class="single-choice">
-              <p><strong>21</strong> The students agree that the introduction to their presentation should include</p>
-              <label><input type="radio" name="q21" value="A"/> A. reasons why paintings need to be restored.</label>
-              <label><input type="radio" name="q21" value="B"/> B. examples of poor restoration work.</label>
-              <label><input type="radio" name="q21" value="C"/> C. a general description of what restoration involves.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>22</strong> When the students visited the museum, they were surprised by</p>
-              <label><input type="radio" name="q22" value="A"/> A. the time it took to restore a single painting.</label>
-              <label><input type="radio" name="q22" value="B"/> B. the academic backgrounds of the restorers.</label>
-              <label><input type="radio" name="q22" value="C"/> C. the materials used in restoration work.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>23</strong> What does Oliver say would put him off a career in art restoration?</p>
-              <label><input type="radio" name="q23" value="A"/> A. the reaction of the owners of a painting</label>
-              <label><input type="radio" name="q23" value="B"/> B. the possibility of working in dangerous conditions</label>
-              <label><input type="radio" name="q23" value="C"/> C. the requirement to be able to draw very well</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>24</strong> What do the students agree about the restored Dutch landscape painting?</p>
-              <label><input type="radio" name="q24" value="A"/> A. It shows how taste in art varies amongst different people.</label>
-              <label><input type="radio" name="q24" value="B"/> B. It is an example of a work that was once undervalued.</label>
-              <label><input type="radio" name="q24" value="C"/> C. It demonstrates how cleaning techniques have greatly improved.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>25</strong> What is Oliver's attitude to the digital reproduction of famous paintings?</p>
-              <label><input type="radio" name="q25" value="A"/> A. It requires a great deal of skill.</label>
-              <label><input type="radio" name="q25" value="B"/> B. There is something dishonest about it.</label>
-              <label><input type="radio" name="q25" value="C"/> C. It makes art accessible to more people.</label>
-            </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q21-22" value="A"/> A. Babies lose interest too quickly.</label>
+            <label><input type="checkbox" name="q21-22" value="B"/> B. Babies need to explore things.</label>
+            <label><input type="checkbox" name="q21-22" value="C"/> C. Babies want to be with other babies.</label>
+            <label><input type="checkbox" name="q21-22" value="D"/> D. Babies' eyes may be damaged.</label>
+            <label><input type="checkbox" name="q21-22" value="E"/> E. Babies should have contact with adults.</label>
           </div>
         </div>
 
-        <!-- Q26–30 Drag and drop list -->
+        <!-- Q23–24 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 26–30</strong></p>
-            <p>What challenge did the Factum Arte team face with reproducing the following paintings?</p>
-            <p>Choose FIVE answers from the box and write the correct letter, <strong>A–G</strong>, next to Questions 26–30.</p>
+            <p><strong>Questions 23–24</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>When discussing the 'present research', Maia is surprised that</p>
           </div>
-          <div style="display:inline-block;width:100%;"><div class="flow-chart" style="max-width:750px;">
-            <div class="flow-step">Six Sunflowers — <span class="drop-zone flow-drop-zone" id="q26"><span class="placeholder">26</span></span></div>
-            <div class="flow-step">The Concert — <span class="drop-zone flow-drop-zone" id="q27"><span class="placeholder">27</span></span></div>
-            <div class="flow-step">Portrait of Sir Winston Churchill — <span class="drop-zone flow-drop-zone" id="q28"><span class="placeholder">28</span></span></div>
-            <div class="flow-step">The Water Lilies — <span class="drop-zone flow-drop-zone" id="q29"><span class="placeholder">29</span></span></div>
-            <div class="flow-step">Myrto — <span class="drop-zone flow-drop-zone" id="q30"><span class="placeholder">30</span></span></div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q23-24" value="A"/> A. ordinary people have altered their habits.</label>
+            <label><input type="checkbox" name="q23-24" value="B"/> B. the findings are very detailed.</label>
+            <label><input type="checkbox" name="q23-24" value="C"/> C. most babies behave the same way.</label>
+            <label><input type="checkbox" name="q23-24" value="D"/> D. boys and girls like different toys.</label>
+            <label><input type="checkbox" name="q23-24" value="E"/> E. the methodology has been criticised.</label>
           </div>
-          </div><div class="flow-options" id="flow-options-26-30" style="max-width:750px;">
-            <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> they only had a photo of a badly restored version of the painting</div>
-            <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> they needed to see under the damaged surface of the painting</div>
-            <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> they had to get permission to analyze a very similar painting</div>
-            <div class="drag-item" data-value="D" draggable="true"><strong>D</strong> they had to rely on similar drawings of the same subject</div>
-            <div class="drag-item" data-value="E" draggable="true"><strong>E</strong> they had to negotiate with relations of the original artist</div>
-            <div class="drag-item" data-value="F" draggable="true"><strong>F</strong> they were unable to view other examples of the artist's work</div>
-            <div class="drag-item" data-value="G" draggable="true"><strong>G</strong> they had only limited time to reproduce the painting</div>
+        </div>
+
+        <!-- Q25–26 -->
+        <div class="question">
+          <div class="question-prompt">
+            <p><strong>Questions 25–26</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>What impresses the students about the bilingual experiment in Spain?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q25-26" value="A"/> A. the long-term effects of the lessons</label>
+            <label><input type="checkbox" name="q25-26" value="B"/> B. the large number of research subjects</label>
+            <label><input type="checkbox" name="q25-26" value="C"/> C. the fact that the children enjoyed themselves</label>
+            <label><input type="checkbox" name="q25-26" value="D"/> D. the fact that teachers had the same training</label>
+            <label><input type="checkbox" name="q25-26" value="E"/> E. the response of schools to the findings</label>
+          </div>
+        </div>
+
+        <!-- Q27–30 Matching -->
+        <div class="question">
+          <div class="question-prompt">
+            <p><strong>Questions 27–30</strong></p>
+            <p>What comment does the speaker make about each of the following studies?</p>
+            <p>Write the correct letter, <strong>A–F</strong>, next to Questions 27–30.</p>
+            <p><em>You may use any letter more than once.</em></p>
+          </div>
+          <div class="matching-form-container" style="max-width:650px;">
+            <div class="matching-form-row"><label class="matching-form-label"><strong>27</strong>&nbsp;&nbsp;Dr Pritchard's study</label><select class="answer-input" id="q27"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>28</strong>&nbsp;&nbsp;The three-year-olds study</label><select class="answer-input" id="q28"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>29</strong>&nbsp;&nbsp;Professor Michelson's study</label><select class="answer-input" id="q29"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>30</strong>&nbsp;&nbsp;The United States study</label><select class="answer-input" id="q30"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+          </div>
+          <div class="notes-box" style="max-width:650px;margin-top:14px;">
+            <p><strong>A.</strong> Babies understand cause and effect.</p>
+            <p><strong>B.</strong> Babies like physical exercise.</p>
+            <p><strong>C.</strong> Babies like their actions to be copied.</p>
+            <p><strong>D.</strong> Babies are excited by surprises.</p>
+            <p><strong>E.</strong> Babies recognise basic grammar.</p>
+            <p><strong>F.</strong> Babies like to help other people.</p>
           </div>
         </div>
 
@@ -601,35 +623,27 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
             <p>Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
           </div>
           <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">The Challenges of Living in Space</p>
-            <h3>Living on the International Space Station (ISS)</h3>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">The Engineer Sarah Guppy, 1770–1852</p>
+            <h3>Background</h3>
             <ul>
-              <li>Astronauts spend months in microgravity, so:
-                <ul>
-                  <li>their blood moves to the head and <input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/>.</li>
-                  <li>they lose minerals such as <input class="answer-input" id="q32" type="text" placeholder="32" style="width:150px;"/>.</li>
-                  <li>they have to exercise 2.5 hours to avoid <input class="answer-input" id="q33" type="text" placeholder="33" style="width:150px;"/> loss.</li>
-                  <li>they may suffer from poor <input class="answer-input" id="q34" type="text" placeholder="34" style="width:150px;"/> back on Earth.</li>
-                </ul>
-              </li>
-              <li>NASA continues to improve ways to recycle water, including <input class="answer-input" id="q35" type="text" placeholder="35" style="width:150px;"/>.</li>
+              <li>women were active in many areas of 19th-century British society, e.g. Jane Harrison was the first female <input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/></li>
+              <li>by the end of the century there were 140 female dentists and 212 <input class="answer-input" id="q32" type="text" placeholder="32" style="width:150px;"/>, as well as many musicians and actors</li>
             </ul>
-            <h3>Building on the moon or Mars</h3>
+            <h3>Sarah Guppy</h3>
             <ul>
-              <li>Engineers and architects must either use materials which:
-                <ul>
-                  <li>are <input class="answer-input" id="q36" type="text" placeholder="36" style="width:150px;"/> enough for transport.</li>
-                  <li>can already be found on the moon or Mars.</li>
-                </ul>
-              </li>
-              <li>Rocks and minerals could be used to make metal, brick and possibly <input class="answer-input" id="q37" type="text" placeholder="37" style="width:150px;"/> for buildings.</li>
-              <li>NASA still needs to find a way to make large <input class="answer-input" id="q38" type="text" placeholder="38" style="width:150px;"/>.</li>
-              <li>People could use virtual reality:
-                <ul>
-                  <li>to visit places like a <input class="answer-input" id="q39" type="text" placeholder="39" style="width:150px;"/>.</li>
-                  <li>to get a new <input class="answer-input" id="q40" type="text" placeholder="40" style="width:150px;"/>.</li>
-                </ul>
-              </li>
+              <li>was born in Birmingham and moved to Bristol with her husband</li>
+              <li>designed bridges that could survive <input class="answer-input" id="q33" type="text" placeholder="33" style="width:150px;"/></li>
+              <li>built <input class="answer-input" id="q34" type="text" placeholder="34" style="width:150px;"/> of the Clifton Suspension Bridge</li>
+              <li>was a significant <input class="answer-input" id="q35" type="text" placeholder="35" style="width:150px;"/> in the Clifton Suspension Bridge together with her husband</li>
+              <li>designed a 'barnacle buster' that allowed <input class="answer-input" id="q36" type="text" placeholder="36" style="width:150px;"/> to go faster</li>
+              <li>helped stop <input class="answer-input" id="q37" type="text" placeholder="37" style="width:150px;"/> near railway lines</li>
+              <li>built an amusing machine for making different parts of <input class="answer-input" id="q38" type="text" placeholder="38" style="width:150px;"/> at the same time</li>
+              <li>designed an early type of <input class="answer-input" id="q39" type="text" placeholder="39" style="width:150px;"/> equipment</li>
+            </ul>
+            <h3>Conclusions</h3>
+            <ul>
+              <li>other women worked as engineers, e.g. Ada Lovelace and Hertha Marks Ayrton</li>
+              <li>it was not until 1906 that a woman <input class="answer-input" id="q40" type="text" placeholder="40" style="width:160px;"/> in engineering</li>
             </ul>
           </div>
         </div>
@@ -861,7 +875,7 @@ function goToQuestion(qNum) {
   // Find element to scroll to
   let el = document.getElementById('q' + qNum) || document.querySelector('input[name="q' + qNum + '"]');
   // checkbox groups
-  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+  const cbMap = { 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (!el && cbMap[qNum]) el = document.querySelector('input[name="' + cbMap[qNum] + '"]');
 
   if (el) {
@@ -900,7 +914,7 @@ function updateAnsweredIndicators() {
 
     // checkbox groups
     if (!answered) {
-      const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+      const cbMap = { 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
       if (cbMap[q]) {
         const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
         answered = checked >= 2;
@@ -924,7 +938,7 @@ function updateAnsweredIndicators() {
 
 // ---- CHECKBOX LIMITS ----
 function setupCheckboxLimits() {
-  ['q11-12','q13-14'].forEach(name => {
+  ['q21-22','q23-24','q25-26'].forEach(name => {
     document.querySelectorAll('input[name="' + name + '"]').forEach(cb => {
       cb.addEventListener('click', function() {
         const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
@@ -1069,10 +1083,10 @@ function parseAnswerKey() {
 
 // ---- GET USER ANSWER ----
 function getUserAnswer(q) {
-  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+  const cbMap = { 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (cbMap[q]) {
     const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
-    const idx = (q === 11 || q === 13) ? 0 : 1;
+    const idx = (q === 21 || q === 23 || q === 25) ? 0 : 1;
     return vals[idx] || '';
   }
   const txt = document.getElementById('q' + q);
