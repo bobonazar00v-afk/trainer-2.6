@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,52 +239,72 @@ body.dark .highlight:hover { background: #7c4dff88; }
 /* Dark toggle button */
 #dark-toggle { background: none; border: 1px solid #ccc; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: 18px; line-height: 1; }
 body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
+
+body.dark .notes-box { background: #1e1e1e !important; border-color: #444 !important; color: #d0d0d0 !important; }
+body.dark .notes-box h3 { color: #e0e0e0; }
+body.dark .notes-box ul li { color: #d0d0d0; }
+body.dark .fill-table { background: #1e1e1e; }
+body.dark .fill-table th { background: #2a2a2a !important; color: #e0e0e0; border-color: #444; }
+body.dark .fill-table td { background: #1e1e1e !important; color: #d0d0d0; border-color: #444; }
+body.dark [style*="background:#fafafa"] { background: #1e1e1e !important; }
+body.dark [style*="background: #fafafa"] { background: #1e1e1e !important; }
+body.dark [style*="background:#f0f0f0"] { background: #2a2a2a !important; }
+body.dark [style*="border:1px solid #333"] { border-color: #555 !important; }
+body.dark [style*="border:1px solid #ccc"] { border-color: #444 !important; }
+body.dark .map-labels-table { background: #1e1e1e; color: #d0d0d0; }
+body.dark .map-labels-table th { background: #1e3a6e !important; color: #fff; border-color: #444; }
+body.dark .map-labels-table td { background: #1e1e1e !important; color: #d0d0d0; border-color: #444; }
+body.dark .map-labels-table tbody td:first-child { color: #e0e0e0; }
+body.dark .part-header { background: #2a2a2a !important; border-color: #444 !important; color: #e0e0e0 !important; }
+body.dark p { color: #d0d0d0; }
+body.dark strong { color: #e0e0e0; }
+body.dark label { color: #d0d0d0; }
 </style>
 </head>
 <body>
 
 <!-- Answer Key -->
 <div id="answer-key" style="display:none;">
-"1": "pets",
-"2": "fridge",
-"3": "shelves",
-"4": "lamp",
-"5": "gas",
-"6": "Connaught",
-"7": "interglobe",
-"8": "E7382991TP",
-"9": ["7 April", "7th April", "April 7", "7th of April"],
-"10": "450",
+"1": "Moody",
+"2": "return",
+"3": "6.15",
+"4": "error",
+"5": "2",
+"6": "16",
+"7": "space",
+"8": "school",
+"9": "manager",
+"10": "NZ4093",
 "11": "C",
-"12": "B",
-"13": "B",
-"14": "A",
-"15": "A",
-"16": "C",
-"17": "A",
-"18": "B",
-"19": "B",
-"20": "C",
-"21": ["B", "E"],
-"22": ["B", "E"],
-"23": ["B", "C"],
-"24": ["B", "C"],
-"25": ["A", "D"],
-"26": ["A", "D"],
-"27": "C",
-"28": "F",
+"12": "A",
+"13": "C",
+"14": "B",
+"15": "B",
+"16": "G",
+"17": "K",
+"18": "D",
+"19": "J",
+"20": "A",
+"21": "B",
+"22": "C",
+"23": "A",
+"24": "C",
+"25": "D",
+"26": "F",
+"27": "G",
+"28": "E",
 "29": "A",
-"30": "E",
-"31": "academic",
-"32": "doctors",
-"33": "floods",
-"34": "models",
-"35": "investor",
-"36": "ships",
-"37": "erosion",
-"38": "breakfast",
-"39": "gym",
-"40": "graduated"
+"30": "C",
+"31": "soft",
+"32": "stone",
+"33": "plants",
+"34": "horse",
+"35": "commercial",
+"36": "metal",
+"37": "caves",
+"38": "ancestors",
+"39": "coast",
+"40": "coats"
 </div>
 
 <!-- LOGIN -->
@@ -352,7 +371,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <p style="font-size:13px; color:#856404; margin:0;">⚠️ Once started, the audio <strong>cannot be paused, rewound or replayed.</strong></p>
     </div>
     <audio id="global-audio-player"
-      src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3"
+      src="audio.mp3"
       preload="auto"
       controls
       controlsList="nodownload nofullscreen noremoteplayback"
@@ -365,7 +384,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 <!-- COMPLETION -->
 <div class="completion-screen" id="completion-screen">
   <div class="completion-message">Listening section ended</div>
-  <a class="navigation-button" href="https://bobonazar00v-afk.github.io/trainer-2.6/Reading.html">Please move to reading section</a>
+  <a class="navigation-button" href="Reading.html">Please move to reading section</a>
 </div>
 
 <!-- HEADER -->
@@ -382,7 +401,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
   </div>
 </div>
 
-<audio id="global-audio-player" src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3" preload="auto" style="display:none;"></audio>
+<audio id="global-audio-player" src="audio.mp3" preload="auto" style="display:none;"></audio>
 
 <!-- MAIN -->
 <div class="main-container" id="main-container">
@@ -396,60 +415,73 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <div class="questions-container">
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 1–5</strong></p>
-            <p>Complete the notes below.</p>
-            <p>Write <strong>NO MORE THAN ONE WORD</strong> for each answer.</p>
-          </div>
-          <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">New Apartment</p>
-            <p><em>Example — Landlady's Name: Mary Jones</em></p>
-            <h3>General</h3>
-            <ul>
-              <li>partly furnished</li>
-              <li>no <input class="answer-input" id="q1" type="text" placeholder="1" style="width:150px;"/> are allowed</li>
-            </ul>
-            <h3>Kitchen</h3>
-            <ul>
-              <li>nice and big</li>
-              <li>there is a new <input class="answer-input" id="q2" type="text" placeholder="2" style="width:150px;"/></li>
-            </ul>
-            <h3>Lounge</h3>
-            <ul>
-              <li>some <input class="answer-input" id="q3" type="text" placeholder="3" style="width:150px;"/> will be built soon</li>
-            </ul>
-            <h3>Bedroom</h3>
-            <ul>
-              <li>good clothes storage</li>
-              <li>need to bring a <input class="answer-input" id="q4" type="text" placeholder="4" style="width:150px;"/></li>
-            </ul>
-            <h3>Bathroom</h3>
-            <ul>
-              <li>only a shower</li>
-              <li>the water is heated by <input class="answer-input" id="q5" type="text" placeholder="5" style="width:150px;"/></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="question">
-          <div class="question-prompt">
-            <p><strong>Questions 6–10</strong></p>
+            <p><strong>Questions 1–10</strong></p>
             <p>Complete the form below.</p>
             <p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
           </div>
           <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">Tenancy Form</p>
-            <h3>Tenant details</h3>
-            <ul>
-              <li>Full name: Andrew <input class="answer-input" id="q6" type="text" placeholder="6" style="width:160px;"/></li>
-              <li>Best contact: andrew171@<input class="answer-input" id="q7" type="text" placeholder="7" style="width:140px;"/>.com</li>
-              <li>Driver's licence: <input class="answer-input" id="q8" type="text" placeholder="8" style="width:160px;"/></li>
-            </ul>
-            <h3>Tenancy details</h3>
-            <ul>
-              <li>Moving-in date: <input class="answer-input" id="q9" type="text" placeholder="9" style="width:150px;"/></li>
-              <li>Rent per week: $315</li>
-              <li>Bond paid: $<input class="answer-input" id="q10" type="text" placeholder="10" style="width:120px;"/></li>
-            </ul>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:16px;">Kiwi Air Customer Complaint Form</p>
+            <table class="fill-table">
+              <tbody>
+                <tr><th colspan="2" style="background:#e8e8e8;">Booking Details</th></tr>
+                <tr>
+                  <td style="width:38%;font-weight:bold;">Name:</td>
+                  <td>Janet <input class="answer-input" id="q1" type="text" placeholder="1" style="width:140px;"/></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Ticket details:</td>
+                  <td>one adult and three children (Wellington to Christchurch) — four <input class="answer-input" id="q2" type="text" placeholder="2" style="width:110px;"/> tickets</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Flight details:</td>
+                  <td>November 10th–15th</td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Time:</td>
+                  <td>departing at <input class="answer-input" id="q3" type="text" placeholder="3" style="width:110px;"/> am</td>
+                </tr>
+                <tr><th colspan="2" style="background:#e8e8e8;">Details of the Problem</th></tr>
+                <tr>
+                  <td colspan="2">
+                    <ul style="list-style:disc;padding-left:20px;margin:6px 0;">
+                      <li>the website changes the rate for one child</li>
+                      <li>the website keeps giving the customer <input class="answer-input" id="q4" type="text" placeholder="4" style="width:120px;"/> messages</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr><th colspan="2" style="background:#e8e8e8;">Customer informed that Kiwi Air policy:</th></tr>
+                <tr>
+                  <td colspan="2">
+                    <ul style="list-style:disc;padding-left:20px;margin:6px 0;">
+                      <li>allows no more than <input class="answer-input" id="q5" type="text" placeholder="5" style="width:80px;"/> child fares per adult (domestic flights only)</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr><th colspan="2" style="background:#e8e8e8;">Customer's Reasons for Complaint</th></tr>
+                <tr>
+                  <td colspan="2">
+                    <ul style="list-style:disc;padding-left:20px;margin:6px 0;">
+                      <li>none of her children are <input class="answer-input" id="q6" type="text" placeholder="6" style="width:80px;"/> years old or older</li>
+                      <li>child passengers require less <input class="answer-input" id="q7" type="text" placeholder="7" style="width:120px;"/></li>
+                      <li>the rule is unfair for large families and <input class="answer-input" id="q8" type="text" placeholder="8" style="width:120px;"/> groups</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr><th colspan="2" style="background:#e8e8e8;">Customer Invited to Send Written Complaint</th></tr>
+                <tr>
+                  <td colspan="2">
+                    <ul style="list-style:disc;padding-left:20px;margin:6px 0;">
+                      <li>letter to go to the <input class="answer-input" id="q9" type="text" placeholder="9" style="width:140px;"/></li>
+                      <li>reply predicted within a week</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;">Reference number:</td>
+                  <td><input class="answer-input" id="q10" type="text" placeholder="10" style="width:160px;"/></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -462,66 +494,65 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       </div>
       <div class="questions-container">
 
-        <!-- Q11–15 MCQ -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 11–15</strong></p>
+            <p><strong>Questions 11–14</strong></p>
             <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin:12px 0;">Linwood Apartment Complex</p>
           </div>
           <div class="single-choice-container">
             <div class="single-choice">
-              <p><strong>11</strong> What is new about the Writers' Festival this year?</p>
-              <label><input type="radio" name="q11" value="A"/> A. more international guests</label>
-              <label><input type="radio" name="q11" value="B"/> B. extra time for questions</label>
-              <label><input type="radio" name="q11" value="C"/> C. additional locations for events</label>
+              <p><strong>11</strong> When was the first apartment complex completed?</p>
+              <label><input type="radio" name="q11" value="A"/> A. 1 year ago</label>
+              <label><input type="radio" name="q11" value="B"/> B. 3 years ago</label>
+              <label><input type="radio" name="q11" value="C"/> C. 5 years ago</label>
             </div>
             <div class="single-choice">
-              <p><strong>12</strong> Tickets for the Wearable Art event</p>
-              <label><input type="radio" name="q12" value="A"/> A. are selling out quickly.</label>
-              <label><input type="radio" name="q12" value="B"/> B. have been reduced in price.</label>
-              <label><input type="radio" name="q12" value="C"/> C. must be booked in advance.</label>
+              <p><strong>12</strong> What does the manager say he enjoys most about the job?</p>
+              <label><input type="radio" name="q12" value="A"/> A. resolving problems between residents</label>
+              <label><input type="radio" name="q12" value="B"/> B. dealing with financial matters</label>
+              <label><input type="radio" name="q12" value="C"/> C. organizing building maintenance</label>
             </div>
             <div class="single-choice">
-              <p><strong>13</strong> Ocean Times at Bright's Beach is</p>
-              <label><input type="radio" name="q13" value="A"/> A. a sporting competition for adults.</label>
-              <label><input type="radio" name="q13" value="B"/> B. an educational event for all ages.</label>
-              <label><input type="radio" name="q13" value="C"/> C. a play day for young children.</label>
+              <p><strong>13</strong> Regarding restrictions in the complex, the manager says</p>
+              <label><input type="radio" name="q13" value="A"/> A. only some types of flowers can be planted</label>
+              <label><input type="radio" name="q13" value="B"/> B. only the interiors of apartments can be painted</label>
+              <label><input type="radio" name="q13" value="C"/> C. only certain colors can be used on the walls</label>
             </div>
             <div class="single-choice">
-              <p><strong>14</strong> People going to the Artscape Exhibition</p>
-              <label><input type="radio" name="q14" value="A"/> A. should wear appropriate clothing.</label>
-              <label><input type="radio" name="q14" value="B"/> B. must keep to the proper path.</label>
-              <label><input type="radio" name="q14" value="C"/> C. need to arrive at a certain time.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>15</strong> Tours of the Civil Theatre</p>
-              <label><input type="radio" name="q15" value="A"/> A. do not happen often.</label>
-              <label><input type="radio" name="q15" value="B"/> B. have never happened before.</label>
-              <label><input type="radio" name="q15" value="C"/> C. may happen more regularly in future.</label>
+              <p><strong>14</strong> What does the manager ask residents to do for the welcome party?</p>
+              <label><input type="radio" name="q14" value="A"/> A. bring food</label>
+              <label><input type="radio" name="q14" value="B"/> B. prepare name tags</label>
+              <label><input type="radio" name="q14" value="C"/> C. decorate the hall</label>
             </div>
           </div>
         </div>
 
-        <!-- Q16–20 Matching -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 16–20</strong></p>
-            <p>What comment does the speaker make about each of the following events?</p>
-            <p>Write the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>, next to Questions 16–20.</p>
-            <p><em>You may use any letter more than once.</em></p>
+            <p><strong>Questions 15–20</strong></p>
+            <p>Label the map. Choose the correct letter, <strong>A–K</strong>, for each label.</p>
           </div>
-          <div class="matching-form-container" style="max-width:600px;">
-            <div class="matching-form-row"><label class="matching-form-label"><strong>16</strong>&nbsp;&nbsp;Night Market</label><select class="answer-input" id="q16"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>17</strong>&nbsp;&nbsp;Buskers' Festival</label><select class="answer-input" id="q17"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>18</strong>&nbsp;&nbsp;Stand Up For Kids</label><select class="answer-input" id="q18"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>19</strong>&nbsp;&nbsp;Sunday Unplugged</label><select class="answer-input" id="q19"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>20</strong>&nbsp;&nbsp;Ignite Dance Finals</label><select class="answer-input" id="q20"><option value=""></option><option>A</option><option>B</option><option>C</option></select></div>
+          <div style="border:1px solid #333;padding:12px;margin-bottom:16px;background:#fafafa;max-width:640px;">
+            <p style="font-weight:bold;text-align:center;font-size:16px;margin-bottom:8px;">Linwood Apartment Complex</p>
+            <img src="map.jpg" alt="Linwood Apartment Complex Map" style="width:100%;max-width:600px;display:block;margin:0 auto;border:1px solid #ccc;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+            <div style="display:none;background:#f0f0f0;border:2px dashed #aaa;padding:30px;text-align:center;color:#888;font-size:14px;border-radius:4px;">
+              &#128247; Положи <strong>map.jpg</strong> в ту же папку что и HTML файл
+            </div>
           </div>
-          <div class="notes-box" style="max-width:600px;margin-top:14px;">
-            <p><strong>A.</strong> the location has changed</p>
-            <p><strong>B.</strong> transport will be a problem</p>
-            <p><strong>C.</strong> the event might be crowded</p>
-          </div>
+          <table class="map-labels-table">
+            <thead>
+              <tr><th>Location</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>15.</strong> Shop</td><td><input type="radio" name="q15" value="A"/></td><td><input type="radio" name="q15" value="B"/></td><td><input type="radio" name="q15" value="C"/></td><td><input type="radio" name="q15" value="D"/></td><td><input type="radio" name="q15" value="E"/></td><td><input type="radio" name="q15" value="F"/></td><td><input type="radio" name="q15" value="G"/></td><td><input type="radio" name="q15" value="H"/></td><td><input type="radio" name="q15" value="I"/></td><td><input type="radio" name="q15" value="J"/></td><td><input type="radio" name="q15" value="K"/></td></tr>
+              <tr><td><strong>16.</strong> Barbecue area</td><td><input type="radio" name="q16" value="A"/></td><td><input type="radio" name="q16" value="B"/></td><td><input type="radio" name="q16" value="C"/></td><td><input type="radio" name="q16" value="D"/></td><td><input type="radio" name="q16" value="E"/></td><td><input type="radio" name="q16" value="F"/></td><td><input type="radio" name="q16" value="G"/></td><td><input type="radio" name="q16" value="H"/></td><td><input type="radio" name="q16" value="I"/></td><td><input type="radio" name="q16" value="J"/></td><td><input type="radio" name="q16" value="K"/></td></tr>
+              <tr><td><strong>17.</strong> Childcare centre</td><td><input type="radio" name="q17" value="A"/></td><td><input type="radio" name="q17" value="B"/></td><td><input type="radio" name="q17" value="C"/></td><td><input type="radio" name="q17" value="D"/></td><td><input type="radio" name="q17" value="E"/></td><td><input type="radio" name="q17" value="F"/></td><td><input type="radio" name="q17" value="G"/></td><td><input type="radio" name="q17" value="H"/></td><td><input type="radio" name="q17" value="I"/></td><td><input type="radio" name="q17" value="J"/></td><td><input type="radio" name="q17" value="K"/></td></tr>
+              <tr><td><strong>18.</strong> Laundry</td><td><input type="radio" name="q18" value="A"/></td><td><input type="radio" name="q18" value="B"/></td><td><input type="radio" name="q18" value="C"/></td><td><input type="radio" name="q18" value="D"/></td><td><input type="radio" name="q18" value="E"/></td><td><input type="radio" name="q18" value="F"/></td><td><input type="radio" name="q18" value="G"/></td><td><input type="radio" name="q18" value="H"/></td><td><input type="radio" name="q18" value="I"/></td><td><input type="radio" name="q18" value="J"/></td><td><input type="radio" name="q18" value="K"/></td></tr>
+              <tr><td><strong>19.</strong> Recreation room</td><td><input type="radio" name="q19" value="A"/></td><td><input type="radio" name="q19" value="B"/></td><td><input type="radio" name="q19" value="C"/></td><td><input type="radio" name="q19" value="D"/></td><td><input type="radio" name="q19" value="E"/></td><td><input type="radio" name="q19" value="F"/></td><td><input type="radio" name="q19" value="G"/></td><td><input type="radio" name="q19" value="H"/></td><td><input type="radio" name="q19" value="I"/></td><td><input type="radio" name="q19" value="J"/></td><td><input type="radio" name="q19" value="K"/></td></tr>
+              <tr><td><strong>20.</strong> Hall</td><td><input type="radio" name="q20" value="A"/></td><td><input type="radio" name="q20" value="B"/></td><td><input type="radio" name="q20" value="C"/></td><td><input type="radio" name="q20" value="D"/></td><td><input type="radio" name="q20" value="E"/></td><td><input type="radio" name="q20" value="F"/></td><td><input type="radio" name="q20" value="G"/></td><td><input type="radio" name="q20" value="H"/></td><td><input type="radio" name="q20" value="I"/></td><td><input type="radio" name="q20" value="J"/></td><td><input type="radio" name="q20" value="K"/></td></tr>
+            </tbody>
+          </table>
         </div>
 
       </div>
@@ -534,75 +565,64 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       </div>
       <div class="questions-container">
 
-        <!-- Q21–22 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 21–22</strong></p>
-            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>What TWO problems do the students identify with 'learning videos'?</p>
+            <p><strong>Questions 21–24</strong></p>
+            <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin:12px 0;">The History and Development of the Bicycle</p>
           </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q21-22" value="A"/> A. Babies lose interest too quickly.</label>
-            <label><input type="checkbox" name="q21-22" value="B"/> B. Babies need to explore things.</label>
-            <label><input type="checkbox" name="q21-22" value="C"/> C. Babies want to be with other babies.</label>
-            <label><input type="checkbox" name="q21-22" value="D"/> D. Babies' eyes may be damaged.</label>
-            <label><input type="checkbox" name="q21-22" value="E"/> E. Babies should have contact with adults.</label>
+          <div class="single-choice-container">
+            <div class="single-choice">
+              <p><strong>21</strong> Izzy believes the 'safety bicycle' is significant because it was</p>
+              <label><input type="radio" name="q21" value="A"/> A. specifically made for children to use.</label>
+              <label><input type="radio" name="q21" value="B"/> B. the first bicycle to be similar to modern bicycles.</label>
+              <label><input type="radio" name="q21" value="C"/> C. designed to travel at higher speeds than previous models.</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>22</strong> What effect of bicycles on the 19th-century working classes does Max want to highlight?</p>
+              <label><input type="radio" name="q22" value="A"/> A. how people spent their free time</label>
+              <label><input type="radio" name="q22" value="B"/> B. where people were employed</label>
+              <label><input type="radio" name="q22" value="C"/> C. the way people found romantic partners</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>23</strong> What will Max and Izzy stress about attitudes to bicycles in the 20th century?</p>
+              <label><input type="radio" name="q23" value="A"/> A. The popularity of cars reduced the status of bicycles in the 1950s.</label>
+              <label><input type="radio" name="q23" value="B"/> B. New designs led to an increase in sales of bicycles in the 1960s.</label>
+              <label><input type="radio" name="q23" value="C"/> C. An interest in fitness promoted demand for bicycles in the 1980s.</label>
+            </div>
+            <div class="single-choice">
+              <p><strong>24</strong> What does Max say about a scheme to provide free bikes to school pupils?</p>
+              <label><input type="radio" name="q24" value="A"/> A. He wants to see more evidence of its benefits.</label>
+              <label><input type="radio" name="q24" value="B"/> B. He thinks it could cost the government a lot of money.</label>
+              <label><input type="radio" name="q24" value="C"/> C. He questions whether all parents would support it.</label>
+            </div>
           </div>
         </div>
 
-        <!-- Q23–24 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 23–24</strong></p>
-            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>When discussing the 'present research', Maia is surprised that</p>
-          </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q23-24" value="A"/> A. ordinary people have altered their habits.</label>
-            <label><input type="checkbox" name="q23-24" value="B"/> B. the findings are very detailed.</label>
-            <label><input type="checkbox" name="q23-24" value="C"/> C. most babies behave the same way.</label>
-            <label><input type="checkbox" name="q23-24" value="D"/> D. boys and girls like different toys.</label>
-            <label><input type="checkbox" name="q23-24" value="E"/> E. the methodology has been criticised.</label>
-          </div>
-        </div>
-
-        <!-- Q25–26 -->
-        <div class="question">
-          <div class="question-prompt">
-            <p><strong>Questions 25–26</strong></p>
-            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>What impresses the students about the bilingual experiment in Spain?</p>
-          </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q25-26" value="A"/> A. the long-term effects of the lessons</label>
-            <label><input type="checkbox" name="q25-26" value="B"/> B. the large number of research subjects</label>
-            <label><input type="checkbox" name="q25-26" value="C"/> C. the fact that the children enjoyed themselves</label>
-            <label><input type="checkbox" name="q25-26" value="D"/> D. the fact that teachers had the same training</label>
-            <label><input type="checkbox" name="q25-26" value="E"/> E. the response of schools to the findings</label>
-          </div>
-        </div>
-
-        <!-- Q27–30 Matching -->
-        <div class="question">
-          <div class="question-prompt">
-            <p><strong>Questions 27–30</strong></p>
-            <p>What comment does the speaker make about each of the following studies?</p>
-            <p>Write the correct letter, <strong>A–F</strong>, next to Questions 27–30.</p>
+            <p><strong>Questions 25–30</strong></p>
+            <p>Which reason did each of the following people give for using a bike?</p>
+            <p>Write the correct letter, <strong>A–H</strong>, next to Questions 25–30.</p>
             <p><em>You may use any letter more than once.</em></p>
           </div>
-          <div class="matching-form-container" style="max-width:650px;">
-            <div class="matching-form-row"><label class="matching-form-label"><strong>27</strong>&nbsp;&nbsp;Dr Pritchard's study</label><select class="answer-input" id="q27"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>28</strong>&nbsp;&nbsp;The three-year-olds study</label><select class="answer-input" id="q28"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>29</strong>&nbsp;&nbsp;Professor Michelson's study</label><select class="answer-input" id="q29"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>30</strong>&nbsp;&nbsp;The United States study</label><select class="answer-input" id="q30"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+          <div class="notes-box" style="max-width:600px;margin-bottom:14px;">
+            <p><strong>A.</strong> Cycling is a convenient way to travel.</p>
+            <p><strong>B.</strong> Bikes are environmentally friendly.</p>
+            <p><strong>C.</strong> Riding a bike can be a social activity.</p>
+            <p><strong>D.</strong> Bikes are a cheap form of transport.</p>
+            <p><strong>E.</strong> Cycling is a way to spend time outdoors.</p>
+            <p><strong>F.</strong> Riding a bike is good for mental health.</p>
+            <p><strong>G.</strong> Riding a bike is good exercise.</p>
+            <p><strong>H.</strong> Cycling can be done by all ages.</p>
           </div>
-          <div class="notes-box" style="max-width:650px;margin-top:14px;">
-            <p><strong>A.</strong> Babies understand cause and effect.</p>
-            <p><strong>B.</strong> Babies like physical exercise.</p>
-            <p><strong>C.</strong> Babies like their actions to be copied.</p>
-            <p><strong>D.</strong> Babies are excited by surprises.</p>
-            <p><strong>E.</strong> Babies recognise basic grammar.</p>
-            <p><strong>F.</strong> Babies like to help other people.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;max-width:480px;margin-top:10px;">
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>25.</strong> David</label><select class="answer-input" id="q25"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>26.</strong> Marlene</label><select class="answer-input" id="q26"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>27.</strong> Annabelle</label><select class="answer-input" id="q27"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>28.</strong> Rashid</label><select class="answer-input" id="q28"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>29.</strong> Sai</label><select class="answer-input" id="q29"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div style="display:flex;align-items:center;gap:10px;"><label style="min-width:180px;font-size:15px;"><strong>30.</strong> Giovanni</label><select class="answer-input" id="q30"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
           </div>
         </div>
 
@@ -615,42 +635,41 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
         <p><strong>Part 4</strong> — Listen and answer questions 31–40.</p>
       </div>
       <div class="questions-container">
-
-        <!-- Q31–40 Notes -->
         <div class="question">
           <div class="question-prompt">
             <p><strong>Questions 31–40</strong></p>
             <p>Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
           </div>
           <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">The Engineer Sarah Guppy, 1770–1852</p>
-            <h3>Background</h3>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">The Patagon People of South America</p>
+            <h3>Clothing</h3>
             <ul>
-              <li>women were active in many areas of 19th-century British society, e.g. Jane Harrison was the first female <input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/></li>
-              <li>by the end of the century there were 140 female dentists and 212 <input class="answer-input" id="q32" type="text" placeholder="32" style="width:150px;"/>, as well as many musicians and actors</li>
+              <li>One type of coat is culturally important.</li>
+              <li>Young guanaco were used to make the coats because of their <input class="answer-input" id="q31" type="text" placeholder="31" style="width:130px;"/> skin.</li>
+              <li>Men hunted the guanaco.</li>
+              <li>Women sewed the skins together into coats.</li>
+              <li>Scrapers made from <input class="answer-input" id="q32" type="text" placeholder="32" style="width:130px;"/> are today displayed in museums.</li>
+              <li>Colours from natural <input class="answer-input" id="q33" type="text" placeholder="33" style="width:130px;"/> were used.</li>
             </ul>
-            <h3>Sarah Guppy</h3>
+            <h3>The Arrival of the Spanish</h3>
             <ul>
-              <li>was born in Birmingham and moved to Bristol with her husband</li>
-              <li>designed bridges that could survive <input class="answer-input" id="q33" type="text" placeholder="33" style="width:150px;"/></li>
-              <li>built <input class="answer-input" id="q34" type="text" placeholder="34" style="width:150px;"/> of the Clifton Suspension Bridge</li>
-              <li>was a significant <input class="answer-input" id="q35" type="text" placeholder="35" style="width:150px;"/> in the Clifton Suspension Bridge together with her husband</li>
-              <li>designed a 'barnacle buster' that allowed <input class="answer-input" id="q36" type="text" placeholder="36" style="width:150px;"/> to go faster</li>
-              <li>helped stop <input class="answer-input" id="q37" type="text" placeholder="37" style="width:150px;"/> near railway lines</li>
-              <li>built an amusing machine for making different parts of <input class="answer-input" id="q38" type="text" placeholder="38" style="width:150px;"/> at the same time</li>
-              <li>designed an early type of <input class="answer-input" id="q39" type="text" placeholder="39" style="width:150px;"/> equipment</li>
+              <li>More guanaco were caught because of the use of the <input class="answer-input" id="q34" type="text" placeholder="34" style="width:130px;"/> for hunting.</li>
+              <li>Coats played a <input class="answer-input" id="q35" type="text" placeholder="35" style="width:130px;"/> role rather than just being for personal use.</li>
+              <li>New materials such as <input class="answer-input" id="q36" type="text" placeholder="36" style="width:130px;"/> improved the scraping process.</li>
             </ul>
             <h3>Conclusions</h3>
             <ul>
-              <li>other women worked as engineers, e.g. Ada Lovelace and Hertha Marks Ayrton</li>
-              <li>it was not until 1906 that a woman <input class="answer-input" id="q40" type="text" placeholder="40" style="width:160px;"/> in engineering</li>
+              <li>Coat designs date from pre-historic times &#8212; similar designs are found inside <input class="answer-input" id="q37" type="text" placeholder="37" style="width:130px;"/></li>
+              <li>Coat designs may have been a link with people's <input class="answer-input" id="q38" type="text" placeholder="38" style="width:130px;"/></li>
+              <li>Large Patagon settlements were not built on the <input class="answer-input" id="q39" type="text" placeholder="39" style="width:130px;"/></li>
+              <li>Shepherds still make <input class="answer-input" id="q40" type="text" placeholder="40" style="width:130px;"/> using similar techniques.</li>
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
+  
   </div>
 </div>
 
@@ -737,7 +756,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 
 <script>
 const PASSWORD = '1234';
-const AUDIO_SRC = 'audio.mp3';
+const AUDIO_SRC = 'https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3';
 
 let currentPart = 1;
 let currentQuestion = 1;
@@ -794,8 +813,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('main-header').style.filter = 'blur(6px)';
     document.getElementById('nav-row').style.filter = 'blur(6px)';
     switchToPart(1);
-    setupDragAndDrop();
-    setupCheckboxLimits();
     setupInputListeners();
     updateAnsweredIndicators();
     // Показываем модалку
@@ -895,32 +912,13 @@ function updateAnsweredIndicators() {
     if (!m) return;
     const q = parseInt(m[1]);
     let answered = false;
-
-    // text input
-    const txt = document.getElementById('q' + q);
-    if (txt && txt.classList.contains('answer-input')) answered = txt.value.trim() !== '';
-
-    // radio
+    const el = document.getElementById('q' + q);
+    if (el && el.tagName === 'SELECT') answered = el.value !== '';
+    if (!answered && el && el.tagName === 'INPUT') answered = el.value.trim() !== '';
     if (!answered) {
       const radios = document.querySelectorAll('input[name="q' + q + '"]');
       if (radios.length) answered = Array.from(radios).some(r => r.checked);
     }
-
-    // drop zone
-    if (!answered) {
-      const dz = document.getElementById('q' + q);
-      if (dz && dz.classList.contains('drop-zone')) answered = !!dz.querySelector('.drag-item');
-    }
-
-    // checkbox groups
-    if (!answered) {
-      const cbMap = { 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
-      if (cbMap[q]) {
-        const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
-        answered = checked >= 2;
-      }
-    }
-
     btn.classList.toggle('answered', answered);
   });
 
@@ -1083,18 +1081,11 @@ function parseAnswerKey() {
 
 // ---- GET USER ANSWER ----
 function getUserAnswer(q) {
-  const cbMap = { 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
-  if (cbMap[q]) {
-    const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
-    const idx = (q === 21 || q === 23 || q === 25) ? 0 : 1;
-    return vals[idx] || '';
-  }
-  const txt = document.getElementById('q' + q);
-  if (txt && txt.classList.contains('answer-input')) return txt.value.trim();
+  const el = document.getElementById('q' + q);
+  if (el && el.tagName === 'SELECT') return el.value;
+  if (el && el.tagName === 'INPUT') return el.value.trim();
   const radios = document.querySelectorAll('input[name="q' + q + '"]');
   if (radios.length) { const ch = Array.from(radios).find(r => r.checked); return ch ? ch.value : ''; }
-  const dz = document.getElementById('q' + q);
-  if (dz && dz.classList.contains('drop-zone')) { const di = dz.querySelector('.drag-item'); return di ? (di.dataset.value || '') : ''; }
   return '';
 }
 
@@ -1113,7 +1104,7 @@ function submitTest() {
     return;
   }
   setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
-  setTimeout(() => { window.location.href = 'https://bobonazar00v-afk.github.io/trainer-2.6/Reading.html'; }, 3000);
+  setTimeout(() => { window.location.href = 'Reading.html'; }, 3000);
 }
 
 function downloadResultsPDF() {
@@ -1134,7 +1125,7 @@ function downloadResultsPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(18); doc.setFont(undefined,'bold');
-  doc.text('IELTS Trainer 2 Test 6 Results', 105, 20, { align: 'center' });
+  doc.text('IELTS Vol 9 Test 6 Listening Results', 105, 20, { align: 'center' });
   doc.setFontSize(14); doc.setFont(undefined,'normal');
   doc.text('Score: ' + correct + ' / 40', 20, 40);
   doc.text('IELTS Band: ' + band, 20, 50);
@@ -1154,7 +1145,7 @@ function downloadResultsPDF() {
     if (y > 280) { doc.addPage(); y = 20; }
   }
   doc.setTextColor('#000000');
-  doc.save('IELTS_Trainer2_Test6_' + candidateId + '.pdf');
+  doc.save('IELTS_Vol9_Test6_' + candidateId + '.pdf');
 }
 
 // ---- HIGHLIGHT ----
