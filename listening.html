@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -240,64 +239,96 @@ body.dark .highlight:hover { background: #7c4dff88; }
 /* Dark toggle button */
 #dark-toggle { background: none; border: 1px solid #ccc; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: 18px; line-height: 1; }
 body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
+
+/* ── DARK MODE: fix all white/light boxes ── */
+body.dark .question { background: #1a1a1a; }
+body.dark .notes-box { background: #1e1e1e !important; border-color: #3a3a3a !important; color: #d0d0d0 !important; }
+body.dark .notes-box h3 { color: #a0b8d8 !important; }
+body.dark .notes-box ul li { color: #d0d0d0; }
+body.dark .summary-box { background: #1e1e1e !important; border-color: #3a3a3a !important; color: #d0d0d0 !important; }
+
+/* Tables */
+body.dark table { background: #1a1a1a; }
+body.dark .fill-table th { background: #252525 !important; color: #b0b0b0 !important; border-color: #3a3a3a !important; }
+body.dark .fill-table td { background: #1a1a1a !important; color: #d0d0d0 !important; border-color: #2e2e2e !important; }
+body.dark tr:nth-child(even) td { background: #202020 !important; }
+body.dark div[style*="background:#f9fafb"] { background: #1e1e1e !important; color: #d0d0d0 !important; border-color: #3a3a3a !important; }
+body.dark div[style*="background:#fafbff"] { background: #1e1e2a !important; }
+body.dark div[style*="overflow-x:auto"] { border-color: #3a3a3a !important; }
+
+/* Flow chart */
+body.dark .flow-chart { background: #1a1a1a; }
+body.dark .flow-step { background: #222; border-color: #3a3a3a; color: #d0d0d0; }
+body.dark .flow-options { background: #1a1a1a; border-color: #3a3a3a; }
+
+/* Map rows */
+body.dark div[style*="border:1.5px solid #e8ecf0"] { border-color: #3a3a3a !important; }
+body.dark div[style*="border:1px solid #eee"] { border-color: #3a3a3a !important; }
+body.dark select { background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #555 !important; }
+body.dark select option { background: #2a2a2a; color: #e0e0e0; }
+
+/* Matching containers */
+body.dark .matching-form-row { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .matching-form-label { color: #c8c8c8; }
+body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3a3a; }
 </style>
 </head>
 <body>
 
 <!-- Answer Key -->
 <div id="answer-key" style="display:none;">
-"1": "15th MAY",
-"2": "actors",
-"3": ["animal", "an animal"],
-"4": "music",
-"5": "subtitles",
-"6": "script",
-"7": "comedy",
-"8": "Hyslop",
-"9": "Imagine",
-"10": "Bridge",
-"11": "A",
-"12": "B",
-"13": "A",
-"14": "E",
-"15": "C",
-"16": "D",
-"17": "G",
-"18": "H",
-"19": "B",
-"20": "A",
-"21": "A",
-"22": "B",
-"23": "A",
-"24": "A",
-"25": "C",
-"26": "C",
-"27": "A",
+"1": ["(the) 13(th) (of) january", "13 january", "13th january", "13/1", "13.01", "january 13"],
+"2": ["48", "forty-eight"],
+"3": "pizza",
+"4": "india",
+"5": "mirror",
+"6": ["(the) 6th (of) april", "6 april", "6th april", "april 6", "06.04", "6.4"],
+"7": "natural",
+"8": ["67.50", "67.5", "sixty-seven fifty"],
+"9": "shirt",
+"10": "hammer",
+"11": ["B", "E"],
+"12": ["B", "E"],
+"13": ["C", "D"],
+"14": ["C", "D"],
+"15": "F",
+"16": "B",
+"17": "D",
+"18": "A",
+"19": "H",
+"20": "E",
+"21": ["B", "E"],
+"22": ["B", "E"],
+"23": ["C", "D"],
+"24": ["C", "D"],
+"25": ["A", "C"],
+"26": ["A", "C"],
+"27": "C",
 "28": "D",
-"29": "B",
-"30": "F",
-"31": "chest",
-"32": "calcium",
-"33": "muscle",
-"34": ["vision", "eyesight"],
-"35": "sweat",
-"36": "light",
-"37": "paint",
-"38": "windows",
-"39": "museum",
-"40": "qualification"
+"29": "F",
+"30": "A",
+"31": "Pollution",
+"32": "tax",
+"33": "chocolate",
+"34": "timing",
+"35": "cost",
+"36": "rules",
+"37": "diving",
+"38": "vegan",
+"39": "wifi",
+"40": "videos"
 </div>
 
 <!-- LOGIN -->
 <div class="login-screen" id="login-screen">
   <div class="login-content">
     <div class="login-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
-    <h1>IELTS Listening Test</h1>
-    <p class="subtitle">Enter your password to continue</p>
+    <h1>IELTS Academic</h1>
+    <p class="subtitle">Listening Test — Please sign in to continue</p>
     <div id="login-form">
       <div class="form-group">
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="••••••••"/>
+        <label for="password">Exam Password</label>
+        <input id="password" type="password" placeholder="Enter exam password"/>
       </div>
       <button class="login-button" type="button" onclick="submitLogin()">Continue →</button>
       <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
@@ -307,15 +338,22 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 
 <!-- CANDIDATE ID -->
 <div class="candidate-screen" id="candidate-screen">
-  <div class="candidate-content">
+  <div class="candidate-content" style="max-width:420px;">
     <div class="candidate-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
-    <h1>Candidate Verification</h1>
-    <p class="subtitle">Enter your Candidate ID to proceed</p>
+    <h1>Candidate Details</h1>
+    <p class="subtitle">Please enter your name and test date</p>
     <div id="candidate-form">
-      <input class="candidate-id-input" id="candidate-id-input" maxlength="12" placeholder="ID" type="text"/>
-      <button class="candidate-button" type="button" onclick="submitCandidate()">Continue →</button>
+      <div class="form-group" style="text-align:left;margin-bottom:14px;">
+        <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Full Name</label>
+        <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="candidate-name-input" type="text" placeholder="e.g. Azizbek Toshmatov" autocomplete="name" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+      </div>
+      <div class="form-group" style="text-align:left;margin-bottom:20px;">
+        <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Test Date</label>
+        <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="test-date-input" type="date" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+      </div>
+      <button class="candidate-button" type="button" onclick="submitCandidate()">Confirm &amp; Proceed →</button>
       <button class="back-button" id="back-to-login" type="button">← Back</button>
-      <div class="error-message" id="candidate-error">Please enter a valid Candidate ID.</div>
+      <div class="error-message" id="candidate-error">Please enter your full name.</div>
     </div>
   </div>
 </div>
@@ -329,6 +367,8 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
     <div class="intro-candidate-badge">
       <span class="intro-badge-dot"></span>
       <span id="intro-candidate-name"></span>
+      <span style="color:rgba(255,255,255,.4)">·</span>
+      <span id="intro-centre-display" style="color:rgba(255,255,255,.6);font-size:13px;"></span>
       <span style="color:rgba(255,255,255,.4)">·</span>
       <span style="color:rgba(255,255,255,.5);font-size:13px;">Verified</span>
     </div>
@@ -352,7 +392,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
       <p style="font-size:13px; color:#856404; margin:0;">⚠️ Once started, the audio <strong>cannot be paused, rewound or replayed.</strong></p>
     </div>
     <audio id="global-audio-player"
-      src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3"
+      src="audio.mp3"
       preload="auto"
       controls
       controlsList="nodownload nofullscreen noremoteplayback"
@@ -365,7 +405,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 <!-- COMPLETION -->
 <div class="completion-screen" id="completion-screen">
   <div class="completion-message">Listening section ended</div>
-  <a class="navigation-button" href="https://bobonazar00v-afk.github.io/trainer-2.6/Reading.html">Please move to reading section</a>
+  <a class="navigation-button" href="Reading.html">Please move to reading section</a>
 </div>
 
 <!-- HEADER -->
@@ -382,7 +422,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
   </div>
 </div>
 
-<audio id="global-audio-player" src="https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3" preload="auto" style="display:none;"></audio>
+<audio id="global-audio-player" src="audio.mp3" preload="auto" style="display:none;"></audio>
 
 <!-- MAIN -->
 <div class="main-container" id="main-container">
@@ -397,40 +437,58 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
         <div class="question">
           <div class="question-prompt">
             <p><strong>Questions 1–10</strong></p>
-            <p>Complete the notes below.</p>
+            <p>Complete the table below.</p>
             <p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
           </div>
-          <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">Short Film Competition</p>
-            <h3>Rules</h3>
-            <ul>
-              <li>The film must be no more than 20 minutes long.</li>
-              <li>The film must be submitted before Wednesday, <input class="answer-input" id="q1" type="text" placeholder="1" style="width:90px;"/>.</li>
-              <li>Don't use any professional <input class="answer-input" id="q2" type="text" placeholder="2" style="width:140px;"/> with experience.</li>
-              <li>For the film, it's necessary to:
-                <ul>
-                  <li>include a child or an <input class="answer-input" id="q3" type="text" placeholder="3" style="width:140px;"/> this year.</li>
-                  <li>get permission for any <input class="answer-input" id="q4" type="text" placeholder="4" style="width:140px;"/> used.</li>
-                  <li>check that English <input class="answer-input" id="q5" type="text" placeholder="5" style="width:150px;"/> contain no mistakes.</li>
-                </ul>
-              </li>
-            </ul>
-            <h3>Advice</h3>
-            <ul>
-              <li>Focus on the <input class="answer-input" id="q6" type="text" placeholder="6" style="width:150px;"/> before doing anything else.</li>
-              <li>Stick to a few characters and locations.</li>
-              <li>Avoid making a <input class="answer-input" id="q7" type="text" placeholder="7" style="width:150px;"/> because not all the judges will like it.</li>
-            </ul>
-            <h3>Last year's competition</h3>
-            <ul>
-              <li>The winner was Greg <input class="answer-input" id="q8" type="text" placeholder="8" style="width:160px;"/>.</li>
-              <li>The title of Greg's film was <input class="answer-input" id="q9" type="text" placeholder="9" style="width:160px;"/>.</li>
-            </ul>
-            <h3>Prizes</h3>
-            <ul>
-              <li>Winners receive between $500 and $2000.</li>
-              <li>The best films are shown in the <input class="answer-input" id="q10" type="text" placeholder="10" style="width:150px;"/> Theatre.</li>
-            </ul>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:14px;min-width:560px;">
+              <thead>
+                <tr style="background:#f0f4ff;">
+                  <th style="padding:10px 12px;border:1.5px solid #d0d8f0;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#555;">Course</th>
+                  <th style="padding:10px 12px;border:1.5px solid #d0d8f0;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#555;">Date</th>
+                  <th style="padding:10px 12px;border:1.5px solid #d0d8f0;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#555;">Cost</th>
+                  <th style="padding:10px 12px;border:1.5px solid #d0d8f0;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:#555;">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">Vietnamese food</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;"><input class="answer-input" id="q1" type="text" placeholder="1" style="width:110px;"/></td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£59</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">It provides information on the use of herbs.<br>There are no places at present.</td>
+                </tr>
+                <tr style="background:#fafbff;">
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">Bread making</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">20 March</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£<input class="answer-input" id="q2" type="text" placeholder="2" style="width:60px;"/></td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">There is also an extra charge for ingredients.<br>Participants make white bread, sourdough and <input class="answer-input" id="q3" type="text" placeholder="3" style="width:90px;"/>.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">Face massage</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">23 February</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£35</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">The teacher trained in <input class="answer-input" id="q4" type="text" placeholder="4" style="width:90px;"/>.<br>Bring a <input class="answer-input" id="q5" type="text" placeholder="5" style="width:90px;"/>.</td>
+                </tr>
+                <tr style="background:#fafbff;">
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">Candle making</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;"><input class="answer-input" id="q6" type="text" placeholder="6" style="width:110px;"/></td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£52</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">Only <input class="answer-input" id="q7" type="text" placeholder="7" style="width:50px;"/> ingredients are used.<br>The candles can be used as presents.</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">Silk painting</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">18 May</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£<input class="answer-input" id="q8" type="text" placeholder="8" style="width:60px;"/></td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">Bring an apron or old <input class="answer-input" id="q9" type="text" placeholder="9" style="width:90px;"/>.</td>
+                </tr>
+                <tr style="background:#fafbff;">
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;font-weight:600;">DIY for beginners</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">24 February</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;">£125</td>
+                  <td style="padding:10px 12px;border:1px solid #e0e6f0;line-height:1.8;">Learn how to:<br>• use a drill, saw and <input class="answer-input" id="q10" type="text" placeholder="10" style="width:90px;"/>.<br>• put up a shelf.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -439,7 +497,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
     <!-- ===== PART 2 ===== -->
     <div class="question-part hidden" id="part-2">
       <div class="part-header">
-        <p><strong>Part 2</strong> — Listen and answer questions 11–20.</p>
+        <p><strong>Part 2</strong> — Marsden Coastal Walk &amp; Melby Coal Mine. Listen and answer questions 11–20.</p>
       </div>
       <div class="questions-container">
 
@@ -448,14 +506,14 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <div class="question-prompt">
             <p><strong>Questions 11–12</strong></p>
             <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>Which TWO tasks will volunteers be required to do at Eskdale Wood?</p>
+            <p>Which TWO pieces of advice are given about the Marsden Coastal Walk?</p>
           </div>
           <div class="checkbox-group">
-            <label><input type="checkbox" name="q11-12" value="A"/> A. fix fences</label>
-            <label><input type="checkbox" name="q11-12" value="B"/> B. remove branches</label>
-            <label><input type="checkbox" name="q11-12" value="C"/> C. collect litter</label>
-            <label><input type="checkbox" name="q11-12" value="D"/> D. build bird boxes</label>
-            <label><input type="checkbox" name="q11-12" value="E"/> E. cut down trees</label>
+            <label><input type="checkbox" name="q11-12" value="A"/> A. Stop for lunch in an ancient town.</label>
+            <label><input type="checkbox" name="q11-12" value="B"/> B. Don't miss the ruins of a certain building.</label>
+            <label><input type="checkbox" name="q11-12" value="C"/> C. Catch a boat to the start of this walk.</label>
+            <label><input type="checkbox" name="q11-12" value="D"/> D. Be careful of the steep and rocky paths.</label>
+            <label><input type="checkbox" name="q11-12" value="E"/> E. Don't worry about getting lost.</label>
           </div>
         </div>
 
@@ -464,47 +522,57 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <div class="question-prompt">
             <p><strong>Questions 13–14</strong></p>
             <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>Which TWO things must volunteers bring with them?</p>
+            <p>Which TWO things are said about the Melby Heritage Walk?</p>
           </div>
           <div class="checkbox-group">
-            <label><input type="checkbox" name="q13-14" value="A"/> A. gloves</label>
-            <label><input type="checkbox" name="q13-14" value="B"/> B. tools</label>
-            <label><input type="checkbox" name="q13-14" value="C"/> C. snacks</label>
-            <label><input type="checkbox" name="q13-14" value="D"/> D. sunscreen</label>
-            <label><input type="checkbox" name="q13-14" value="E"/> E. boots</label>
+            <label><input type="checkbox" name="q13-14" value="A"/> A. This walk is mostly downhill.</label>
+            <label><input type="checkbox" name="q13-14" value="B"/> B. The paths can get busy during the day.</label>
+            <label><input type="checkbox" name="q13-14" value="C"/> C. This is a circular walk.</label>
+            <label><input type="checkbox" name="q13-14" value="D"/> D. A tower stands on the site of an older structure.</label>
+            <label><input type="checkbox" name="q13-14" value="E"/> E. There are far-reaching views the whole way.</label>
           </div>
         </div>
 
-        <!-- Q15–20 Flow chart drag and drop -->
+        <!-- Q15–20 Map -->
         <div class="question">
           <div class="question-prompt">
             <p><strong>Questions 15–20</strong></p>
-            <p>Complete the flow-chart below.</p>
-            <p>Choose SIX answers from the box and write the correct letter, <strong>A–H</strong>, next to Questions 15–20.</p>
+            <p>Label the map below. Write the correct letter, <strong>A–I</strong>, next to Questions 15–20.</p>
           </div>
-          <div style="display:inline-block;width:100%;"><div class="flow-chart" style="max-width:750px;">
-            <p style="font-weight:bold;text-align:center;margin-bottom:12px;">To Take Part in the Bird Count</p>
-            <div class="flow-step">Set up a <span class="drop-zone flow-drop-zone" id="q15"><span class="placeholder">15</span></span> for a mobile app.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Decide on a <span class="drop-zone flow-drop-zone" id="q16"><span class="placeholder">16</span></span> for the day of the bird count.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Organise a <span class="drop-zone flow-drop-zone" id="q17"><span class="placeholder">17</span></span> for support.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Ensure everyone has access to a <span class="drop-zone flow-drop-zone" id="q18"><span class="placeholder">18</span></span>.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Agree on a <span class="drop-zone flow-drop-zone" id="q19"><span class="placeholder">19</span></span> for observed birds.</div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-step">Submit a <span class="drop-zone flow-drop-zone" id="q20"><span class="placeholder">20</span></span> with your collected data.</div>
+          <div style="margin-bottom:16px;">
+            <img src="image.jpg" alt="Melby Coal Mine Map" style="width:100%;max-width:650px;display:block;border:1.5px solid #ddd;border-radius:8px;"/>
           </div>
-          </div><div class="flow-options" id="flow-options-15-20" style="max-width:750px;">
-            <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> clear photograph</div>
-            <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> rough estimate</div>
-            <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> new account</div>
-            <div class="drag-item" data-value="D" draggable="true"><strong>D</strong> suitable location</div>
-            <div class="drag-item" data-value="E" draggable="true"><strong>E</strong> council permit</div>
-            <div class="drag-item" data-value="F" draggable="true"><strong>F</strong> basic competition</div>
-            <div class="drag-item" data-value="G" draggable="true"><strong>G</strong> good team</div>
-            <div class="drag-item" data-value="H" draggable="true"><strong>H</strong> visual guide</div>
+          <div style="display:flex;flex-direction:column;gap:10px;max-width:500px;">
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">15</strong>
+              <span style="flex:1;font-size:14px;">Exhibition</span>
+              <select class="answer-input" id="q15" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">16</strong>
+              <span style="flex:1;font-size:14px;">Baths</span>
+              <select class="answer-input" id="q16" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">17</strong>
+              <span style="flex:1;font-size:14px;">Tools</span>
+              <select class="answer-input" id="q17" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">18</strong>
+              <span style="flex:1;font-size:14px;">Vehicles</span>
+              <select class="answer-input" id="q18" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">19</strong>
+              <span style="flex:1;font-size:14px;">Ponies</span>
+              <select class="answer-input" id="q19" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
+            <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;">
+              <strong style="min-width:24px;">20</strong>
+              <span style="flex:1;font-size:14px;">Education centre</span>
+              <select class="answer-input" id="q20" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+            </div>
           </div>
         </div>
 
@@ -514,73 +582,82 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
     <!-- ===== PART 3 ===== -->
     <div class="question-part hidden" id="part-3">
       <div class="part-header">
-        <p><strong>Part 3</strong> — Listen and answer questions 21–30.</p>
+        <p><strong>Part 3</strong> — Food safety and a student project. Listen and answer questions 21–30.</p>
       </div>
       <div class="questions-container">
 
-        <!-- Q21–25 MCQ -->
+        <!-- Q21–22 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 21–25</strong></p>
-            <p>Presentation on restoring and reproduction of paintings.</p>
-            <p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>
+            <p><strong>Questions 21–22</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>Which TWO facts in the sessions on food safety were new information for Nadia and Fergus?</p>
           </div>
-          <div class="single-choice-container">
-            <div class="single-choice">
-              <p><strong>21</strong> The students agree that the introduction to their presentation should include</p>
-              <label><input type="radio" name="q21" value="A"/> A. reasons why paintings need to be restored.</label>
-              <label><input type="radio" name="q21" value="B"/> B. examples of poor restoration work.</label>
-              <label><input type="radio" name="q21" value="C"/> C. a general description of what restoration involves.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>22</strong> When the students visited the museum, they were surprised by</p>
-              <label><input type="radio" name="q22" value="A"/> A. the time it took to restore a single painting.</label>
-              <label><input type="radio" name="q22" value="B"/> B. the academic backgrounds of the restorers.</label>
-              <label><input type="radio" name="q22" value="C"/> C. the materials used in restoration work.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>23</strong> What does Oliver say would put him off a career in art restoration?</p>
-              <label><input type="radio" name="q23" value="A"/> A. the reaction of the owners of a painting</label>
-              <label><input type="radio" name="q23" value="B"/> B. the possibility of working in dangerous conditions</label>
-              <label><input type="radio" name="q23" value="C"/> C. the requirement to be able to draw very well</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>24</strong> What do the students agree about the restored Dutch landscape painting?</p>
-              <label><input type="radio" name="q24" value="A"/> A. It shows how taste in art varies amongst different people.</label>
-              <label><input type="radio" name="q24" value="B"/> B. It is an example of a work that was once undervalued.</label>
-              <label><input type="radio" name="q24" value="C"/> C. It demonstrates how cleaning techniques have greatly improved.</label>
-            </div>
-            <div class="single-choice">
-              <p><strong>25</strong> What is Oliver's attitude to the digital reproduction of famous paintings?</p>
-              <label><input type="radio" name="q25" value="A"/> A. It requires a great deal of skill.</label>
-              <label><input type="radio" name="q25" value="B"/> B. There is something dishonest about it.</label>
-              <label><input type="radio" name="q25" value="C"/> C. It makes art accessible to more people.</label>
-            </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q21-22" value="A"/> A. the amount of plastic in the ocean</label>
+            <label><input type="checkbox" name="q21-22" value="B"/> B. the number of diseases caused by contaminated food</label>
+            <label><input type="checkbox" name="q21-22" value="C"/> C. the amount of food that is wasted</label>
+            <label><input type="checkbox" name="q21-22" value="D"/> D. the number of people who are obese</label>
+            <label><input type="checkbox" name="q21-22" value="E"/> E. the result of treating animals with antibiotics</label>
           </div>
         </div>
 
-        <!-- Q26–30 Drag and drop list -->
+        <!-- Q23–24 -->
         <div class="question">
           <div class="question-prompt">
-            <p><strong>Questions 26–30</strong></p>
-            <p>What challenge did the Factum Arte team face with reproducing the following paintings?</p>
-            <p>Choose FIVE answers from the box and write the correct letter, <strong>A–G</strong>, next to Questions 26–30.</p>
+            <p><strong>Questions 23–24</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>Which TWO features of a project aiming to prevent food fraud impressed Fergus?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q23-24" value="A"/> A. the new technology it used</label>
+            <label><input type="checkbox" name="q23-24" value="B"/> B. the publicity it received</label>
+            <label><input type="checkbox" name="q23-24" value="C"/> C. the use of multiple tests on food items</label>
+            <label><input type="checkbox" name="q23-24" value="D"/> D. the variety of dietary requirements included</label>
+            <label><input type="checkbox" name="q23-24" value="E"/> E. the way information was made widely accessible</label>
+          </div>
+        </div>
+
+        <!-- Q25–26 -->
+        <div class="question">
+          <div class="question-prompt">
+            <p><strong>Questions 25–26</strong></p>
+            <p>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>Which TWO topics do both students recommend should be included in the course?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q25-26" value="A"/> A. sustainable fishing</label>
+            <label><input type="checkbox" name="q25-26" value="B"/> B. targeted nutrition</label>
+            <label><input type="checkbox" name="q25-26" value="C"/> C. global differences in consumption</label>
+            <label><input type="checkbox" name="q25-26" value="D"/> D. sustainable agriculture</label>
+            <label><input type="checkbox" name="q25-26" value="E"/> E. digital technology and food</label>
+          </div>
+        </div>
+
+        <!-- Q27–30 Flow chart drag and drop -->
+        <div class="question">
+          <div class="question-prompt">
+            <p><strong>Questions 27–30</strong></p>
+            <p>Complete the flow-chart below.</p>
+            <p>Choose FOUR answers from the box and write the correct letter, <strong>A–F</strong>, next to Questions 27–30.</p>
           </div>
           <div style="display:inline-block;width:100%;"><div class="flow-chart" style="max-width:750px;">
-            <div class="flow-step">Six Sunflowers — <span class="drop-zone flow-drop-zone" id="q26"><span class="placeholder">26</span></span></div>
-            <div class="flow-step">The Concert — <span class="drop-zone flow-drop-zone" id="q27"><span class="placeholder">27</span></span></div>
-            <div class="flow-step">Portrait of Sir Winston Churchill — <span class="drop-zone flow-drop-zone" id="q28"><span class="placeholder">28</span></span></div>
-            <div class="flow-step">The Water Lilies — <span class="drop-zone flow-drop-zone" id="q29"><span class="placeholder">29</span></span></div>
-            <div class="flow-step">Myrto — <span class="drop-zone flow-drop-zone" id="q30"><span class="placeholder">30</span></span></div>
+            <p style="font-weight:bold;text-align:center;margin-bottom:12px;">Student project: developing a new food product</p>
+            <div class="flow-step">Initial aim — <span class="drop-zone flow-drop-zone" id="q27"><span class="placeholder">27</span></span></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Literature review — <span class="drop-zone flow-drop-zone" id="q28"><span class="placeholder">28</span></span></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Product development — <span class="drop-zone flow-drop-zone" id="q29"><span class="placeholder">29</span></span></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-step">Product production — <span class="drop-zone flow-drop-zone" id="q30"><span class="placeholder">30</span></span></div>
           </div>
-          </div><div class="flow-options" id="flow-options-26-30" style="max-width:750px;">
-            <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> they only had a photo of a badly restored version of the painting</div>
-            <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> they needed to see under the damaged surface of the painting</div>
-            <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> they had to get permission to analyze a very similar painting</div>
-            <div class="drag-item" data-value="D" draggable="true"><strong>D</strong> they had to rely on similar drawings of the same subject</div>
-            <div class="drag-item" data-value="E" draggable="true"><strong>E</strong> they had to negotiate with relations of the original artist</div>
-            <div class="drag-item" data-value="F" draggable="true"><strong>F</strong> they were unable to view other examples of the artist's work</div>
-            <div class="drag-item" data-value="G" draggable="true"><strong>G</strong> they had only limited time to reproduce the painting</div>
+          </div><div class="flow-options" id="flow-options-27-30" style="max-width:750px;">
+            <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> This was challenging but enjoyable.</div>
+            <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> This led to some disagreement.</div>
+            <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> This was easy to decide on.</div>
+            <div class="drag-item" data-value="D" draggable="true"><strong>D</strong> This was helped by the guidelines provided.</div>
+            <div class="drag-item" data-value="E" draggable="true"><strong>E</strong> This seemed like an unnecessary stage.</div>
+            <div class="drag-item" data-value="F" draggable="true"><strong>F</strong> This involved selecting a new ingredient.</div>
           </div>
         </div>
 
@@ -601,35 +678,27 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
             <p>Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
           </div>
           <div class="notes-box" style="width:100%;max-width:750px;">
-            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">The Challenges of Living in Space</p>
-            <h3>Living on the International Space Station (ISS)</h3>
+            <p style="font-weight:bold;text-align:center;font-size:17px;margin-bottom:12px;">Challenges facing the cruise ship industry</p>
+            <h3>Problems with overtourism</h3>
             <ul>
-              <li>Astronauts spend months in microgravity, so:
-                <ul>
-                  <li>their blood moves to the head and <input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/>.</li>
-                  <li>they lose minerals such as <input class="answer-input" id="q32" type="text" placeholder="32" style="width:150px;"/>.</li>
-                  <li>they have to exercise 2.5 hours to avoid <input class="answer-input" id="q33" type="text" placeholder="33" style="width:150px;"/> loss.</li>
-                  <li>they may suffer from poor <input class="answer-input" id="q34" type="text" placeholder="34" style="width:150px;"/> back on Earth.</li>
-                </ul>
-              </li>
-              <li>NASA continues to improve ways to recycle water, including <input class="answer-input" id="q35" type="text" placeholder="35" style="width:150px;"/>.</li>
+              <li><input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/> is one of the worst problems.</li>
+              <li>A tourist <input class="answer-input" id="q32" type="text" placeholder="32" style="width:100px;"/> is being introduced in some cities to reduce numbers, e.g. Barcelona.</li>
+              <li>Bruges: shops were only stocking <input class="answer-input" id="q33" type="text" placeholder="33" style="width:120px;"/> and souvenirs.</li>
+              <li>Dubrovnik: limits tourists by managing the <input class="answer-input" id="q34" type="text" placeholder="34" style="width:100px;"/> of cruise ship arrivals.</li>
             </ul>
-            <h3>Building on the moon or Mars</h3>
+            <h3>Problems of perception</h3>
             <ul>
-              <li>Engineers and architects must either use materials which:
-                <ul>
-                  <li>are <input class="answer-input" id="q36" type="text" placeholder="36" style="width:150px;"/> enough for transport.</li>
-                  <li>can already be found on the moon or Mars.</li>
-                </ul>
-              </li>
-              <li>Rocks and minerals could be used to make metal, brick and possibly <input class="answer-input" id="q37" type="text" placeholder="37" style="width:150px;"/> for buildings.</li>
-              <li>NASA still needs to find a way to make large <input class="answer-input" id="q38" type="text" placeholder="38" style="width:150px;"/>.</li>
-              <li>People could use virtual reality:
-                <ul>
-                  <li>to visit places like a <input class="answer-input" id="q39" type="text" placeholder="39" style="width:150px;"/>.</li>
-                  <li>to get a new <input class="answer-input" id="q40" type="text" placeholder="40" style="width:150px;"/>.</li>
-                </ul>
-              </li>
+              <li>Cruises are generally associated with the elderly.</li>
+              <li>There is an assumption about the <input class="answer-input" id="q35" type="text" placeholder="35" style="width:100px;"/> of cruises.</li>
+              <li>People think there may be too many <input class="answer-input" id="q36" type="text" placeholder="36" style="width:100px;"/>.</li>
+            </ul>
+            <h3>Solutions — attracting younger customers</h3>
+            <ul>
+              <li>becoming more sustainable e.g. using hybrid engines.</li>
+              <li>having a wide range of activities e.g. boxing, <input class="answer-input" id="q37" type="text" placeholder="37" style="width:100px;"/> and well-being programmes.</li>
+              <li>offering a diverse selection of food including <input class="answer-input" id="q38" type="text" placeholder="38" style="width:100px;"/> options.</li>
+              <li>providing reliable <input class="answer-input" id="q39" type="text" placeholder="39" style="width:100px;"/>.</li>
+              <li>improving marketing on social media with high quality <input class="answer-input" id="q40" type="text" placeholder="40" style="width:100px;"/>.</li>
             </ul>
           </div>
         </div>
@@ -723,11 +792,13 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 
 <script>
 const PASSWORD = '1234';
-const AUDIO_SRC = 'https://bobonazar00v-afk.github.io/trainer-2.6/audio.mp3';
+const AUDIO_SRC = 'audio.mp3';
 
 let currentPart = 1;
 let currentQuestion = 1;
 let candidateId = '';
+let candidateName = '';
+let candidateDate = '';
 let draggedElement = null;
 let contextElement = null;
 let savedRange = null;
@@ -744,14 +815,18 @@ function submitLogin() {
 
 // ---- CANDIDATE ID ----
 function submitCandidate() {
-  const val = document.getElementById('candidate-id-input').value.trim();
-  if (val.length < 1) {
+  const name = document.getElementById('candidate-name-input').value.trim();
+  const date = document.getElementById('test-date-input').value;
+  if (!name) {
     document.getElementById('candidate-error').style.display = 'block';
     return;
   }
-  candidateId = val;
-  document.getElementById('header-candidate-id').textContent = candidateId;
-  document.getElementById('intro-candidate-name').textContent = candidateId;
+  candidateId = name;
+  candidateName = name;
+  candidateDate = date || new Date().toLocaleDateString();
+  document.getElementById('header-candidate-id').textContent = name;
+  document.getElementById('intro-candidate-name').textContent = name;
+  document.getElementById('intro-centre-display').textContent = candidateDate;
   document.getElementById('candidate-screen').style.display = 'none';
   const intro = document.getElementById('intro-screen');
   intro.style.display = 'flex';
@@ -762,7 +837,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('password').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') submitLogin();
   });
-  document.getElementById('candidate-id-input').addEventListener('keydown', function(e) {
+  document.getElementById('candidate-name-input') && document.getElementById('candidate-name-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitCandidate();
+  });
+  document.getElementById('test-date-input') && document.getElementById('test-date-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') submitCandidate();
   });
   document.getElementById('back-to-login').addEventListener('click', function() {
@@ -861,7 +939,7 @@ function goToQuestion(qNum) {
   // Find element to scroll to
   let el = document.getElementById('q' + qNum) || document.querySelector('input[name="q' + qNum + '"]');
   // checkbox groups
-  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14', 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (!el && cbMap[qNum]) el = document.querySelector('input[name="' + cbMap[qNum] + '"]');
 
   if (el) {
@@ -900,7 +978,7 @@ function updateAnsweredIndicators() {
 
     // checkbox groups
     if (!answered) {
-      const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+      const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14', 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
       if (cbMap[q]) {
         const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
         answered = checked >= 2;
@@ -924,7 +1002,7 @@ function updateAnsweredIndicators() {
 
 // ---- CHECKBOX LIMITS ----
 function setupCheckboxLimits() {
-  ['q11-12','q13-14'].forEach(name => {
+  ['q11-12','q13-14','q21-22','q23-24','q25-26'].forEach(name => {
     document.querySelectorAll('input[name="' + name + '"]').forEach(cb => {
       cb.addEventListener('click', function() {
         const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
@@ -1069,18 +1147,19 @@ function parseAnswerKey() {
 
 // ---- GET USER ANSWER ----
 function getUserAnswer(q) {
-  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14' };
+  const cbMap = { 11:'q11-12', 12:'q11-12', 13:'q13-14', 14:'q13-14', 21:'q21-22', 22:'q21-22', 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (cbMap[q]) {
     const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
-    const idx = (q === 11 || q === 13) ? 0 : 1;
+    const idx = (q === 11 || q === 13 || q === 21 || q === 23 || q === 25) ? 0 : 1;
     return vals[idx] || '';
   }
-  const txt = document.getElementById('q' + q);
-  if (txt && txt.classList.contains('answer-input')) return txt.value.trim();
+  const el = document.getElementById('q' + q);
+  if (!el) return '';
+  if (el.tagName === 'SELECT') return el.value;
+  if (el.classList.contains('answer-input')) return el.value.trim();
   const radios = document.querySelectorAll('input[name="q' + q + '"]');
   if (radios.length) { const ch = Array.from(radios).find(r => r.checked); return ch ? ch.value : ''; }
-  const dz = document.getElementById('q' + q);
-  if (dz && dz.classList.contains('drop-zone')) { const di = dz.querySelector('.drag-item'); return di ? (di.dataset.value || '') : ''; }
+  if (el.classList.contains('drop-zone')) { const di = el.querySelector('.drag-item'); return di ? (di.dataset.value || '') : ''; }
   return '';
 }
 
@@ -1099,7 +1178,7 @@ function submitTest() {
     return;
   }
   setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
-  setTimeout(() => { window.location.href = 'https://bobonazar00v-afk.github.io/trainer-2.6/Reading.html'; }, 3000);
+  setTimeout(() => { window.location.href = 'Reading.html'; }, 3000);
 }
 
 function downloadResultsPDF() {
@@ -1120,15 +1199,16 @@ function downloadResultsPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(18); doc.setFont(undefined,'bold');
-  doc.text('IELTS Trainer 2 Test 6 Results', 105, 20, { align: 'center' });
-  doc.setFontSize(14); doc.setFont(undefined,'normal');
+  doc.text('IELTS Listening Test 2 — Results', 105, 20, { align: 'center' });
+  doc.setFontSize(12); doc.setFont(undefined,'normal');
   doc.text('Score: ' + correct + ' / 40', 20, 40);
   doc.text('IELTS Band: ' + band, 20, 50);
-  doc.text('Candidate: ' + candidateId, 20, 60);
-  doc.text('Date: ' + new Date().toLocaleDateString(), 20, 70);
+  doc.text('Candidate: ' + (candidateName || candidateId), 20, 60);
+  doc.text('ID: ' + candidateId, 20, 70);
+  doc.text('Date: ' + (candidateDate || new Date().toLocaleDateString()), 20, 80);
   doc.setFontSize(12);
-  doc.text('Q', 20, 90); doc.text('Your Answer', 35, 90); doc.text('Correct', 100, 90); doc.text('Result', 155, 90);
-  let y = 100;
+  doc.text('Q', 20, 100); doc.text('Your Answer', 35, 100); doc.text('Correct', 100, 100); doc.text('Result', 155, 100);
+  let y = 110;
   for (const r of results) {
     doc.setTextColor('#000000');
     doc.text(r.q, 20, y);
@@ -1140,7 +1220,7 @@ function downloadResultsPDF() {
     if (y > 280) { doc.addPage(); y = 20; }
   }
   doc.setTextColor('#000000');
-  doc.save('IELTS_Trainer2_Test6_' + candidateId + '.pdf');
+  doc.save('IELTS_Listening_Test2_' + (candidateName || candidateId).replace(/\s+/g,'_') + '.pdf');
 }
 
 // ---- HIGHLIGHT ----
