@@ -283,57 +283,6 @@ body.dark .centered-title { color: #ffffff; }
 .submit-btn-fixed:hover { background: #c82333; transform: translateY(-2px); box-shadow: 0 7px 24px rgba(220,53,69,.55); }
 body.dark .submit-btn-fixed { box-shadow: 0 4px 18px rgba(220,53,69,.3); }
 
-/* ── DARK MODE: fix all white/light boxes ── */
-body.dark .question { background: #1a1a1a; }
-body.dark .question-prompt p { color: #c8c8c8; }
-
-/* Tables (Passage 1 fill-table, inline tables) */
-body.dark table { background: #1a1a1a; border-color: #3a3a3a; }
-body.dark th { background: #252525 !important; color: #b0b0b0 !important; border-color: #3a3a3a !important; }
-body.dark td { background: #1a1a1a !important; color: #d0d0d0 !important; border-color: #2e2e2e !important; }
-body.dark tr:nth-child(even) td, body.dark tr.alt td { background: #202020 !important; }
-body.dark div[style*="overflow-x:auto"] { border-color: #3a3a3a !important; }
-body.dark div[style*="background:#f0f4ff"] { background: #252535 !important; }
-body.dark div[style*="background:#fafbff"] { background: #1e1e2a !important; }
-
-/* Matching form rows */
-body.dark .matching-form-container { background: #1a1a1a; }
-body.dark .matching-form-row { background: #1e1e1e; border-color: #3a3a3a; }
-body.dark .matching-form-label { color: #c8c8c8; }
-body.dark select.answer-input { background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #555 !important; }
-body.dark select.answer-input option { background: #2a2a2a; color: #e0e0e0; }
-
-/* Notes / summary boxes */
-body.dark .notes-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
-body.dark .summary-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
-body.dark .summary-text p, body.dark .summary-text li { color: #d0d0d0; }
-body.dark .fill-table { background: #1a1a1a; }
-body.dark .fill-table th { background: #252525; color: #b0b0b0; border-color: #3a3a3a; }
-body.dark .fill-table td { background: #1a1a1a; color: #d0d0d0; border-color: #2e2e2e; }
-
-/* TF questions */
-body.dark .tf-question { background: #1a1a1a; }
-body.dark .tf-question-line { color: #d0d0d0; }
-body.dark .tf-question-number { color: #7aa0e0; }
-body.dark .tf-question-text { color: #d0d0d0; }
-
-/* Map rows (inline styled) */
-body.dark div[style*="background:#f9fafb"] { background: #1e1e1e !important; color: #d0d0d0 !important; border-color: #3a3a3a !important; }
-body.dark div[style*="background:#f8f8f8"] { background: #1e1e1e !important; }
-body.dark div[style*="border:1.5px solid #e8ecf0"] { border-color: #3a3a3a !important; }
-body.dark div[style*="border:1px solid #eee"] { border-color: #3a3a3a !important; }
-
-/* Passage header title */
-body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3a3a; }
-
-/* Footer nav */
-body.dark .footer__questionWrapper___1tZ46 { background: #1e1e1e; border-color: #3a3a3a; }
-body.dark .subQuestion { background: #2a2a2a; border-color: #444; color: #ccc; }
-
-/* Context menu & misc */
-body.dark .context-menu { background: #2a2a2a; border-color: #444; }
-body.dark .active-question { background: #2a2a1a; }
-
 .hidden { display:none !important; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 </style>
@@ -344,11 +293,11 @@ body.dark .active-question { background: #2a2a1a; }
 <div class="login-screen" id="login-screen">
   <div class="login-content">
     <div class="login-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
-    <h1>IELTS Academic</h1>
-    <p class="subtitle">Reading Test — Enter your password to continue</p>
+    <h1>IELTS Reading Test</h1>
+    <p class="subtitle">Enter your password to continue</p>
     <div class="form-group">
-      <label for="password">Exam Password</label>
-      <input id="password" type="password" placeholder="Enter exam password"/>
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="••••••••"/>
     </div>
     <button class="login-button" type="button" onclick="submitLogin()">Continue →</button>
     <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
@@ -359,20 +308,12 @@ body.dark .active-question { background: #2a2a1a; }
 <div class="candidate-screen" id="candidate-screen">
   <div class="candidate-content">
     <div class="candidate-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
-    <h1>Candidate Details</h1>
-    <p class="subtitle">Please enter your name and test date</p>
-    <div class="form-group" style="text-align:left;margin-bottom:14px;">
-      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Full Name</label>
-      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="candidate-name-input" type="text" placeholder="e.g. Azizbek Toshmatov" autocomplete="name" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
-    </div>
-    <div class="form-group" style="text-align:left;margin-bottom:20px;">
-      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Test Date</label>
-      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="test-date-input" type="date" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
-    </div>
-    <input type="hidden" id="candidate-id-input"/>
-    <button class="candidate-button" type="button" onclick="submitCandidate()">Confirm &amp; Proceed →</button>
+    <h1>Candidate Verification</h1>
+    <p class="subtitle">Enter your Candidate ID to proceed</p>
+    <input class="candidate-id-input" id="candidate-id-input" maxlength="12" placeholder="ID" type="text"/>
+    <button class="candidate-button" type="button" onclick="submitCandidate()">Continue →</button>
     <button class="back-button" id="back-to-login" type="button">← Back</button>
-    <div class="error-message" id="candidate-error">Please enter your full name.</div>
+    <div class="error-message" id="candidate-error">Please enter a valid Candidate ID.</div>
   </div>
 </div>
 
@@ -429,48 +370,36 @@ body.dark .active-question { background: #2a2a1a; }
     <div class="passage-panel" id="passage-panel">
 
       <!-- PASSAGE 1 -->
-            <div id="passage-text-1" class="reading-passage">
-        <h4>Do animals dream?</h4>
-        <p>Studies using electrodes attached to the heads of sleepers have shown that when we sleep, we do so in two ways that alternate throughout the night. The first is rapid eye movement (REM) or active sleep. During this stage our eyes move, even though our eyelids are closed. Our muscles also twitch slightly, though they are largely paralysed so we don't hurt ourselves. In contrast, we also engage in non-REM sleep, during which we barely move at all. Most dream states, and certainly those with the most vivid dreams, happen during REM sleep.</p>
-        <p>There is some evidence that other mammals may also dream. For example, researchers compared the brain patterns of rats running through a maze when awake with their brain patterns during REM sleep. They found the patterns were very similar and concluded that the sleeping rats were dreaming about going through the maze.</p>
-        <p>But finding evidence of dreaming in non-mammals has proved more difficult. Their brains are very different from those of humans, and it can often be difficult to record their activity while they are sleeping. Recently, however, researchers succeeded in recording brain activity in sleeping pigeons. As in mammals, the recordings revealed both REM and non-REM sleep. Intriguingly, REM sleep activity was high in brain regions involved in processing visual information, especially images related to physical activities such as flying, which suggests that this may possibly be what the pigeons were dreaming about.</p>
-        <p>That said, dreaming and REM sleep are unlikely to be universal in the animal kingdom. For example, sponges don't have brains, so they lack the machinery for dreaming. There are also some animals with unusual sleep patterns. These include whales and dolphins, which do not shut down their entire brain when they sleep, but only half of it, keeping the rest awake. They also show no sign of REM sleep, suggesting that they may only experience non-REM dreams, which are less vivid. This is surprising because we tend to think of whales and dolphins as having complex inner lives. It's thought that they don't experience REM sleep because during REM sleep animals are more vulnerable to extremes of temperature.</p>
-        <p>Nevertheless, in many cases REM sleep does seem to have benefits. Growing evidence from birds and mammals suggests that REM sleep and dreaming are important for forming memories and learning. It is believed that when events are replayed in dreams, this helps to integrate memories into longer-term storage. As soon as animals evolved moderately complex lifestyles, they would have needed to dream in order to manage these lifestyles.</p>
-        <p>However, we still don't understand how this outward behaviour relates to internal experience. It seems impossible to know what it is like to be a rat or a pigeon, let alone imagine their dreamscapes. We are quick to interpret the twitching limbs and quiet barks of sleeping dogs, but the truth is that we don't know if there is an internal experience of chasing rabbits that comes along with that.</p>
-        <p>Another non-human dreamer offers insight here. In 2019, while making a documentary, David Scheel of Alaska Pacific University in the USA housed an octopus named Heidi in a tank in his living room. At one point, in the middle of the night, Heidi seemed to dream: her limbs and head moved, and her skin rapidly changed colour, as though she was pursuing a crab.</p>
-        <p>Similarly, a report recently emerged of a sleeping octopus apparently having a nightmare. Costello, as the octopus was called, thrashed around, extended his mantle as if trying to make himself look bigger, and squirted ink as though he were being attacked by a predator. The nightmare study is intriguing, says Scheel, but is only based on one animal. He argues that as well as outward behaviour, brain imaging is needed to show that the octopuses are replaying sequences of activities from their waking lives in dreams.</p>
-        <p>The trouble is that we will never be able to experience any animal's dreams. That goes for other humans' dreams too. But we can try to imagine what these dreamscapes are like by meeting animals on their own terms. For example, vision is the dominant sense for many humans, and so our dreams are heavily visual too. Dogs primarily navigate the world using smell while spiders rely much more on vibrations.</p>
-        <p>It is likely that dreaming has served multiple purposes since the first complex animals evolved. And if this is the case, it is possible that better understanding of these purposes might shed light on the true purpose of our own dreams.</p>
+      <div id="passage-text-1" class="reading-passage">
+        <h4>New Zealand's early crafts and traditions</h4>
+        <p>The first groups of people to discover New Zealand come from Polynesia. Exactly when these explorers arrived has often been a matter of debate, but today the general understanding is that it was during the 13th century that their canoes eventually landed on New Zealand's shores. In some ways the new country must have seemed like an ideal place to settle: the land was fertile, and thick forests provided firewood, shelter and building materials. Still, life would have been challenging for the different Polynesian tribes, who had to adapt to a new environment. The tribes only began to refer themselves as Māori, meaning 'ordinary people', when Europeans in search of new opportunities began arriving in the 18th century. To the Maori, of course, the European settlers and sailors were not 'ordinary', but very strange.</p>
+        <p>It was not only a knowledge of canoe-building and navigation that the Polynesians brought to New Zealand. They were also skilled craftsmen. There is archaeological evidence that the tools they produced were of high quality and would have enabled tribes to plant and harvest crops. Craftsmen were also occupied with making weapons such as knives and axes, which were used for both construction and fighting. Interestingly, some crafts that had once been popular in Polynesian islands were no longer done in New Zealand, although researches are unsure why. Pottery is an example of this, despite that fact the clay needed to make pots and bowls could easily be found in the country.</p>
+        <p>The Maori word <em>whakairo</em> can be translated as 'decorative work' – this can refer to bone, wood and greenstone carving. Although Maori carvers were influenced by their Polynesian heritage, they developed their own style, including the curved patterns and spirals inspired by New Zealand plants. The same term can also apply to weaving; the crafting of, for example, woven baskets and mats all required knowledge and skill. Carving greenstone, or <em>pounamu</em> as it is called in Maori, was a long process, requiring great patience. Further, because of this mineral's rarity, any greenstone object, such as a piece of jewellery or cutting blade, was a prized possession. For that reason, it was the few people of high status rather than low-ranking members of a tribe who would possess such objects.</p>
+        <p>As New Zealand had no native mammals except for bats, dolphins and whales, Maori largely had to depend on plants to provide material for their clothing, including their cloaks. Weavers experimented with the inner bark of the houhere, the lacebark tree, but found it unsuitable. But the dried-out leaves and fibres of the flax plant provided a solution. Once a cloak had been woven from flax, it could be decorated. Borders might be dyed black or red, for example. In the case of superior ones made for chiefs or the more important members of a tribe, feathers from kiwi, pigeons or other native birds might be attached. All flax cloaks were rectangular in shape, so had no sleeves, and neither was a hood a feature of this garment. Short cloaks were fastened around a person's neck, and came only to the waist. Pins made of bone, wood or greenstone allowed longer cloaks to be secured at the shoulder; these were a type that were often used for ceremonial occasions. Of course, the construction of cloaks was influenced by the plant material available to Maori weavers. This meant that cloaks were loose-fitting, and while they protected wearers from New Zealand's strong sunshine, they were not useful during the winter months. A cloak made from fur or wool could provide insulation from the cold, but not so a cloak made of flax.</p>
+        <p>The warriors of a tribe required a different kind of cloak to help protect them. To create these special cloaks, the tough fibres of the mountain cabbage tree were used instead. It is not clear to researchers what the entire process involved, but they believe the fibres were left to soak in water over a period of time in order to soften them and make them easier to weave together. Later, once the whole cloak had been constructed, it would be dyed black. To do this, Maori weaves covered it in a special kind of mud they had collected from riverbeds. This was rich in iron due to New Zealand's volcanic landscape. The particular advantage of these cloaks was that the tough cabbage tree fibres they were woven from could reduce the impact of spear tips during a fight with enemy tribes. It is fortunate that some cloaks from the 1800s still survive and can provide us with further insight into the materials and construction techniques that Maori craftsmen used.</p>
       </div>
       <!-- PASSAGE 2 -->
-            <div id="passage-text-2" class="reading-passage hidden">
-        <h4>Mapungubwe</h4>
-        <p style="text-align:center;font-style:italic;">Located in southern Africa just below the Limpopo River, the kingdom of Mapungubwe flourished between the 11th and 13th century CE</p>
-        <p><strong>A</strong>&nbsp;&nbsp;Mapungubwe, which was one of the first states in southern Africa, was formed by Bantu-speaking peoples who were farmers. The area controlled by the rulers of Mapungubwe had at its heart a large sandstone plateau, which was easily defended due to its inaccessibility. As with other kingdoms in the region of southern Africa, cattle herding and other types of farming brought plenty of food and a surplus that could be traded for needed goods. Archaeology has revealed extensive layers of bones and manure, which indicate that from the 9th century CE there were large cattle herds, the traditional source of political power in southern African communities. The archaeological record for the 10th century shows a marked increase in the number of domesticated cattle in the area as well as cotton cultivation and weaving, as indicated by abundant finds of spindle whorls.</p>
-        <p><strong>B</strong>&nbsp;&nbsp;The total population of Mapungubwe at its peak in the mid-13th century was around 5,000 people. The chief or king of Mapungubwe was likely the wealthiest individual in the society, and would have owned more cattle and precious materials than anyone else. The king and his advisers dwelt in a stone enclosure composed of stone walls and housing built on the highest level of the community's territory, a natural sandstone hill which is some 30 metres high and 100 metres in length. Occupation on the hill dates from the 11th century and the entire complex was surrounded by a wooden palisade, as indicated by postholes made in the rock. The rest of the community lived in mud and thatch housing spread out below the hill, although there is one stone structure here. This settlement, known as Babandyanalo, covers around 5 hectares (12.3 acres) and predates the hilltop structures.</p>
-        <p><strong>C</strong>&nbsp;&nbsp;The kings of Mapungubwe were buried at the top of the hill site in a demarcated area away from the dwellings, while other members of the community were buried at the surrounding valley level. A wooden staircase connected the two levels, the sockets for the steps being clearly visible in the sandstone cliff face. There were some grander residences dotted around the outskirts of Babandyanalo, and these probably belonged to male relatives of the king. There are many more smaller but still impressive sites across the Mapungubwe plateau, which are located anywhere from 15 to 100 kilometres from the major hill site. Containing stone residences and walls, they likely belonged to local chiefs who acted as servants to the king.</p>
-        <p><strong>D</strong>&nbsp;&nbsp;The Mapungubwe plateau has a very high number of carnivore animal remains and ivory splinters, suggesting that the skins of these large animals and ivory elephant tusks were accumulated, probably for trade with coastal areas reached by the Limpopo River. The presence of glass beads, almost certainly from India, indicate there was trade of some sort with other states on the coast who, in turn, traded with merchants travelling from India by sea. Mapungubwe also benefitted from locally-sourced copper and the gold trade as it passed from the kingdom of Great Zimbabwe (12–15th century), situated to the north of Mapungubwe, to the coastal city of Kosala. It is likely that trade links led to a strengthening of political authority in order to control and even monopolise these lucrative interregional connections.</p>
-        <p><strong>E</strong>&nbsp;&nbsp;Archaeological discoveries reveal that pottery was produced on a scale large enough to suggest the presence of professional potters, and is another indicator of the prosperity of Mapungubwe society. Archaeological finds include spherical vessels with short necks, beakers, and bowls, many of which have decorative stamps. There are also ceramic discs, and whistles. In addition, cattle, sheep, and goat figurines, and small figures of highly stylised humans with elongated bodies and short limbs have been found. The figures may have been used in ceremonies as offerings to ancestors, but their precise function is not known. Other discoveries include small jewellery items made from locally sourced copper.</p>
-        <p><strong>F</strong>&nbsp;&nbsp;Beautifully decorated artefacts made of gold have also been found at Mapungubwe. A type of decoration, found nowhere else except Great Zimbabwe, involved the crafting of gold into small rectangular sheets and carving geometrical patterns into it. These sheets were then used to cover wooden objects (which have not survived) using small tacks, also made of gold. One such object that has been discovered may have been a sceptre, while additional evidence of local gold-working is a rhinoceros figurine made from small hammered sheets, and thousands of small gold beads. These objects were all found at the royal burial site and date to c. 1150. They are the first known indicators that gold had an intrinsic value of its own (as opposed to that of a currency) in southern Africa.</p>
-        <p><strong>G</strong>&nbsp;&nbsp;The kingdom of Mapungubwe was already in decline by the late 13th century, probably because overpopulation placed too much stress on local resources, a situation that may have been brought to a crisis point by a series of droughts. Trade routes may also have shifted northwards. Certainly, the areas that now prospered were to the north, such as Great Zimbabwe.</p>
+      <div id="passage-text-2" class="reading-passage hidden">
+        <h4>Sleep should be prescribed: what those late nights out could be costing you</h4>
+        <p style="text-align:center;font-style:italic;">Leading neuroscientist Matthew Walker on why sleep deprivation is increasing our risk of cancer, heart attack and Alzheimer's – and what you can do about it</p>
+        <p><strong>A</strong>&nbsp;&nbsp;Matthew Walker dreads the question 'What do you do?' On aeroplane it usually means that while everyone else watches movies, he will find himself giving a talk for the benefit of passengers and crew alike. To be specific, Walker is the director of the Center for Human Sleep Science at the University of California. No wonder people long for his advice. As the line between work and leisure grows more blurred, rare is the person who doesn't worry about their sleep. Indeed, it's Walker's conviction that we are in the midst of a 'catastrophic sleep-loss epidemic'. He has now written <em>Why We Sleep</em>, the idea being that once people know of the powerful links between sleep loss and poor health, they will try harder to get the recommended eight hours a night. Sleep deprivation constitutes anything less than seven. 'No one is doing anything about it but things have to change. But when did you ever see a National Health Service poster urging sleep on people? When did a doctor prescribe, not sleeping pills, but sleep itself? It needs to be prioritized.'</p>
+        <p><strong>B</strong>&nbsp;&nbsp;Why are we so sleep-deprived in this century? In 1942, less than 8% of the population was trying to survive on six hours or less sleep a night; in 2017, almost one in two people is. Some reasons are obvious, but Walker believes, too, that in the developed world sleep is strongly associated with weakness. 'We want to seem busy, and one way we express that is proclaiming how little sleep we're getting. When I give lectures, people wait behind until there is no one around and then tell me quietly: "I seem to be one of those people who need eight or nine hours' sleep." It's embarrassing to say it in public.'</p>
+        <p><strong>C</strong>&nbsp;&nbsp;Walker has found clear evidence that without sleep, there is lower energy and disease, and with sleep, there is vitality and health. More than 20 studies all report the same relationship: the shorter your sleep, the shorter your life. For example, adults aged 45 years or older who sleep less than six hours a night are 200% more like to have a heart attack, as compared with those sleeping seven or eight. This is because even one night of sleep reduction will affect a person's heart and significantly increase their blood pressure as a result. Walker also points out that when your sleep becomes short, you are susceptible to weight gain. Among the reasons for this are the fact that inadequate sleep increases levels of the hunger-signalling hormone, ghrelin. 'I'm not going to say that the obesity crisis is caused by the sleep-loss epidemic alone,' says Walker. 'However, processed food and sedentary lifestyles do not adequately explain its rise. It's now clear that sleep is that third ingredient.'</p>
+        <p><strong>D</strong>&nbsp;&nbsp;Sleep also has a power effect on the immune system, which is why, when we have flu, our first instinct is to go to bed. If you are tired, you are more likely to get sick. The well-rested also respond better to the flu vaccine so this is something people should bear in mind before visiting their doctors. Walker's book also includes a long section on dreams. Here he details the various ways in which deep sleep – the part when we begin to dream – to how important deep sleep is to young children. If they don't get enough, managing aggressive behavior becomes harder and harder. Does Walker take his own advice when it comes to sleep? 'Yes. I give myself a non-negotiable eight-hour sleep opportunity every night, and I keep very regular hours. I take my sleep incredibly seriously because I have seen the evidence.'</p>
+        <p><strong>E</strong>&nbsp;&nbsp;Sleep research shows that we sleep in 90-minute cycles, and it's only towards the end of each that we go into deep sleep. Each cycle comprises of NREM sleep (non-rapid eye movement sleep), followed by REM (rapid eye movement) sleep. 'During NREM sleep ... your body settles into this lovely low state of energy,' Walker explains. 'REM sleep, on the other hand is ... an incredibly active brain state. Your heart and nervous system go through spurts of activity.' Because we need four or five of these cycles to stay healthy, it's important for people to break bad sleep habits. For example, they should not be regularly working late into the night as this affects cognitive functioning. Depending on sleep pills is also not a good idea, as it can have a damaging effect on memory.</p>
+        <p><strong>F</strong>&nbsp;&nbsp;So what can individuals do to ensure they get the right amount of sleep? Firstly, we could think about getting ready for sleep in the same way prepare for the end of a workout – say, on a spin bike. 'People use alarms to wake up,' Walker says. 'So why don't we have a bedtime alarm to tell us we've got half an hour, that we should start cycling down?' Companies should think about rewarding sleep. Productivity will rise and motivation will be improved. We can also systematically measure our sleep by using personal tracking devices, Walker says, and points out that some far-sighted companies in the US already give employees time off if they get enough it. While some researchers recommend banning digital devices from the bedroom because of their effect on the sleep-inducing hormone melatonin, Walker believes that technology will eventually be an aid to sleep, as it helps us discover more about the way we function.</p>
       </div>
 
       <!-- PASSAGE 3 -->
-            <div id="passage-text-3" class="reading-passage hidden">
-        <h4>Artificial Intelligence</h4>
-        <p>In many countries in the West, hysteria about the future of artificial intelligence (AI) is everywhere. There seems to be no shortage of sensationalist news about how AI could cure diseases, accelerate human innovation and improve human creativity. Just looking at the media headlines, you might think that we are already living in a future where AI has infiltrated every aspect of society.</p>
-        <p>While it is undeniable that AI has opened up a wealth of promising opportunities, it has also led to the emergence of a mindset that can be best described as 'AI solutionism'. This is the philosophy that, given enough data, machine learning algorithms can solve all of humanity's problems. But, in fact, instead of supporting AI progress, this mindset actually jeopardises the value of machine intelligence by disregarding important AI safety principles and setting unrealistic expectations about what AI can really do for humanity.</p>
-        <p>In only a few years, AI solutionism has made its way from the technology evangelists' mouths in Silicon Valley in California to the minds of government officials and policymakers around the world. The pendulum has swung from the dystopian notion that AI will destroy humanity to the utopian belief that our algorithmic saviour is here.</p>
-        <p>We are now seeing governments pledge support to national AI initiatives and compete in a technological race to dominate the burgeoning machine-learning sector. While many politicians proclaim the transformative effects of the coming 'AI revolution', they fail to realise the complexity around deploying advanced machine learning systems in the real world.</p>
-        <p>One of the most promising varieties of AI technologies are neural networks. This form of machine learning is loosely modelled on the neuronal structure of the human brain, but on a much smaller scale. But what many politicians do not understand is that simply adding a neural network to a problem will not automatically mean that you'll find a solution. Similarly, adding a neural network to a system of government does not mean it will be instantaneously more inclusive or fair.</p>
-        <p>AI systems need a lot of data to function, but the public sector typically does not have the appropriate data infrastructure to support advanced machine learning. Most of the data remains stored in offline archives. The few digitised sources of data that exist tend to be buried in bureaucracy. More often than not, data is spread across different government departments that each require special permissions to be accessed. Above all, the public sector typically lacks the human talent with the right technological capabilities to fully reap the benefits of machine intelligence.</p>
-        <p>For these reasons, the sensationalism over AI has attracted many critics. Stuart Russell, a professor of computer science at the University of California, Berkeley, has long advocated a more sensible and realistic approach that focuses on simple everyday applications of AI instead of the hypothetical takeover by super-intelligent robots. Similarly, Rodney Brooks, professor of robotics at Massachusetts Institute of Technology, writes that 'almost all innovations in robotics and AI take far, far, longer to be really widely deployed than people in the field and outside the field imagine'.</p>
-        <p>One of the many difficulties in deploying machine learning systems is that AI is extremely susceptible to adversarial attacks. This means that a malicious AI can target another AI to make it behave in a certain way, such as forcing it to make wrong predictions. Many researchers have warned against the rolling out of AI without appropriate security standards and defence mechanisms. Still, AI security remains an often overlooked topic when machine learning systems are installed.</p>
-        <p>If we are to reap the benefits and minimise the potential harms of AI, we must start thinking about how machine learning can be meaningfully applied to specific areas of government, business and society. This means we need to have a discussion about AI ethics and the distrust that many people have towards machine learning.</p>
-        <p>Most importantly, we need to be aware of the limitations of AI and where people still need to take the lead. Instead of painting an unrealistic picture of the power of AI, it is important to take a step back and separate the actual technological capabilities of AI from fantasy.</p>
-        <p>The medical profession has also recognised the drawbacks to AI. The IBM Watson for Oncology programme was a piece of AI that was meant to help doctors treat cancer. Even though it was developed to deliver the best recommendations, human experts found it hard to trust the machine. As a result, the AI programme was abandoned in most hospitals where it was trialled.</p>
-        <p>Similar difficulties arose in the legal domain when algorithms were used in courts in the US to sentence criminals. An algorithm calculated risk assessment scores and advised judges on the sentencing. The system was found to amplify structural racial discrimination and was later abandoned.</p>
-        <p>There are some crucial lessons here for everyone aiming to boost investments in national AI programmes. These examples demonstrate that there is no AI solution for everything. Using AI simply for the sake of AI may not always be productive or useful, and not every issue is best addressed by applying machine intelligence to it. All solutions come with a cost and not everything that can be automated should be.</p>
+      <div id="passage-text-3" class="reading-passage hidden">
+        <h4>The future of cities</h4>
+        <p style="text-align:center;font-style:italic;">Professor of Urban Planning Sarah Holmes looks at the challenges of urban living</p>
+        <p>The World Health Organisation has produced a report predicting that 9.8 billion of us will be living on this planet by 2050. Of that number, 72% will be living in urban areas – a higher proportion than ever before. Presented with this information, governments have a duty to consider how best to meet the needs of city residents, and not just for the short-term. Certain problems associated with urban living have been highlighted by research company Richmond-Carver in its latest global survey. At the top of the list survey respondents' concerns is the fact that competition amongst tenants for rental properties has driven the median price up – so much so people need to hold down two or more jobs to meet all their expenses. Another issue the survey highlighted is the difficulty commuters face. Overcrowding means that seats are often not available on long journeys, but more significant is that schedules are unreliable. Many studies have shown the effect that has on a country's productivity. Interestingly, certain problems seem more common in some cities than others: respondents from increasingly crowded European cities, including Manchester and Barcelona, commented on how their quality of life was affected by loud machinery, other people's music and car alarms. Something the survey failed to ask about was the value people placed on having access to nature in urban neighborhoods. However, some countries are already moving forward. Singapore is a prime example; its rooftop gardens make the city a far more desirable place to live. It is the Singaporean government that is behind this push for sustainable living.</p>
+        <p>Perhaps some clearer government direction would benefit other cities. Take New York City, a place where I frequently meet up with other researchers in my field. Luckily for me, I am driven from the airport to the research centre, so do not need to navigate the freeways and constant congestion. Admittedly my experience of the urban lifestyle here is limited to the hotels I stay in, and the blocks within a three-kilometre walk. But whenever I leave my room in search of an outlet providing fruit or anything with nutritional value, none can be found. It seems ridiculous that this should be the case. New York has made great advances in redeveloping its museums and arts centres, but authorities must recognize that people's basic needs must be met first.</p>
+        <p>Sometimes these basic needs are misunderstood. In some urban areas, new residential developments are provided with security features such as massive metal fences and multiple gates in the belief that these will make residents safer. There is little evidence such steps make a difference in this way, but we do know they make residents feel reluctant to go outside and walk around their neighbourhood. Instead they are more likely to remain inactive indoors. Grassy areas inside fences developments are hardly used by householders and tenants either. All this adds up to a feeling of being cut off from others.</p>
+        <p>So where are planners and developers going wrong? Inviting a group of locals to attend a consultation event is the conventional method for discovering what a community might want. The issue here is that it often attracts the same few voices with the same few wishes. But the internet now makes it possible for others to contribute. A community website can be a place where local people propose ideas for making their neighbourhood a better place to live. Developers that pay attention to these ideas can get a clearer picture of the things residents actually want and reduce the risk of throwing away money on things they don't.</p>
+        <p>An example of a project that truly meets the needs of residents is Container City – a development in London's Docklands area. Constructed from metal containers once used to transport cargo on ships, it is a five-storey architectural masterpiece. The containers have been turned into sunny work studios, and despite their limited size, some come with a bed, shower and kitchen unit. Smart planning and skillful construction mean they take up very little room. Furniture and fittings are made from recycled products. Other countries have their own versions Container City – Amsterdam and Copenhagen have created container dormitories to house students – but the Docklands site shows how work and living areas can effectively be combined. The units are ideal for young entrepreneurs hoping to establish a business while keeping costs down.</p>
+        <p>Successful development is taking place in many urban areas around the world, and city planners have a duty to see for themselves the transforming effect this can have on residents' lives. There is no better way to do this than to visit these places in person. These might be neighbourhoods constructed for the first time, or developers might have transformed what was already there. In either case, the idea of cars determining urban planning, and indeed the whole concept of private car ownership, is now outdated and must be abandoned. Instead, the layout of an area under development must make it easier for people to meet up in pedestrianized zones and community spaces. At the heart of the development should be a cultural area, providing venues for art, music and street theatre. Such activities bring communities together, and do far more for positive relations than a new mall or shopping precinct. For this reason, these kinds of performance spaces should be prioritized. Finally, planners and developers must be obliged to create, within the same neighbourhood, different types of homes for wealthy professionals, for families, for the elderly and for young people just starting out. This kind of mix is essential to ensure people can buy a home in an area convenient for work, and for a community to stay alive.</p>
       </div>
 
     </div><!-- /passage-panel -->
@@ -482,180 +411,193 @@ body.dark .active-question { background: #2a2a1a; }
 
       <!-- QUESTIONS SET 1 -->
       <div id="questions-1" class="question-set">
-        <div class="question" data-q-start="1" data-q-end="5">
+        <div class="question" data-q-start="1" data-q-end="6">
           <div class="question-prompt">
-            <p><strong>Questions 1–5</strong><br>Complete the table below.</p>
-            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+            <p><strong>Questions 1–6</strong><br>Do the following statements agree with the information given in Reading Passage 1?</p>
+            <p>Write <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
           </div>
-          <div style="overflow-x:auto;border:1.5px solid #ddd;border-radius:8px;">
-            <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <div class="tf-question" data-q-start="1"><div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">It is now widely thought that humans reached New Zealand in the 13th century.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="2"><div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The first Europeans to come to New Zealand were keen to trade with Maori.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="3"><div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">Members of Maori tribes were responsible for either tool- or weapon-making.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="4"><div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">A craft that the Maori once practiced in New Zealand was making pottery.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="5"><div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Weaving baskets and mats was seen as a form of decorative work.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="6"><div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">It used to be common for everyone in a Maori tribe to wear greenstone jewellery.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+
+        <div class="question" data-q-start="7" data-q-end="13">
+          <div class="question-prompt">
+            <p><strong>Questions 7–13</strong><br>Complete the notes below.</p>
+            <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+          </div>
+          <div style="border:1px solid #000;padding:15px;overflow-x:auto;">
+            <p class="centered-title">Maori cloaks</p>
+            <table class="fill-table">
               <thead>
-                <tr style="background:#f0f4ff;">
-                  <th style="padding:10px 12px;border-bottom:1.5px solid #ddd;font-size:12px;text-transform:uppercase;color:#555;text-align:left;min-width:100px;"></th>
-                  <th style="padding:10px 12px;border-bottom:1.5px solid #ddd;font-size:12px;text-transform:uppercase;color:#555;text-align:left;">Research findings</th>
-                  <th style="padding:10px 12px;border-bottom:1.5px solid #ddd;font-size:12px;text-transform:uppercase;color:#555;text-align:left;">Comment</th>
+                <tr>
+                  <th></th>
+                  <th>flax cloaks</th>
+                  <th>warrior cloaks</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;">Humans</td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;line-height:1.8;">• humans experience REM sleep and non-REM sleep<br>• in REM sleep, the eyes and muscles move</td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;"></td>
-                </tr>
-                <tr style="background:#fafbff;">
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;"><input class="answer-input" id="q1" type="text" placeholder="1" style="width:110px;"/></td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;line-height:1.8;">• similar brain patterns were observed when active and sleeping</td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;">indicative of dreaming</td>
+                  <td><strong>methods of construction</strong></td>
+                  <td>Maori made flax cloaks by:<br>– weaving leaves and fibres<br>– sometimes adding <input class="answer-input" id="q7" type="text" placeholder="7" style="width:120px;"/> to the better cloaks</td>
+                  <td>Weavers had to use <input class="answer-input" id="q8" type="text" placeholder="8" style="width:120px;"/> to make cabbage tree fibres less stiff</td>
                 </tr>
                 <tr>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;font-weight:600;">Pigeons</td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;line-height:1.8;">• when sleeping, pigeons displayed activity in parts of the brain that deal with <input class="answer-input" id="q2" type="text" placeholder="2" style="width:90px;"/> input</td>
-                  <td style="padding:10px 12px;border-bottom:1px solid #eee;">may have been dreaming of flying</td>
+                  <td><strong>appearance</strong></td>
+                  <td>Flax cloaks were:<br>– rectangular in shape<br>– designed without a <input class="answer-input" id="q9" type="text" placeholder="9" style="width:120px;"/><br>– tied at either the wearer's neck or their <input class="answer-input" id="q10" type="text" placeholder="10" style="width:120px;"/></td>
+                  <td>Mud containing <input class="answer-input" id="q11" type="text" placeholder="11" style="width:120px;"/> was used to make the cloaks look black</td>
                 </tr>
-                <tr style="background:#fafbff;">
-                  <td style="padding:10px 12px;font-weight:600;">Whales and dolphins</td>
-                  <td style="padding:10px 12px;line-height:1.8;">• still have <input class="answer-input" id="q3" type="text" placeholder="3" style="width:70px;"/> their brain awake when they sleep<br>• don't experience REM sleep, as this could affect their sensitivity to <input class="answer-input" id="q4" type="text" placeholder="4" style="width:120px;"/></td>
-                  <td style="padding:10px 12px;">their dreams are probably not very <input class="answer-input" id="q5" type="text" placeholder="5" style="width:90px;"/></td>
+                <tr>
+                  <td><strong>good/bad points</strong></td>
+                  <td>Flax cloaks offered no <input class="answer-input" id="q12" type="text" placeholder="12" style="width:140px;"/> during winter.</td>
+                  <td><input class="answer-input" id="q13" type="text" placeholder="13" style="width:140px;"/> could not easily go through the cloaks' tough fibres</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <div class="question" data-q-start="6" data-q-end="13">
-          <div class="question-prompt">
-            <p><strong>Questions 6–13</strong><br>Do the following statements agree with the information given in Reading Passage 1?</p>
-            <p>Write <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
-          </div>
-          <div class="tf-question" data-q-start="6"><div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">Dreaming about past experiences helps us to create lasting memories of them.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="7"><div class="tf-question-line"><span class="tf-question-number">7</span><span class="tf-question-text">It is now possible to tell what type of dream a dog is having.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q7" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q7" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="8"><div class="tf-question-line"><span class="tf-question-number">8</span><span class="tf-question-text">David Scheel's documentary was influential on other research into the sleeping patterns of octopuses.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q8" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q8" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q8" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="9"><div class="tf-question-line"><span class="tf-question-number">9</span><span class="tf-question-text">While it was asleep, the octopus called Costello reacted as if it was hunting.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q9" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q9" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q9" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="10"><div class="tf-question-line"><span class="tf-question-number">10</span><span class="tf-question-text">Scheel believes more research into octopuses' dreams should be carried out.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q10" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q10" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q10" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="11"><div class="tf-question-line"><span class="tf-question-number">11</span><span class="tf-question-text">We may soon be able to share the dreams of other human beings.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q11" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q11" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q11" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="12"><div class="tf-question-line"><span class="tf-question-number">12</span><span class="tf-question-text">Hearing may be an important part of the dreams of some animals.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q12" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q12" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q12" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="13"><div class="tf-question-line"><span class="tf-question-number">13</span><span class="tf-question-text">Interest in the reasons why humans dream has increased greatly in recent times.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q13" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q13" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q13" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-        </div>
       </div><!-- /questions-1 -->
 
       <!-- QUESTIONS SET 2 -->
       <div id="questions-2" class="question-set hidden">
-        <div class="question" data-q-start="14" data-q-end="19">
+        <div class="question" data-q-start="14" data-q-end="18">
           <div class="question-prompt">
-            <p><strong>Questions 14–19</strong><br>Reading Passage 2 has seven paragraphs, <strong>A–G</strong>.</p>
+            <p><strong>Questions 14–18</strong><br>Reading Passage 2 has six paragraphs, <strong>A–F</strong>.</p>
             <p>Which paragraph contains the following information?</p>
-            <p><em>Write the correct letter, A–G. You may use any letter more than once.</em></p>
+            <p><em>NB You may use any letter more than once.</em></p>
           </div>
           <div class="matching-form-container">
-            <div class="matching-form-row"><label class="matching-form-label"><strong>14</strong>&nbsp;&nbsp;a mention of the uncertainty regarding the purpose of certain objects</label><select class="answer-input" id="q14"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>15</strong>&nbsp;&nbsp;the likelihood that a climatic factor increased the problems Mapungubwe faced</label><select class="answer-input" id="q15"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>16</strong>&nbsp;&nbsp;a mention of the location where members of the king's family are thought to have lived</label><select class="answer-input" id="q16"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>17</strong>&nbsp;&nbsp;a reference to people who brought goods by ship</label><select class="answer-input" id="q17"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>18</strong>&nbsp;&nbsp;an estimate of the size to which the Mapungubwe community grew</label><select class="answer-input" id="q18"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
-            <div class="matching-form-row"><label class="matching-form-label"><strong>19</strong>&nbsp;&nbsp;a mention of agricultural produce being exchanged for other items</label><select class="answer-input" id="q19"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>14</strong>&nbsp;&nbsp;a comparison between two different types of sleep that people experience</label><select class="answer-input" id="q14"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>15</strong>&nbsp;&nbsp;an explanation for some people not wanting to admit the amount of sleep they require</label><select class="answer-input" id="q15"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>16</strong>&nbsp;&nbsp;examples of different behaviours that have a negative impact on mental performance</label><select class="answer-input" id="q16"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>17</strong>&nbsp;&nbsp;a suggestion that medical professionals are not taking the right approach</label><select class="answer-input" id="q17"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
+            <div class="matching-form-row"><label class="matching-form-label"><strong>18</strong>&nbsp;&nbsp;a reference to changing trends in the average amount of sleep people get</label><select class="answer-input" id="q18"><option value=""></option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select></div>
           </div>
         </div>
 
-        <div class="question" data-q-start="20" data-q-end="21">
+        <div class="question" data-q-start="19" data-q-end="22">
           <div class="question-prompt">
-            <p><strong>Questions 20–21</strong><br>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
-            <p>The archaeological record reveals information about gold and the kingdom of Mapungubwe. Which TWO pieces of information are mentioned by the writer?</p>
-          </div>
-          <div class="checkbox-group">
-            <label><input type="checkbox" name="q20-21" value="A"/> A. Not everyone in Mapungubwe used gold as a form of payment.</label>
-            <label><input type="checkbox" name="q20-21" value="B"/> B. Items of gold were placed close to where Mapungubwe kings were buried.</label>
-            <label><input type="checkbox" name="q20-21" value="C"/> C. The most valuable item discovered in Mapungubwe was a sceptre made of gold.</label>
-            <label><input type="checkbox" name="q20-21" value="D"/> D. The way gold was decorated in Mapungubwe was also practised in another kingdom.</label>
-            <label><input type="checkbox" name="q20-21" value="E"/> E. Working with gold was a respected occupation in the Mapungubwe community.</label>
-          </div>
-        </div>
-
-        <div class="question" data-q-start="22" data-q-end="26">
-          <div class="question-prompt">
-            <p><strong>Questions 22–26</strong><br>Complete the summary below.</p>
-            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+            <p><strong>Questions 19–22</strong><br>Complete the sentences below.</p>
+            <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
           </div>
           <div class="summary-text">
-            <p style="font-weight:700;text-align:center;margin-bottom:12px;">Archaeological discoveries</p>
-            <p>The Mapungubwe community's <input type="text" class="answer-input" id="q22" placeholder="22"/> is indicated by the amount of professionally made pottery discovered at the site. Many of these objects, such as beakers and bowls, are highly decorated and have been marked with stamps. Other finds include round ceramic objects, <input type="text" class="answer-input" id="q23" placeholder="23"/> and figures of various animals, as well as models of people with stretched <input type="text" class="answer-input" id="q24" placeholder="24"/>. It is possible that these had a role in ceremonies to honour <input type="text" class="answer-input" id="q25" placeholder="25"/>. In addition, pieces of <input type="text" class="answer-input" id="q26" placeholder="26"/> made from a local metal have been found at the site.</p>
+            <ul style="list-style:none;padding-left:0;">
+              <li style="margin-bottom:12px;">Over 20 studies have shown a person's <input type="text" class="answer-input" id="q19" placeholder="19"> goes up when they are sleep deprived.</li>
+              <li style="margin-bottom:12px;">Insufficient sleep is one of the three factors which explain the <input type="text" class="answer-input" id="q20" placeholder="20">.</li>
+              <li style="margin-bottom:12px;">People who are given the <input type="text" class="answer-input" id="q21" placeholder="21"> by doctors find it more effective if they sleep properly.</li>
+              <li style="margin-bottom:12px;">Walker has described how a lack of deep sleep is linked to <input type="text" class="answer-input" id="q22" placeholder="22"> in young children.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="23" data-q-end="24">
+          <div class="question-prompt">
+            <p><strong>Questions 23–24</strong><br>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>The list below mentions some things that individuals can do to ensure they get the right amount of sleep. Which TWO of these things are recommended by Matthew Walker?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q23-24" value="A"/> A. taking a natural product that encourages sleep</label>
+            <label><input type="checkbox" name="q23-24" value="B"/> B. avoiding looking at brightly lit screens after dark</label>
+            <label><input type="checkbox" name="q23-24" value="C"/> C. negotiating later start times for work with employers</label>
+            <label><input type="checkbox" name="q23-24" value="D"/> D. keeping a regular record of hours spent sleeping</label>
+            <label><input type="checkbox" name="q23-24" value="E"/> E. reducing your activity level at a set time of day</label>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="25" data-q-end="26">
+          <div class="question-prompt">
+            <p><strong>Questions 25–26</strong><br>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>Which TWO of the following statements are true of Matthew Walker?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q25-26" value="A"/> A. He is sometimes reluctant to admit what his profession is.</label>
+            <label><input type="checkbox" name="q25-26" value="B"/> B. He has based his new book on a series of lectures.</label>
+            <label><input type="checkbox" name="q25-26" value="C"/> C. He has experienced significant improvements in his health.</label>
+            <label><input type="checkbox" name="q25-26" value="D"/> D. He has carried out research into the meaning of dreams.</label>
+            <label><input type="checkbox" name="q25-26" value="E"/> E. He always makes sure he gets enough sleep each night.</label>
           </div>
         </div>
       </div><!-- /questions-2 -->
 
       <!-- QUESTIONS SET 3 -->
       <div id="questions-3" class="question-set hidden">
-        <div class="question" data-q-start="27" data-q-end="29">
+        <div class="question" data-q-start="27" data-q-end="31">
           <div class="question-prompt">
-            <p><strong>Questions 27–29</strong><br>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
+            <p><strong>Questions 27–31</strong><br>Complete the summary using the list of words, <strong>A–H</strong>, below.</p>
           </div>
-          <p style="margin-bottom:8px;"><strong>27</strong> What is the writer doing in the first paragraph?</p>
-          <div class="single-choice-container" style="margin-bottom:20px;">
-            <div class="single-choice"><label><input type="radio" name="q27" value="A"> A &nbsp;&nbsp;predicting the future impact of AI</label></div>
-            <div class="single-choice"><label><input type="radio" name="q27" value="B"> B &nbsp;&nbsp;describing a public perception of AI</label></div>
-            <div class="single-choice"><label><input type="radio" name="q27" value="C"> C &nbsp;&nbsp;outlining some possible benefits of AI</label></div>
-            <div class="single-choice"><label><input type="radio" name="q27" value="D"> D &nbsp;&nbsp;highlighting the breadth of the influence of AI</label></div>
-          </div>
-          <p style="margin-bottom:8px;"><strong>28</strong> When discussing AI solutionism in the second paragraph, the writer</p>
-          <div class="single-choice-container" style="margin-bottom:20px;">
-            <div class="single-choice"><label><input type="radio" name="q28" value="A"> A &nbsp;&nbsp;points out a risk involved.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q28" value="B"> B &nbsp;&nbsp;specifies its probable origins.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q28" value="C"> C &nbsp;&nbsp;mentions its chief supporters.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q28" value="D"> D &nbsp;&nbsp;weighs up some pros and cons.</label></div>
-          </div>
-          <p style="margin-bottom:8px;"><strong>29</strong> In the fourth paragraph, the writer suggests that many politicians may</p>
-          <div class="single-choice-container" style="margin-bottom:20px;">
-            <div class="single-choice"><label><input type="radio" name="q29" value="A"> A &nbsp;&nbsp;have failed to appreciate the true potential of AI initiatives.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q29" value="B"> B &nbsp;&nbsp;have misunderstood the function of the machine-learning sector.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q29" value="C"> C &nbsp;&nbsp;be unaware of the challenges of implementing national AI initiatives.</label></div>
-            <div class="single-choice"><label><input type="radio" name="q29" value="D"> D &nbsp;&nbsp;be too keen to enter the race to dominate the machine-learning sector.</label></div>
-          </div>
-        </div>
-
-        <div class="question" data-q-start="30" data-q-end="35">
-          <div class="question-prompt">
-            <p><strong>Questions 30–35</strong><br>Complete the summary using the list of words, <strong>A–I</strong>, below.</p>
-          </div>
-          <div class="summary-options-bank" data-dnd-group="summary-30-35">
-            <div class="drag-item" draggable="true" data-value="A" data-dnd-group="summary-30-35">A &nbsp;reliability</div>
-            <div class="drag-item" draggable="true" data-value="B" data-dnd-group="summary-30-35">B &nbsp;funding</div>
-            <div class="drag-item" draggable="true" data-value="C" data-dnd-group="summary-30-35">C &nbsp;skills</div>
-            <div class="drag-item" draggable="true" data-value="D" data-dnd-group="summary-30-35">D &nbsp;prejudices</div>
-            <div class="drag-item" draggable="true" data-value="E" data-dnd-group="summary-30-35">E &nbsp;computers</div>
-            <div class="drag-item" draggable="true" data-value="F" data-dnd-group="summary-30-35">F &nbsp;equality</div>
-            <div class="drag-item" draggable="true" data-value="G" data-dnd-group="summary-30-35">G &nbsp;framework</div>
-            <div class="drag-item" draggable="true" data-value="H" data-dnd-group="summary-30-35">H &nbsp;confidentiality</div>
-            <div class="drag-item" draggable="true" data-value="I" data-dnd-group="summary-30-35">I &nbsp;approval</div>
+          <div class="summary-options-bank" data-dnd-group="summary-27-31">
+            <div class="drag-item" draggable="true" data-value="A" data-dnd-group="summary-27-31">A &nbsp;noise pollution</div>
+            <div class="drag-item" draggable="true" data-value="B" data-dnd-group="summary-27-31">B &nbsp;recycling facilities</div>
+            <div class="drag-item" draggable="true" data-value="C" data-dnd-group="summary-27-31">C &nbsp;green areas</div>
+            <div class="drag-item" draggable="true" data-value="D" data-dnd-group="summary-27-31">D &nbsp;employment opportunities</div>
+            <div class="drag-item" draggable="true" data-value="E" data-dnd-group="summary-27-31">E &nbsp;population growth</div>
+            <div class="drag-item" draggable="true" data-value="F" data-dnd-group="summary-27-31">F &nbsp;affordable housing</div>
+            <div class="drag-item" draggable="true" data-value="G" data-dnd-group="summary-27-31">G &nbsp;antisocial behaviour</div>
+            <div class="drag-item" draggable="true" data-value="H" data-dnd-group="summary-27-31">H &nbsp;public transport</div>
           </div>
           <div class="summary-text" style="margin-top:16px;">
-            <p style="font-weight:700;text-align:center;margin-bottom:12px;">AI in government, medicine and the law</p>
-            <p>Neural networks are a promising area of AI technology for governments. However, many politicians overestimate their capabilities, believing that the mere addition of a neural network will produce solutions and promote <span class="summary-drop-zone" data-q-start="30" data-dnd-group="summary-30-35">30</span>.</p>
-            <p>Most public sector organisations have not set up the necessary <span class="summary-drop-zone" data-q-start="31" data-dnd-group="summary-30-35">31</span> to manage the huge amount of data required to enable AI to function. Complex bureaucracy is another issue, as each person involved needs <span class="summary-drop-zone" data-q-start="32" data-dnd-group="summary-30-35">32</span> to access the relevant data, which is often spread across different departments. But the main problem is that few public sector employees have the <span class="summary-drop-zone" data-q-start="33" data-dnd-group="summary-30-35">33</span> to take full advantage of machine intelligence.</p>
-            <p>The medical profession experimented with an AI programme, but their experts had little faith in its <span class="summary-drop-zone" data-q-start="34" data-dnd-group="summary-30-35">34</span>, and the programme was abandoned. US courts also abandoned the use of algorithms when it was found that these reflected and magnified the existing <span class="summary-drop-zone" data-q-start="35" data-dnd-group="summary-30-35">35</span> within the legal profession.</p>
+            <p><strong>Survey on problems facing city dwellers</strong></p>
+            <p>The World Health Organisation has recently published data concerning
+            <span class="summary-drop-zone" data-q-start="27" data-dnd-group="summary-27-31">27</span>
+            in cities. This data should indicate the governments that they must think about ways to improve the lives of residents. According to a Richmond-Carver survey, the worst problem facing many city dwellers was
+            <span class="summary-drop-zone" data-q-start="28" data-dnd-group="summary-27-31">28</span>.
+            The survey also indicated that in some cities, poor
+            <span class="summary-drop-zone" data-q-start="29" data-dnd-group="summary-27-31">29</span>
+            can impact dramatically on the economy. Another issue seems to be
+            <span class="summary-drop-zone" data-q-start="30" data-dnd-group="summary-27-31">30</span>,
+            although this is more often mentioned by survey participants in European countries. Questions on people's views on the need for
+            <span class="summary-drop-zone" data-q-start="31" data-dnd-group="summary-27-31">31</span>
+            were unfortunately omitted from the survey, but countries like Singapore already seem to be making progress in this respect.</p>
           </div>
         </div>
 
-        <div class="question" data-q-start="36" data-q-end="39">
+        <div class="question" data-q-start="32" data-q-end="35">
           <div class="question-prompt">
-            <p><strong>Questions 36–39</strong><br>Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
+            <p><strong>Questions 32–35</strong><br>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</p>
+          </div>
+          <p style="margin-bottom:8px;"><strong>32</strong> When staying in New York, the writer is frustrated by the fact that</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q32" value="A"> A &nbsp;&nbsp;healthy food cannot easily be obtained.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q32" value="B"> B &nbsp;&nbsp;bad road design causes daily traffic problems.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q32" value="C"> C &nbsp;&nbsp;certain venues cannot be reached by foot.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q32" value="D"> D &nbsp;&nbsp;visitors are all directed to the same kinds of place.</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>33</strong> What point does the writer make about the use of security features?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q33" value="A"> A &nbsp;&nbsp;It greatly reduces levels of criminal activity.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="B"> B &nbsp;&nbsp;It helps create a sense of community.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="C"> C &nbsp;&nbsp;It discourages people from taking exercise.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="D"> D &nbsp;&nbsp;It creates unnecessary fear among residents.</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>34</strong> According to the writer, the problem with some planners and developers is that they</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q34" value="A"> A &nbsp;&nbsp;distrust the use of certain technologies for communication.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="B"> B &nbsp;&nbsp;create buildings using traditional construction methods.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="C"> C &nbsp;&nbsp;tend to put profits before the needs of residents.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="D"> D &nbsp;&nbsp;rely on the opinions of a narrow range of people.</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>35</strong> What is the writer doing in the fifth paragraph?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q35" value="A"> A &nbsp;&nbsp;explaining which construction materials are most sustainable.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="B"> B &nbsp;&nbsp;emphasising the importance of clever design in small spaces.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="C"> C &nbsp;&nbsp;comparing reasons for choosing to live in an unusual building.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="D"> D &nbsp;&nbsp;proposing which specific urban locations should be developed.</label></div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="36" data-q-end="40">
+          <div class="question-prompt">
+            <p><strong>Questions 36–40</strong><br>Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
             <p>Write <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
           </div>
-          <div class="tf-question" data-q-start="36"><div class="tf-question-line"><span class="tf-question-number">36</span><span class="tf-question-text">Stuart Russell's proposals regarding the use of AI are impractical.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q36" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q36" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="37"><div class="tf-question-line"><span class="tf-question-number">37</span><span class="tf-question-text">Rodney Brooks' view has attracted unfair criticism from supporters of AI.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q37" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q37" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="38"><div class="tf-question-line"><span class="tf-question-number">38</span><span class="tf-question-text">Nowadays, the need to protect AI systems is always taken into account when they are set up.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q38" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q38" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-          <div class="tf-question" data-q-start="39"><div class="tf-question-line"><span class="tf-question-number">39</span><span class="tf-question-text">In order to benefit from AI and minimise the harms, we have to explore people's concerns about its use.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q39" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q39" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label></div></div>
-        </div>
-
-        <div class="question" data-q-start="40" data-q-end="40">
-          <div class="question-prompt">
-            <p><strong>Question 40</strong><br>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
-          </div>
-          <p style="margin-bottom:8px;"><strong>40</strong> What would be a suitable subtitle for Reading Passage 3?</p>
-          <div class="single-choice-container">
-            <div class="single-choice"><label><input type="radio" name="q40" value="A"> A &nbsp;&nbsp;How to make the most of what AI has to offer</label></div>
-            <div class="single-choice"><label><input type="radio" name="q40" value="B"> B &nbsp;&nbsp;Why AI may not be the answer to our problems</label></div>
-            <div class="single-choice"><label><input type="radio" name="q40" value="C"> C &nbsp;&nbsp;Why governments should not invest in AI systems</label></div>
-            <div class="single-choice"><label><input type="radio" name="q40" value="D"> D &nbsp;&nbsp;How AI could improve the efficiency of the public sector</label></div>
-          </div>
+          <div class="tf-question" data-q-start="36"><div class="tf-question-line"><span class="tf-question-number">36</span><span class="tf-question-text">City planners should travel to urban areas that are good models of development.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q36" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q36" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="37"><div class="tf-question-line"><span class="tf-question-number">37</span><span class="tf-question-text">It is easier to plan an entirely new neighbourhood than redevelop an existing one.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q37" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q37" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="38"><div class="tf-question-line"><span class="tf-question-number">38</span><span class="tf-question-text">In the future, planners must think about the needs of car drivers as they design urban areas.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q38" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q38" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="39"><div class="tf-question-line"><span class="tf-question-number">39</span><span class="tf-question-text">Cultural venues need to take second place to retail opportunities when developing a neighbourhood.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q39" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q39" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="40"><div class="tf-question-line"><span class="tf-question-number">40</span><span class="tf-question-text">It is important that new housing developments encourage social diversity.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q40" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q40" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label></div></div>
         </div>
       </div><!-- /questions-3 -->
 
@@ -706,8 +648,6 @@ body.dark .active-question { background: #2a2a1a; }
 <script>
 const PASSWORD = '1234';
 let candidateId = '';
-let candidateName = '';
-let candidateDate = '';
 let currentPassage = 1;
 let currentQuestion = 1;
 let timeInSeconds = 3600;
@@ -718,13 +658,16 @@ let savedRange = null;
 let contextTargetEl = null;
 
 const correctAnswers = {
-  '1':'rats','2':'visual','3':'half','4':'temperature','5':'vivid',
-  '6':'TRUE','7':'FALSE','8':'NOT GIVEN','9':'FALSE','10':'TRUE','11':'FALSE','12':'NOT GIVEN','13':'NOT GIVEN',
-  '14':'E','15':'G','16':'C','17':'D','18':'B','19':'A',
-  '20':'B','21':'D',
-  '22':'prosperity','23':'whistles','24':'bodies','25':'ancestors','26':['jewellery','jewelry'],
-  '27':'B','28':'A','29':'C','30':'F','31':'G','32':'I','33':'C','34':'A','35':'D',
-  '36':'NO','37':'NOT GIVEN','38':'NO','39':'YES','40':'B'
+  '1':'TRUE','2':'NOT GIVEN','3':'NOT GIVEN','4':'FALSE','5':'TRUE','6':'FALSE',
+  '7':'feathers','8':'water','9':'hood','10':'shoulder','11':'iron','12':'insulation','13':['spear tips','the spear tips'],
+  '14':'E','15':'B','16':'E','17':'A','18':'B',
+  '19':'blood pressure','20':['obesity crisis','the obesity crisis'],'21':'flu vaccine','22':['aggressive behaviour','aggressive behavior']
+,
+  '23':'D','24':'E',
+  '25':'A','26':'E',
+  '27':'E','28':'F','29':'H','30':'A','31':'C',
+  '32':'A','33':'C','34':'D','35':'B',
+  '36':'YES','37':'NOT GIVEN','38':'NO','39':'NO','40':'YES'
 };
 
 // ---- LOGIN ----
@@ -738,15 +681,11 @@ function submitLogin() {
 }
 
 function submitCandidate() {
-  const name = (document.getElementById('candidate-name-input') || {}).value || '';
-  const date = (document.getElementById('test-date-input') || {}).value || '';
-  const val = name.trim();
+  const val = document.getElementById('candidate-id-input').value.trim();
   if (val.length < 1) { document.getElementById('candidate-error').style.display = 'block'; return; }
   candidateId = val;
-  candidateName = val;
-  candidateDate = date || new Date().toLocaleDateString();
-  document.getElementById('header-candidate-id').textContent = val;
-  document.getElementById('intro-candidate-name').textContent = val;
+  document.getElementById('header-candidate-id').textContent = candidateId;
+  document.getElementById('intro-candidate-name').textContent = candidateId;
   document.getElementById('candidate-screen').style.display = 'none';
   const intro = document.getElementById('intro-screen');
   intro.style.display = 'flex';
@@ -755,7 +694,7 @@ function submitCandidate() {
 
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') submitLogin(); });
-  document.getElementById('candidate-name-input') && document.getElementById('candidate-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitCandidate(); });
+  document.getElementById('candidate-id-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitCandidate(); });
   document.getElementById('back-to-login').addEventListener('click', function() {
     document.getElementById('candidate-screen').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
@@ -867,7 +806,7 @@ function isAnswered(q) {
   const txt = document.getElementById('q' + q);
   if (txt && txt.value && txt.value.trim() !== '') return true;
   if (document.querySelector('input[name="q' + q + '"]:checked')) return true;
-  const cbMap = { 20:'q20-21', 21:'q20-21' };
+  const cbMap = { 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (cbMap[q]) {
     const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
     if (checked >= 2) return true;
@@ -901,7 +840,7 @@ function setupInputListeners() {
 }
 
 function setupCheckboxLimits() {
-  ['q20-21'].forEach(name => {
+  ['q23-24','q25-26'].forEach(name => {
     document.querySelectorAll('input[name="' + name + '"]').forEach(cb => {
       cb.addEventListener('click', function() {
         const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
@@ -1121,10 +1060,10 @@ function getUserAnswer(q) {
   if (txt && (txt.tagName === 'INPUT' || txt.tagName === 'SELECT')) return txt.value.trim();
   const radio = document.querySelector('input[name="q' + q + '"]:checked');
   if (radio) return radio.value;
-  const cbMap = { 20:'q20-21', 21:'q20-21' };
+  const cbMap = { 23:'q23-24', 24:'q23-24', 25:'q25-26', 26:'q25-26' };
   if (cbMap[q]) {
     const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
-    const idx = (q === 20) ? 0 : 1;
+    const idx = (q === 23 || q === 25) ? 0 : 1;
     return vals[idx] || '';
   }
   const dz = document.querySelector('.drop-zone[data-q-start="' + q + '"]');
@@ -1162,12 +1101,12 @@ function downloadPDF() {
   }
   const band = calculateBand(score);
   doc.setFontSize(18); doc.setFont(undefined, 'bold');
-  doc.text('IELTS 21 Test 2 — Reading Results', 105, 20, { align: 'center' });
+  doc.text('IELTS Reading Test Results', 105, 20, { align: 'center' });
   doc.setFontSize(14); doc.setFont(undefined, 'normal');
   doc.text('Score: ' + score + ' / 40', 20, 40);
   doc.text('Band Score: ' + band, 20, 50);
-  doc.text('Candidate: ' + (candidateName || candidateId), 20, 60);
-  doc.text('Date: ' + (candidateDate || new Date().toLocaleDateString()), 20, 70);
+  doc.text('Candidate: ' + candidateId, 20, 60);
+  doc.text('Date: ' + new Date().toLocaleDateString(), 20, 70);
   doc.setFontSize(11);
   doc.setFont(undefined, 'bold');
   doc.text('Q', 20, 90); doc.text('Your Answer', 35, 90); doc.text('Correct', 100, 90); doc.text('Result', 155, 90);
@@ -1184,7 +1123,7 @@ function downloadPDF() {
     if (y > 280) { doc.addPage(); y = 20; }
   });
   doc.setTextColor('#000000');
-  doc.save('IELTS_Reading_' + (candidateName||candidateId).replace(/\s+/g,'_') + '.pdf');
+  doc.save('IELTS_Reading_' + candidateId + '.pdf');
 }
 </script>
 </body>
