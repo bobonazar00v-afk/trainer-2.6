@@ -232,7 +232,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
         <div class="part-header">
           <p><strong>Task 1</strong> — You should spend about 20 minutes on this task. Write at least <strong>150 words</strong>.</p>
         </div>
-        <div class="task-prompt">The diagram below shows the production of olive oil. </strong></p>
+        <div class="task-prompt"<p><strong>The diagram below shows the production of olive oil. </strong></p>
           <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>
         </div>
         <div class="chart-container">
@@ -246,7 +246,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <p><strong>Task 2</strong> — You should spend about 40 minutes on this task. Write at least <strong>250 words</strong>.</p>
         </div>
         <div class="task-prompt">
-          <p><em><strong>2:Some people believe Zoos should be closed but others think that zoos important for rare animals.</strong></em></p>
+          <p><em><strong></strong>Some people believe Zoos should be closed but others think that zoos important for rare animals.</strong></em></p>
           <br/>
           <p><em><strong>Discuss both views and give your opinion.</strong></em></p>
         </div>
@@ -295,7 +295,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 
 <script>
 // ---- STATE ----
-const CORRECT_PASSWORD = '1234';
+const CORRECT_PASSWORD = '5784';
 let candidateId = '';
 let isAuthenticated = false;
 let currentPart = 1;
@@ -496,7 +496,7 @@ function downloadPDF() {
     doc.setFontSize(15); doc.setFont('helvetica','bold');
     doc.text('TASK 1', MARGIN, 52);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q1 = 'The graph below gives information about the percentage of the population in four Asian countries living in cities from 1970 to 2020, with predictions for 2030 and 2040. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
+    const q1 = 'The diagram below shows the production of olive oil. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
     const sq1 = doc.splitTextToSize(q1, PAGE_W);
     let y = 60;
     y = writeLines(sq1, y);
@@ -515,7 +515,7 @@ function downloadPDF() {
     doc.setFontSize(15); doc.setFont('helvetica','bold');
     doc.text('TASK 2', MARGIN, 18);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q2 = 'It is important for children to learn the difference between right and wrong at an early age. Punishment is necessary to help them learn this distinction. To what extent do you agree or disagree with this opinion? What sort of punishment should parents and teachers be allowed to use to teach good behaviour to children?';
+    const q2 = 'Some people believe Zoos should be closed but others think that zoos important for rare animals. Discuss both views and give your opinion.';
     const sq2 = doc.splitTextToSize(q2, PAGE_W);
     y = 26;
     y = writeLines(sq2, y);
