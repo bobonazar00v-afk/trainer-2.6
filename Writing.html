@@ -496,7 +496,7 @@ function downloadPDF() {
     doc.setFontSize(15); doc.setFont('helvetica','bold');
     doc.text('TASK 1', MARGIN, 52);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q1 = 'The diagram below shows the production of olive oil. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
+    const q1 = 'The diagrams below show the life cycle of the silkworm and the stages in the production of silk cloth. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.';
     const sq1 = doc.splitTextToSize(q1, PAGE_W);
     let y = 60;
     y = writeLines(sq1, y);
@@ -515,7 +515,7 @@ function downloadPDF() {
     doc.setFontSize(15); doc.setFont('helvetica','bold');
     doc.text('TASK 2', MARGIN, 18);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
-    const q2 = 'Some people believe Zoos should be closed but others think that zoos important for rare animals. Discuss both views and give your opinion.';
+    const q2 = 'Some people think that the teenage years are the happiest time of most people’s lives. Others think that adult life brings more happiness, in spite of greater responsibility.';
     const sq2 = doc.splitTextToSize(q2, PAGE_W);
     y = 26;
     y = writeLines(sq2, y);
