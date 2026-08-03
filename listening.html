@@ -324,7 +324,7 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
 <div class="intro-screen" id="intro-screen">
   <div class="intro-inner">
     <div class="intro-logo"><img src="logo.png" alt="Logo" onerror="this.innerHTML='🎧'; this.style.fontSize='72px';"/></div>
-    <div class="intro-title">IELTS CRAM MOCK</div>
+    <div class="intro-title">IELTS MOCK</div>
     <div class="intro-subtitle">Listening Test · Academic Module</div>
     <div class="intro-candidate-badge">
       <span class="intro-badge-dot"></span>
@@ -1156,7 +1156,7 @@ function downloadResultsPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   doc.setFontSize(18); doc.setFont(undefined,'bold');
-  doc.text('IELTS Trainer 2 Test 6 Results', 105, 20, { align: 'center' });
+  doc.text('IELTS MOCK RESULTS', 105, 20, { align: 'center' });
   doc.setFontSize(14); doc.setFont(undefined,'normal');
   doc.text('Score: ' + correct + ' / 40', 20, 40);
   doc.text('IELTS Band: ' + band, 20, 50);
@@ -1176,7 +1176,7 @@ function downloadResultsPDF() {
     if (y > 280) { doc.addPage(); y = 20; }
   }
   doc.setTextColor('#000000');
-  doc.save('IELTS_Trainer2_Test6_' + candidateId + '.pdf');
+  doc.save('RESULTS' + candidateId + '.pdf');
 }
 
 // ---- HIGHLIGHT ----
