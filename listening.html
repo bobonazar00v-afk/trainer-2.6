@@ -523,7 +523,7 @@ body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3
             <div class="flow-step">Murray — <span class="drop-zone flow-drop-zone" id="q19"><span class="placeholder">19</span></span></div>
             <div class="flow-step">Lakeside — <span class="drop-zone flow-drop-zone" id="q20"><span class="placeholder">20</span></span></div>
           </div>
-          </div><div class="flow-options" id="flow-options-15-20" style="max-width:650px;">
+          </div><div class="flow-options reusable-options" id="flow-options-15-20" style="max-width:650px;">
             <div class="drag-item" data-value="A" draggable="true"><strong>A</strong> It is likely to be busy.</div>
             <div class="drag-item" data-value="B" draggable="true"><strong>B</strong> It may be unsafe in places.</div>
             <div class="drag-item" data-value="C" draggable="true"><strong>C</strong> It is currently closed to the public.</div>
@@ -974,7 +974,8 @@ function setupInputListeners() {
 
 // ---- DRAG AND DROP ----
 function setupDragAndDrop() {
-  document.querySelectorAll('.drag-item').forEach(item => {
+  // ---- Attach listeners to a single drag-item (used for original items and for clones created later) ----
+  function attachDragItemListeners(item) {
     item.addEventListener('dragstart', function(e) { draggedElement = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); });
     item.addEventListener('dragend', function(e) {
       e.target.classList.remove('dragging');
@@ -983,47 +984,8 @@ function setupDragAndDrop() {
         if (!z.querySelector('.drag-item')) { z.classList.remove('filled'); const ph = z.querySelector('.placeholder'); if (ph) ph.style.display = ''; }
       });
     });
-  });
 
-  document.querySelectorAll('.drop-zone').forEach(zone => {
-    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
-    zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
-    zone.addEventListener('drop', function(e) {
-      e.preventDefault();
-      zone.classList.remove('drag-over');
-      if (!draggedElement) return;
-
-      const src = draggedElement.parentNode;
-      const existing = zone.querySelector('.drag-item');
-
-      if (existing && existing !== draggedElement) {
-        if (src.classList.contains('drop-zone')) {
-          src.appendChild(existing);
-          src.classList.add('filled');
-          const ph = src.querySelector('.placeholder'); if (ph) ph.style.display = 'none';
-        } else {
-          src.appendChild(existing);
-        }
-      }
-
-      // If source was a drop-zone and now empty, remove filled
-      if (src && src.classList && src.classList.contains('drop-zone') && !src.querySelector('.drag-item')) {
-        src.classList.remove('filled');
-        const ph = src.querySelector('.placeholder'); if (ph) ph.style.display = '';
-      }
-
-      zone.appendChild(draggedElement);
-      const ph = zone.querySelector('.placeholder'); if (ph) ph.style.display = 'none';
-      zone.classList.add('filled');
-      updateAnsweredIndicators();
-    });
-  });
-
-  // ---- TOUCH DRAG SUPPORT (mobile) ----
-  let touchDragged = null;
-  let touchClone = null;
-
-  document.querySelectorAll('.drag-item').forEach(item => {
+    // ---- TOUCH DRAG SUPPORT (mobile) ----
     item.addEventListener('touchstart', function(e) {
       touchDragged = item;
       const t = e.touches[0];
@@ -1049,26 +1011,65 @@ function setupDragAndDrop() {
       const target = document.elementFromPoint(t.clientX, t.clientY);
       const zone = target ? target.closest('.drop-zone') : null;
       if (zone) {
-        const src = touchDragged.parentNode;
-        const existing = zone.querySelector('.drag-item');
-        if (existing && existing !== touchDragged) {
-          if (src.classList.contains('drop-zone')) {
-            src.appendChild(existing);
-            src.classList.add('filled');
-          } else {
-            src.appendChild(existing);
-          }
-        }
-        if (src && src.classList && src.classList.contains('drop-zone') && !src.querySelector('.drag-item')) {
-          src.classList.remove('filled');
-          const ph = src.querySelector('.placeholder'); if (ph) ph.style.display = '';
-        }
-        zone.appendChild(touchDragged);
-        const ph = zone.querySelector('.placeholder'); if (ph) ph.style.display = 'none';
-        zone.classList.add('filled');
-        updateAnsweredIndicators();
+        placeItemInZone(touchDragged, zone);
       }
       touchDragged = null;
+    });
+  }
+
+  // ---- Core placement logic shared by mouse drag and touch drag ----
+  function placeItemInZone(draggedItem, zone) {
+    const src = draggedItem.parentNode;
+    const isReusableSource = src && src.classList && src.classList.contains('reusable-options');
+
+    let itemToPlace = draggedItem;
+    if (isReusableSource) {
+      // Clone instead of moving the original, so the option stays available for reuse
+      itemToPlace = draggedItem.cloneNode(true);
+      itemToPlace.classList.remove('dragging');
+      itemToPlace.dataset.cloned = '1';
+      attachDragItemListeners(itemToPlace);
+    }
+
+    const existing = zone.querySelector('.drag-item');
+    if (existing && existing !== itemToPlace) {
+      if (existing.dataset.cloned === '1') {
+        // Discard displaced clone; the original remains in the reusable options pool
+        existing.remove();
+      } else {
+        src.appendChild(existing);
+        if (src.classList.contains('drop-zone')) {
+          src.classList.add('filled');
+          const ph = src.querySelector('.placeholder'); if (ph) ph.style.display = 'none';
+        }
+      }
+    }
+
+    // If source was a drop-zone and is now empty, restore its placeholder
+    if (src && src.classList && src.classList.contains('drop-zone') && !src.querySelector('.drag-item')) {
+      src.classList.remove('filled');
+      const ph = src.querySelector('.placeholder'); if (ph) ph.style.display = '';
+    }
+
+    zone.appendChild(itemToPlace);
+    const ph = zone.querySelector('.placeholder'); if (ph) ph.style.display = 'none';
+    zone.classList.add('filled');
+    updateAnsweredIndicators();
+  }
+
+  let touchDragged = null;
+  let touchClone = null;
+
+  document.querySelectorAll('.drag-item').forEach(item => attachDragItemListeners(item));
+
+  document.querySelectorAll('.drop-zone').forEach(zone => {
+    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', function() { zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if (!draggedElement) return;
+      placeItemInZone(draggedElement, zone);
     });
   });
 }
