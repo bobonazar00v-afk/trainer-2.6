@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -393,7 +392,7 @@ body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3
       <p style="font-size:13px; color:#856404; margin:0;">⚠️ Once started, the audio <strong>cannot be paused, rewound or replayed.</strong></p>
     </div>
     <audio id="global-audio-player"
-      src="https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_1.wav"
+      src="audio.mp3"
       preload="auto"
       controls
       controlsList="nodownload nofullscreen noremoteplayback"
@@ -423,7 +422,7 @@ body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3
   </div>
 </div>
 
-<audio id="global-audio-player" src="https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_1.wav" preload="auto" style="display:none;"></audio>
+<audio id="global-audio-player" src="audio.mp3" preload="auto" style="display:none;"></audio>
 
 <!-- MAIN -->
 <div class="main-container" id="main-container">
@@ -744,14 +743,7 @@ body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3
 
 <script>
 const PASSWORD = '1234';
-const AUDIO_SRC = 'https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_1.wav';
-const AUDIO_PARTS = [
-  'https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_1.wav',
-  'https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_2.wav',
-  'https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_3.wav',
-  'https://engnovate.com/wp-content/uploads/2026/05/ielts_trainer_2_academic_listening_test_5_4.wav'
-];
-let audioPartIndex = 0;
+const AUDIO_SRC = 'audio.mp3';
 
 let currentPart = 1;
 let currentQuestion = 1;
@@ -862,15 +854,9 @@ function nextPart() { if (currentPart < 4) switchToPart(currentPart + 1); }
 // ---- AUDIO (hidden, no UI) ----
 const audioEl = document.getElementById('global-audio-player');
 
-// Автосабмит когда аудио закончилось (после проигрывания всех 4 частей)
+// Автосабмит когда аудио закончилось
 audioEl.addEventListener('ended', function() {
-  if (audioPartIndex < AUDIO_PARTS.length - 1) {
-    audioPartIndex++;
-    audioEl.src = AUDIO_PARTS[audioPartIndex];
-    audioEl.play();
-  } else {
-    submitTest();
-  }
+  submitTest();
 });
 
 // Блокируем паузу и перемотку после старта теста
