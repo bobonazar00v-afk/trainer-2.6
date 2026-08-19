@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading Test 4</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #fff; line-height: 1.5; font-size: 15px; }
+@keyframes cardIn { from { opacity:0; transform:translateY(24px) scale(.97); } to { opacity:1; transform:none; } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.4);opacity:.7;} }
+@keyframes flash { 0%{background:#e6f4ff;} 100%{background:transparent;} }
+.login-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:flex; justify-content:center; align-items:center; z-index:10000; }
+.login-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:400px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.login-logo img { width:130px; height:130px; object-fit:contain; margin-bottom:24px; }
+.login-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:6px; font-weight:700; }
+.login-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.form-group { margin-bottom:18px; text-align:left; }
+.form-group label { display:block; margin-bottom:7px; color:#444; font-size:13px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
+.form-group input { width:100%; padding:12px 16px; border:2px solid #e8ecf0; border-radius:10px; font-size:15px; box-sizing:border-box; background:#f9fafb; }
+.form-group input:focus { outline:none; border-color:#0f3460; background:#fff; }
+.login-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:8px; }
+.error-message { color:#e53e3e; font-size:13px; margin-top:10px; display:none; }
+.candidate-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; }
+.candidate-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:450px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.candidate-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:8px; font-weight:700; }
+.candidate-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.candidate-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:18px; }
+.back-button { background:none; color:#999; border:none; padding:10px 20px; font-size:13px; cursor:pointer; margin-top:12px; width:100%; }
+.intro-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; }
+.intro-inner { text-align:center; color:white; padding:40px; max-width:700px; }
+.intro-logo { margin-bottom:32px; opacity:0; animation:fadeUp .6s .2s forwards; }
+.intro-logo img { width:130px; height:130px; object-fit:contain; filter:brightness(0) invert(1); }
+.intro-title { font-size:42px; font-weight:800; letter-spacing:-1px; margin-bottom:10px; opacity:0; animation:fadeUp .6s .4s forwards; }
+.intro-subtitle { font-size:16px; color:rgba(255,255,255,.6); margin-bottom:48px; opacity:0; animation:fadeUp .6s .6s forwards; }
+.intro-candidate-badge { display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:50px; padding:10px 24px; font-size:15px; color:white; margin-bottom:48px; opacity:0; animation:fadeUp .6s .8s forwards; }
+.intro-badge-dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 1.5s infinite; }
+.intro-cards { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; opacity:0; animation:fadeUp .6s 1s forwards; }
+.intro-card { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:20px 24px; min-width:140px; }
+.intro-card-num { font-size:32px; font-weight:800; color:#60a5fa; }
+.intro-card-label { font-size:12px; color:rgba(255,255,255,.5); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+.intro-btn { background:white; color:#0f3460; border:none; padding:16px 52px; font-size:16px; font-weight:800; border-radius:50px; cursor:pointer; opacity:0; animation:fadeUp .6s 1.2s forwards; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+.completion-screen { position:fixed; inset:0; background:#fff; display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; text-align:center; padding:20px; }
+.completion-screen h2 { font-size:28px; margin-bottom:20px; }
+.restart-btn { background:#dc2626; color:white; border:none; padding:14px 30px; font-size:16px; font-weight:600; border-radius:8px; cursor:pointer; text-decoration:none; display:inline-block; }
+.header { background:#fff; padding:0 20px; border-bottom:1px solid #e0e0e0; display:none; justify-content:space-between; align-items:center; position:fixed; top:0; left:0; right:0; z-index:100; height:70px; }
+.header-logo img { width:130px; height:56px; object-fit:contain; }
+.timer-display { font-size:16px; font-weight:600; color:#333; }
+.timer-warning { color:#e53e3e !important; }
+.header-right { display:flex; align-items:center; gap:12px; }
+#dark-toggle { background:none; border:1px solid #ccc; border-radius:6px; padding:5px 10px; cursor:pointer; font-size:18px; }
+#logout-btn { background:#e74c3c; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; }
+#candidate-label { color:#333; font-size:13px; font-weight:500; }
+.main-container { margin-top:70px; display:none; height:calc(100vh - 70px); flex-direction:column; }
+.part-header-bar { background:#f1f2ec; padding:10px 20px; border-bottom:1px solid #e0e0e0; font-size:14px; flex-shrink:0; }
+.panels-container { display:flex; flex:1; overflow:hidden; }
+.passage-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; }
+.resizer { width:8px; cursor:col-resize; background:#f0f0f0; background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30"><path d="M3 10h2v2H3zM3 14h2v2H3zM3 18h2v2H3z" fill="%23aaa"/></svg>'); background-repeat:no-repeat; background-position:center; flex-shrink:0; }
+.questions-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; border-left:1px solid #e0e0e0; }
+.reading-passage h4 { font-size:19px; font-weight:bold; margin-bottom:15px; text-align:center; }
+.reading-passage p { margin-bottom:1.1em; }
+.question { margin-bottom:36px; }
+.question-prompt { margin-bottom:18px; }
+.answer-input { border:1px solid #888; border-radius:4px; background:#fff; padding:2px 8px; font-size:14px; height:28px; width:150px; }
+.answer-input:focus { outline:none; border-color:#4a90e2; box-shadow:0 0 0 2px rgba(74,144,226,.2); }
+.answer-input::placeholder { color:#999; font-weight:bold; text-align:center; }
+select.answer-input { width:auto; min-width:80px; cursor:pointer; }
+.tf-question { margin-bottom:22px; }
+.tf-question-line { display:flex; align-items:flex-start; margin-bottom:10px; gap:10px; }
+.tf-question-number { border:2px solid #ccc; padding:2px 8px; border-radius:3px; font-weight:bold; white-space:nowrap; }
+.tf-options { padding-left:0; }
+.tf-option { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#fff; cursor:pointer; transition:background .15s; }
+.tf-option:hover { background:#f8fafc; }
+.tf-option:has(input[type="radio"]:checked) { background:#dbeafe; font-weight:600; }
+.single-choice-container { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.single-choice label { display:block; padding:10px 14px; background:#fff; cursor:pointer; border:1px solid #eee; border-radius:4px; }
+.single-choice label:hover { background:#eef5fd; }
+.single-choice label:has(input[type="radio"]:checked) { background:#cfe3f6; border-color:#4a90e2; }
+.matching-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.matching-question-container { display:flex; flex-direction:column; gap:12px; margin-top:15px; }
+.matching-question-item { display:flex; align-items:center; gap:15px; padding:6px 0; }
+.matching-question-item > span { flex:1; font-size:14px; }
+.summary-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.summary-text { font-size:14px; line-height:2; }
+.drag-item { background:white; border:1px solid #9c9c9c; font-weight:600; padding:4px 10px; border-radius:4px; cursor:move; font-size:13px; transition:all .2s; user-select:none; display:inline-block; }
+.drag-item:hover { background:#e9ecef; }
+.drag-item.dragging { opacity:.5; }
+.drop-zone { border:2px dashed #aaa; border-radius:4px; min-height:32px; min-width:60px; padding:3px 6px; display:inline-flex; align-items:center; justify-content:center; font-weight:bold; color:#aaa; vertical-align:middle; transition:background .2s,border-color .2s; }
+.drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+.drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone { display:inline-flex; min-width:60px; min-height:28px; border:2px dashed #aaa; border-radius:4px; padding:2px 6px; align-items:center; justify-content:center; font-weight:bold; color:#aaa; vertical-align:middle; transition:background .2s,border-color .2s; }
+.summary-drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+.notes-box { border:1px solid #333; padding:12px 16px; margin:8px 0; background:#fefefe; }
+.nav-row { position:fixed; bottom:0; left:0; right:0; background:#fff; padding:0; display:none; align-items:center; height:80px; z-index:100; overflow-x:auto; overflow-y:hidden; white-space:nowrap; border-top:1px solid #e0e0e0; }
+.footer__questionWrapper___1tZ46 { display:inline-flex; align-items:center; margin-right:15px; flex-shrink:0; }
+.footer__questionNo___3WNct { background:none; border:none; padding:10px 15px; font-size:16px; font-weight:600; color:#333; cursor:pointer; display:flex; align-items:center; gap:5px; }
+.footer__questionNo___3WNct:hover { background:#f8f9fa; }
+.footer__questionWrapper___1tZ46.selected .footer__questionNo___3WNct { border-bottom:3px solid #333; }
+.footer__subquestionWrapper___9GgoP { display:none; gap:2px; margin-left:6px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display:flex; }
+.sectionNr { font-size:16px; font-weight:bold; }
+.attemptedCount { font-size:13px; color:#666; margin-left:5px; }
+.subQuestion { background:none; border:1px solid #ccc; border-radius:3px; padding:5px 8px; font-size:13px; cursor:pointer; color:#555; transition:all .2s; }
+.subQuestion:hover { background:#f0f0f0; }
+.subQuestion.active { background:#333; color:white; border-color:#333; }
+.subQuestion.answered { background:#e8f4e8; border-color:#28a745; color:#155724; }
+.subQuestion.answered.active { background:#28a745; color:white; }
+.nav-arrows { position:fixed; bottom:100px; right:20px; display:none; gap:5px; z-index:101; }
+.nav-arrow { width:50px; height:50px; background:#333; color:white; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:bold; }
+.nav-arrow:hover { background:#555; }
+.nav-arrow:disabled { background:#ccc; cursor:not-allowed; }
+.context-menu { position:fixed; background:white; border:none; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.18); z-index:3000; display:none; min-width:160px; overflow:hidden; }
+.context-menu-item { padding:13px 18px; cursor:pointer; font-size:14px; font-weight:500; display:flex; align-items:center; gap:10px; color:#333; transition:background .12s; }
+.context-menu-item:hover { background:#f0f4ff; }
+.highlight { background:#ffe066; border-radius:2px; cursor:pointer; padding:0 1px; }
+.highlight:hover { background:#ffd000; }
+.comment-highlight { background:#90EE90; position:relative; cursor:help; }
+.comment-tooltip { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); background:#333; color:white; padding:6px 10px; border-radius:4px; font-size:12px; white-space:nowrap; z-index:1000; opacity:0; pointer-events:none; transition:opacity .2s; }
+.comment-highlight:hover .comment-tooltip { opacity:1; }
+.active-question { background:#fffbe6; border-radius:4px; }
+.flash { animation:flash 1s ease-out; }
+.submit-btn-fixed { position:fixed; bottom:20px; right:20px; background:#dc3545; color:white; border:none; padding:14px 28px; border-radius:8px; font-size:15px; font-weight:700; cursor:pointer; z-index:200; display:none; box-shadow:0 4px 18px rgba(220,53,69,.45); }
+.submit-btn-fixed:hover { background:#c82333; transform:translateY(-2px); }
+
+/* DARK */
+body.dark { background:#121212; color:#e0e0e0; }
+body.dark .header { background:#1e1e1e; border-bottom-color:#333; }
+body.dark .part-header-bar { background:#2a2a2a; border-color:#3a3a3a; color:#e0e0e0; }
+body.dark .passage-panel,.dark .main-container,.dark .panels-container { background:#121212; }
+body.dark .questions-panel { background:#121212; border-left-color:#333; color:#d0d0d0; }
+body.dark .reading-passage { color:#d0d0d0; }
+body.dark .reading-passage h4 { color:#fff; }
+body.dark .answer-input { background:#2a2a2a; border-color:#555; color:#e0e0e0; }
+body.dark select.answer-input { background:#2a2a2a !important; color:#e0e0e0 !important; border-color:#555 !important; }
+body.dark select.answer-input option { background:#2a2a2a; color:#e0e0e0; }
+body.dark .tf-option { background:#1e1e1e; color:#e0e0e0; }
+body.dark .tf-option:hover { background:#2a2a2a; }
+body.dark .tf-option:has(input[type="radio"]:checked) { background:#2d4a2d; color:#a0e0a0; }
+body.dark .single-choice label { background:#1e1e1e; color:#e0e0e0; border-color:#333; }
+body.dark .single-choice label:hover { background:#2a2a2a; }
+body.dark .single-choice label:has(input[type="radio"]:checked) { background:#2d4a2d; color:#a0e0a0; }
+body.dark .matching-options-bank,.dark .summary-options-bank { background:#1e1e2a !important; border-color:#3a3a5a !important; }
+body.dark .drag-item { background:#2a2a2a; border-color:#555; color:#e0e0e0; }
+body.dark .drop-zone { border-color:#555; }
+body.dark .drop-zone.filled { border-color:#4a90e2; color:#e0e0e0; }
+body.dark .summary-drop-zone { border-color:#555; color:#888; }
+body.dark .summary-drop-zone.filled { border-color:#4a90e2; color:#e0e0e0; }
+body.dark .notes-box { background:#1e1e2a !important; border-color:#3a3a5a !important; color:#d0d0d0 !important; }
+body.dark .notes-box h3 { color:#a0b8e0 !important; }
+body.dark .notes-box p, body.dark .notes-box li { color:#d0d0d0 !important; }
+body.dark div[style*="background:#fefefe"] { background:#1e1e2a !important; border-color:#3a3a5a !important; color:#d0d0d0 !important; }
+body.dark div[style*="background:#f9f9f9"] { background:#1e1e2a !important; border-color:#3a3a5a !important; }
+body.dark .question { background:#1a1a1a; }
+body.dark table { background:#1a1a1a; border-color:#3a3a3a; }
+body.dark th { background:#252525 !important; color:#b0b0b0 !important; border-color:#3a3a3a !important; }
+body.dark td { background:#1a1a1a !important; color:#d0d0d0 !important; border-color:#2e2e2e !important; }
+body.dark .nav-row { background:#1e1e1e; border-top-color:#333; }
+body.dark .footer__questionNo___3WNct { color:#ccc; }
+body.dark .subQuestion { background:#2a2a2a; border-color:#444; color:#aaa; }
+body.dark .subQuestion.active { background:#555; border-color:#555; color:white; }
+body.dark .subQuestion.answered { background:#1a3a1a; border-color:#2a6a2a; color:#7ecf8e; }
+body.dark .subQuestion.answered.active { background:#2a6a2a; color:white; }
+body.dark .context-menu { background:#2a2a2a; }
+body.dark .context-menu-item { color:#e0e0e0; }
+body.dark .context-menu-item:hover { background:#333; }
+body.dark .nav-arrow { background:#2a2a2a; }
+body.dark .nav-arrow:disabled { background:#1e1e1e; color:#555; }
+body.dark #dark-toggle { border-color:#4a5a7a; background:#2a3a5a; }
+body.dark .highlight { background:#7c4dff55; color:#e0e0e0; }
+body.dark .active-question { background:#2a2a1a; }
+body.dark .timer-display { color:#e0e0e0; }
+body.dark #candidate-label { color:#ccc; }
+body.dark .completion-screen { background:#121212; color:#e0e0e0; }
+body.dark .tf-question-number { color:#7aa0e0; }
+body.dark .summary-text { color:#d0d0d0; }
+body.dark .summary-text p { color:#d0d0d0; }
+body.dark div[style*="display:flex;align-items:center;gap:10px"] { color:#d0d0d0 !important; }
+
+.hidden { display:none !important; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-content">
+    <div class="login-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+    <h1>IELTS Academic</h1>
+    <p class="subtitle">Reading Test — Enter your password to continue</p>
+    <div class="form-group">
+      <label for="password">Exam Password</label>
+      <input id="password" type="password" placeholder="Enter exam password"/>
+    </div>
+    <button class="login-button" onclick="submitLogin()">Continue →</button>
+    <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- CANDIDATE -->
+<div class="candidate-screen" id="candidate-screen">
+  <div class="candidate-content">
+    <h1>Candidate Details</h1>
+    <p class="subtitle">Please enter your name and test date</p>
+    <div class="form-group" style="text-align:left;margin-bottom:14px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;text-transform:uppercase;">Full Name</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;background:#f9fafb;box-sizing:border-box;outline:none;" id="candidate-name-input" type="text" placeholder="e.g. Azizbek Toshmatov"/>
+    </div>
+    <div class="form-group" style="text-align:left;margin-bottom:20px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;text-transform:uppercase;">Test Date</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;background:#f9fafb;box-sizing:border-box;outline:none;" id="test-date-input" type="date"/>
+    </div>
+    <button class="candidate-button" onclick="submitCandidate()">Confirm &amp; Proceed →</button>
+    <button class="back-button" id="back-to-login">← Back</button>
+    <div class="error-message" id="candidate-error">Please enter your full name.</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro-screen" id="intro-screen">
+  <div class="intro-inner">
+    <div class="intro-logo"><img src="logo.png" alt="Logo" onerror="this.textContent='📖';this.style.fontSize='72px';"/></div>
+    <div class="intro-title">IELTS CRAM MOCK</div>
+    <div class="intro-subtitle">Reading Test · Academic Module</div>
+    <div class="intro-candidate-badge">
+      <span class="intro-badge-dot"></span>
+      <span id="intro-candidate-name"></span>
+      <span style="color:rgba(255,255,255,.4)">·</span>
+      <span style="color:rgba(255,255,255,.5);font-size:13px;">Verified</span>
+    </div>
+    <div class="intro-cards">
+      <div class="intro-card"><div class="intro-card-num">3</div><div class="intro-card-label">Passages</div></div>
+      <div class="intro-card"><div class="intro-card-num">40</div><div class="intro-card-label">Questions</div></div>
+      <div class="intro-card"><div class="intro-card-num">60<span style="font-size:18px;color:rgba(96,165,250,.7)">min</span></div><div class="intro-card-label">Duration</div></div>
+    </div>
+    <button class="intro-btn" id="start-test-btn">Start Test</button>
+  </div>
+</div>
+
+<!-- COMPLETION -->
+<div class="completion-screen" id="completion-screen">
+  <h2>Reading section ended</h2>
+  <a class="restart-btn" href="Writing.html">Please move to writing section</a>
+</div>
+
+<!-- HEADER -->
+<div class="header" id="main-header">
+  <div class="header-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+  <div><span class="timer-display" id="timer-display">60:00</span></div>
+  <div class="header-right">
+    <span id="candidate-label">Candidate: <span id="header-candidate-id"></span></span>
+    <button id="dark-toggle" title="Toggle dark mode">🌙</button>
+    <button id="logout-btn">Logout</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-container" id="main-container">
+  <div id="part-header-bar" class="part-header-bar"><strong>Part 1</strong> — Read the text and answer questions 1–13.</div>
+  <div class="panels-container">
+    <div class="passage-panel" id="passage-panel">
+
+      <!-- PASSAGE 1 -->
+      <div id="passage-text-1" class="reading-passage">
+        <h4>The Romans Reveal their Secrets</h4>
+        <p>As Katherine Sheen rested on the banks of Hensham river on 3 August 2005, her gaze fell upon a small dirt-covered object amongst a tangle of tree roots. Cleaning away the soil, she realized it was a leather pouch. It fell apart as Katherine opened it, and the items inside fell to the ground. Although her university degree merely touched on the Roman occupation of ancient Britain, providing a very general overview of everyday activities, once she'd rubbed off some the dirt, Katherine immediately identified the coins in her hand as coming from that era. Despite their discoloration, Katherine had no doubt they were historically significant. As soon as she got home, she informed the police of her find.</p>
+        <p>That might have been the end of the story – except for the fact that the farmer who owned adjacent field then mentioned the lines of large stones his plough kept running into. By mid-August, with the farmer's permission, a team of archaeologists, led by Professor Kevin Durrand, were camped out in the field. Durrand had previously worked on other projects where pieces of ancient pottery and the discovery of an old sword had led archaeologists to unearth sizeable Roman settlements. He was keen to start excavations at Hensham, and had got funding for a three-month dig. What his team eventually discovered, three weeks into excavations, were the remains of the outer walls of a Roman villa. As many Romans in Britain simply lived in wooden houses with thatched roofs, the family that occupied the villa must have been very wealthy. As the team continued their work, they looked for evidence that might indicated whether the villa had been attacked and purposely demolished, or fallen into such a poor state that it eventually collapsed. Looking at the way a set of slate roof tiles had fallen to the ground, they decided on the latter. What caused the noble Roman family and their servants to abandon the villa remains open to speculation. Another find was six blue beads, crafted from glass, which the archaeologists speculated were part of a necklace. Durrand has previously found gold bracelets on other sites, but for him the beads are no less significant. 'Every find contributes to the story', he says.</p>
+        <p>On the outer western wall, the archaeologists uncovered number of foundation stones. On one is carved what the archaeologists made out to be a Latin inscription. But as the stone itself has endured centuries of erosion, the team has yet to work out what it says. Another find was a section of traditional Roman mosaic. Although incomplete, enough pieces remain to show a geometrical pattern and stylized fish. From this, Durrand assumes that a bath house would have been a feature of the villa. While his team have so far not found any hard proof of this, Durrand is confident it will turn out to be the case.</p>
+        <p>Something that team particularly excited about is evidence of a heating system, which would have served the Roman family and their visitors well in winter months. Although much of the system has long since crumbled at Hensham, Durrand and his team believe it would have been based on a typical Roman hypocaust; they have created a model for visitors to see. The furnace that produced the hot air needed to be kept burning all the time, a task that would have fallen to the villa's slaves. As large branches would have taken too long to produce the heat required, it is more likely that twigs would have been gathered from surrounding woodland instead. Another fuel source used in some Roman hypocausts was charcoal, but evidence for this at Hensham has not presented itself. The underfloor space was made by setting the floor on top of piles of square stones. Known as <em>pilae</em>, these stones stood approximately two feet high. The gap this created meant that the hot air coming out of the furnace was not trapped and restricted. Instead its distribution around the <em>pilae</em> and under the floor was free flowing. Floor tiles were not placed directly onto the <em>pilae</em> but separated by a layer of concrete, or at least a primitive version of it. This would have made the whole structure more solid, and helped reduce the risk of fire spreading to upper levels. The walls of the rooms above heating system were made of bricks, but the key point here is that they were hollow, in order to allow heat to rise around the rooms and provide insulation. Some have been recovered from the Hensham villa and are now undergoing preservation treatment.</p>
+        <p>Another feature of the heating system that archaeologists have identified at Hensham was its clay pipes. These were cleverly built into the wall so as not to take up space. The principal reason for including the pipes was to let out air through a vent in the roof once it had cooled down. What the Romans may not have realised, however, was that gas produced by the burning fuel was expelled in this way too. In high doses, it could have been lethal if it had leaked into the upper levels. Inside the rooms in the villa, a layer of plaster would have been applied to the walls and painted in rich colours. Sadly, none of the original plaster at Hensham still exists. However, some of the tiles that the family would have walked on have survived. They would certainly have felt warm underfoot and helped generate an indoor climate that the family could relax in. In its day, the Hensham hypocaust would have been a remarkable piece of engineering.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-text-2" class="reading-passage hidden">
+        <h4>The Truth about Lying</h4>
+        <p><strong>A</strong>&nbsp;&nbsp;An area of scientific study that caught the public imagination during the 1970s involved a gorilla called Koko. Animal psychologist Francine Patterson claimed to have taught Koko a simplified form of American Sign Language, and through signing, Koko could apparently communicate basic ideas such as 'food' and 'more', as well as concepts such as 'good' and 'sorry'. But Koko also used signs to blame other people for damage she had caused herself. While today there is some dispute about whether Koko truly understood the meaning of all the signs she made, Professor Karen Goodger believes she was certainly capable of dishonesty. 'People use words to lie, but for animals with higher brain functions, there's also a higher probability that they'll demonstrate manipulative behaviours. We see this not just in gorillas, but in other creatures with a large neocortex.'</p>
+        <p><strong>B</strong>&nbsp;&nbsp;Human societies may appear to disapprove of lying, but that doesn't mean we don't all do it. And it seems that the ability, or at least the desire to deceive, starts from an early age. In one study run by psychologist Kang Lee, children were individually brought into a laboratory and asked to face a wall. They were asked to guess what toy one of Lee's fellow researchers had placed on a table behind them – for example, a fluffy cat or dog. The researcher would then announce they had to leave the lab to take a phone call, reminding the child not to turn around. The research team were well aware that many children would be unable to resist peeking at the toy. Secret cameras showed that 30% of two-year-old children lied about not looking. This went up to 50% for three-year-olds and almost 80% of eight-year-olds. Interestingly, whereas the younger children simply named the toy and denied taking a peek, the older ones came up with some interesting reasons to explain how they had identified the toy correctly. Lee is reassured by this trend, seeing it as evidence in each case that the cognitive growth of a human child is progressing as it should. Parents, of course, may not be so pleased.</p>
+        <p><strong>C</strong>&nbsp;&nbsp;Adults, however, can hardly criticise children. According to Professor Richard Wiseman, it appears that adults typically tell two major lies per day, and that one third of adult conversations contain an element of dishonesty. Other research indicates that spouses lie in one out of every 10 interactions. This probably comes as no surprise to Tali Sharot at University College London, who has run a series of experiments proving we become desensitised to lying over time. She has found that while we might initially experience a sense of shame about small lies, this feeling eventually wears off. The result, Sharot has found, is that we progress to more serious ones.</p>
+        <p><strong>D</strong>&nbsp;&nbsp;Other researchers, including Tim Levine at the University of Alabama, have analysed our motives for lying. By far the most common is our desire to cover up our own wrongdoing. Second to this are lies we tell to gain economic advantage – we might lie during an interview to increase the chances of getting a job. Interestingly, 'white lies', the kind we tell to avoid hurting people's feelings, account only for a small percentage of our untruths. But if we recognise our own tendency to lie, why don't we recognise it in others? Professor Goodger thinks it has something to do with our strong desire for certain information we hear to be true, even when we might suspect it isn't. This is because we might be 'comforted by others' lies or excited by the promise of a good outcome', Goodger says.</p>
+        <p><strong>E</strong>&nbsp;&nbsp;We might not expect ordinary people to be good at recognising lies, but what about people whose job it is to investigate the behavior of others? Paul Erkman is a psychologist from the University of California. As part of his research into deception, he has invited a range of experts to view videos of people telling lies and of others telling the truth. Among the experts have been judges, psychiatrists and people who operate polygraph machines for police investigations. None of these experts have shown they can detect dishonestly any better than people without their experience. Part of the problem is that so many myths still prevail about 'give-away signs' indicating that someone is lying.</p>
+        <p><strong>F</strong>&nbsp;&nbsp;A common claim, for example, is that liars won't look people in the eye during their explanations or while being questioned. Another is that they are likely to gesture as they tell their story, but so frequently that it seems unnatural – as if they are trying to convince others of their sincerity. However, many researchers have come to reject these ideas, suggesting a more effective approach is to listen to their narration style. A difficulty that liars face is having to remember exactly what they said, which is why they don't provide as many details as a person giving an honest account would. It is also typical of liars to mentally rehearse their story, and this is why one stage follows another in apparently chronological fashion. Honest stories, however, feature revisions and repetition. Recent research has also disproved the widely believed notion that liars have a habit of fidgeting in their seats. Rather, it seems that they keep still, especially in the upper body, possibly hoping to give the impression of self-assurance. Liars also put some psychological distance between themselves and their lies. For that reason, they avoid the use of 'I' when narrating their stories. The reverse is true, however, when people write fake reviews, say, of a hotel or restaurant. In these instances, 'I' features again and again as they attempt to convince us that their experience was real.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-text-3" class="reading-passage hidden">
+        <h4>Review: The Hidden Life of Trees by Peter Wohlleben</h4>
+        <p>That so many copies of Peter Wohlleben's book <em>The Hidden Life of Trees</em> have been sold is no surprise. Life in the urban jungle can be overwhelming, and many of us long to escape by seeing more natural environments. We hope an encounter with nature might make us feel more 'alive'. Would we use this same term to describe nature itself, though? Forests and the trees that form them are commonly perceived as objects lacking awareness, like rocks or stones. But here, Wohlleben would beg to differ. From his observations, he has concluded that they are conscious in a way we do not fully understand.</p>
+        <p>In recent decades, a number of writers have investigated our planet's flora. <em>The Cabaret of Plants</em> by Richard Mabey and <em>What a Plant Knows</em> by Daniel Chamovitz, for example, have done much to reformulate our views about the green world. Central to many of these books is a serious message about sustainability, and <em>The Hidden Life of Trees</em> is no exception. What sets it apart is its approach to description: Wohlleben announces that when you know that trees have memories and that tree parents live together with their children, then you can no longer just chop them down. Not everyone will be comfortable with this kind of anthropomorphism.</p>
+        <p>Nevertheless, Wohlleben's experience of working in a beech forest in the Eifel mountains of Germany may put him in a better position than many to write a book about trees. In the introduction, he explains that he started out as a state-employed forester, taking care of trees purely for industrial reasons. The straighter they were, the more high-quality logs could be sawn. But after a while he began to appreciate trees for more than just their commercial worth. He gives some of the credit for this realisation to the tourists that would come to the forest, who were more enchanted by bent, crooked trees, which did not conform to the straight ideal.</p>
+        <p>An anecdote that stands out is Wohlleben's encounter with the gnarled remains of an enormous tree stump in the Eifel forest. More than anything else, it was this encounter that prompted him to look further into the hidden behaviour of trees. To his surprise, after scraping at the outside layer of bark covering the stump, he discovered a green layer underneath. This was chlorophyll, the pigment normally produced by living trees. Wohlleben realised that the only way the stump could still be alive was if the surrounding beeches were providing it with a sugar solution through their own roots.</p>
+        <p>Wohlleben is not the first person to claim that trees are cooperative. In the 1990s, Dr Suzanne Simard realised that fir and birch trees were supplying each other with carbon. Simard's findings made complete sense to Wohlleben, who believes that this kind of nutrient exchange between neighbours is typical of a healthy forest. Wohlleben also had the opportunity to deepen his understanding of tree biology when researchers from Aachen University set up investigative programmes in his beech forest. Discussions with them reinforced his beliefs about the way trees thrived, and Wohlleben eventually found himself strongly opposed to some traditional forestry practices. He finally succeeded in persuading local villagers that the forest should be allowed to return to a natural state: this involved banning the use of machinery for logging, and giving up on pesticides for a start. Since then, Wohlleben has been noting how his beech forest has developed, and his observations formed the foundation for the book. Humour and straightforward narrative make it instantly appealing to readers without a science background – elements that have successfully been translated into over a dozen languages. Those that do have scientific training, however, will be more demanding. Critics of Wohlleben point out that proper academic studies need to be done to prove all his claims are factually accurate. This seems a fair point. What the book will certainly do is transform nature lovers' experiences of a forest walk. Once you know what is happening below ground, you can't help but marvel at the complex life of trees. Will it transform the way we produce timber for the manufacturing industry? As large corporations tend to focus on immediate profits, they are hardly likely to adopt the longer-term practices that Wohlleben recommends.</p>
+        <p>One of these is allowing trees to grow nearer to each other. This is the opposite of what happens in many state-owned forests, where foresters deliberately space out trees so they can get more sunlight and grow faster. But Wohlleben claims this spacing prevents vital root interaction, and so lowers resistance to drought. Older, established trees, he explains, draw up moisture through their deep roots and provide this to juvenile trees. The role of fungi is also given attention. For instance, when pines require more nitrogen, the fungi growing at their base release a poison into the soil. This poison kills many minute organisms, which release nitrogen as they die, and this is absorbed by the trees' roots. In return, the fungi receive photosynthesised sugar from pines. Then Wohlleben explores the way trees employ scent, giving the example of acacia trees in sub-Saharan Africa. When giraffes begin feeding on an acacia's leaves, the tree emits ethylene gas as a warning to neighbouring acacias. These then pump tannins into their leaves – substances toxic to giraffes. More controversial is Wohlleben's suggestion that trees feel pain. Although scientific research has now established that if branches are broken off or the trunk is hit with an axe, a tree will emit electrical signals from the site of the wound, the application of the concept of 'pain' might be an instance where readers are unconvinced.</p>
+      </div>
+
+    </div><!-- /passage-panel -->
+    <div class="resizer" id="resizer"></div>
+
+    <!-- QUESTIONS PANEL -->
+    <div class="questions-panel" id="questions-panel">
+
+      <!-- SET 1 -->
+      <div id="questions-1" class="question-set">
+        <div class="question" data-q-start="1" data-q-end="7">
+          <div class="question-prompt">
+            <p><strong>Questions 1–7</strong><br>Do the following statements agree with the information given in Reading Passage 1?</p>
+            <p>Write <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="1"><div class="tf-question-line"><span class="tf-question-number">1</span><span>Katherine Sheen's university course looked at Roman life in Britain only briefly.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="2"><div class="tf-question-line"><span class="tf-question-number">2</span><span>It was clear to Sheen that the contents of the leather pouch were financially valuable.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="3"><div class="tf-question-line"><span class="tf-question-number">3</span><span>Before excavations started, Kevin Durrand believed they would discover a Roman settlement.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="4"><div class="tf-question-line"><span class="tf-question-number">4</span><span>Durrand's team eventually concluded that the villa had been deliberately destroyed.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="5"><div class="tf-question-line"><span class="tf-question-number">5</span><span>The blue beads would once have been owned by a Roman woman of high status.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="6"><div class="tf-question-line"><span class="tf-question-number">6</span><span>The archaeologists now understand the Roman writing on the foundation stone.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="7"><div class="tf-question-line"><span class="tf-question-number">7</span><span>In Durrand's opinion, the mosaic strongly suggests that the villa contained a bath house.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q7" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q7" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+
+        <div class="question" data-q-start="8" data-q-end="13">
+          <div class="question-prompt">
+            <p><strong>Questions 8–13</strong><br>Label the diagram below.</p>
+            <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+          </div>
+          <div class="notes-box">
+            <p style="font-weight:bold;text-align:center;font-size:15px;margin-bottom:12px;">The Roman Hypocaust Heating System</p>
+            <div style="text-align:center;margin-bottom:16px;">
+              <img src="https://engnovate.com/wp-content/uploads/2026/05/ielts-trainer-2-academic-reading-test-4-2-diagram-69ffe36b0da94.jpg" alt="Roman Hypocaust Heating System Diagram" style="max-width:100%;height:auto;border:1px solid #ddd;border-radius:4px;"/>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-top:8px;font-size:14px;">
+              <div style="display:flex;align-items:center;gap:8px;"><strong>8</strong> <input class="answer-input" id="q8" type="text" placeholder="8" style="width:140px;"/></div>
+              <div style="display:flex;align-items:center;gap:8px;"><strong>9</strong> <input class="answer-input" id="q9" type="text" placeholder="9" style="width:140px;"/></div>
+              <div style="display:flex;align-items:center;gap:8px;"><strong>10</strong> <input class="answer-input" id="q10" type="text" placeholder="10" style="width:140px;"/></div>
+              <div style="display:flex;align-items:center;gap:8px;"><strong>11</strong> <input class="answer-input" id="q11" type="text" placeholder="11" style="width:140px;"/></div>
+              <div style="display:flex;align-items:center;gap:8px;"><strong>12</strong> <input class="answer-input" id="q12" type="text" placeholder="12" style="width:140px;"/></div>
+              <div style="display:flex;align-items:center;gap:8px;"><strong>13</strong> <input class="answer-input" id="q13" type="text" placeholder="13" style="width:140px;"/></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SET 2 -->
+      <div id="questions-2" class="question-set hidden">
+        <div class="question" data-q-start="14" data-q-end="18">
+          <div class="question-prompt">
+            <p><strong>Questions 14–18</strong><br>Reading Passage 2 has six paragraphs, <strong>A–F</strong>.</p>
+            <p>Which paragraph contains the following information? Write the correct letter <strong>A–F</strong>.</p>
+          </div>
+          <div style="font-size:14px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">14</span>
+              <span style="flex:1;">details regarding the frequency at which the average person tends to lie</span>
+              <select class="answer-input" id="q14" style="min-width:70px;">
+                <option value="">–</option>
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">15</span>
+              <span style="flex:1;">a reference to an experiment testing the lie-detecting skills of various professional groups</span>
+              <select class="answer-input" id="q15" style="min-width:70px;">
+                <option value="">–</option>
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">16</span>
+              <span style="flex:1;">an explanation of why people might frequently refer to themselves when lying</span>
+              <select class="answer-input" id="q16" style="min-width:70px;">
+                <option value="">–</option>
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">17</span>
+              <span style="flex:1;">examples of the reasons why some people might choose to lie to others</span>
+              <select class="answer-input" id="q17" style="min-width:70px;">
+                <option value="">–</option>
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">18</span>
+              <span style="flex:1;">a description of an experiment that gave participants the opportunity to lie</span>
+              <select class="answer-input" id="q18" style="min-width:70px;">
+                <option value="">–</option>
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="19" data-q-end="22">
+          <div class="question-prompt">
+            <p><strong>Questions 19–22</strong><br>Match each statement with the correct researcher.</p>
+            <p><strong>A.</strong> Karen Goodger &nbsp;&nbsp;<strong>B.</strong> Kang Lee &nbsp;&nbsp;<strong>C.</strong> Tali Sharot</p>
+            <p><em>You may use any letter more than once.</em></p>
+          </div>
+          <div style="font-size:14px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">19</span>
+              <span style="flex:1;">Guilt often diminishes as people become used to telling lies.</span>
+              <select class="answer-input" id="q19" style="min-width:70px;">
+                <option value="">–</option><option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">20</span>
+              <span style="flex:1;">People's need to feel reassured and hopeful makes them susceptible to lies.</span>
+              <select class="answer-input" id="q20" style="min-width:70px;">
+                <option value="">–</option><option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">21</span>
+              <span style="flex:1;">More intelligent species are more likely to be deceptive.</span>
+              <select class="answer-input" id="q21" style="min-width:70px;">
+                <option value="">–</option><option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;padding:8px;border:1px solid #eee;border-radius:4px;">
+              <span style="font-weight:bold;min-width:24px;">22</span>
+              <span style="flex:1;">The increasing sophistication of lying is part of normal development.</span>
+              <select class="answer-input" id="q22" style="min-width:70px;">
+                <option value="">–</option><option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="23" data-q-end="26">
+          <div class="question-prompt">
+            <p><strong>Questions 23–26</strong><br>Complete the summary below.</p>
+            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+          </div>
+          <div class="notes-box">
+            <p style="font-weight:bold;text-align:center;font-size:15px;margin-bottom:10px;">Signs that someone is lying</p>
+            <p style="font-size:14px;line-height:2;">It is commonly claimed that people who are lying will avoid making eye contact with others and will <input class="answer-input" id="q23" type="text" placeholder="23" style="width:110px;"/> a lot. Many researchers now disagree with these claims. Instead they analyse the way people tell their stories. For example, liars tend to offer fewer <input class="answer-input" id="q24" type="text" placeholder="24" style="width:110px;"/> than people who are telling the truth. However, each <input class="answer-input" id="q25" type="text" placeholder="25" style="width:100px;"/> of their story seems to be in order, because they have carefully planned what they want to say. And contrary to what many people believe, liars often remain <input class="answer-input" id="q26" type="text" placeholder="26" style="width:100px;"/> as they lie, perhaps in the belief that they will come across as more confident than they really are.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SET 3 -->
+      <div id="questions-3" class="question-set hidden">
+        <div class="question" data-q-start="27" data-q-end="30">
+          <div class="question-prompt">
+            <p><strong>Questions 27–30</strong><br>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
+          </div>
+          <p style="margin-bottom:8px;font-size:14px;"><strong>27</strong> What is the reviewer emphasising in the phrase 'Wohlleben would beg to differ'?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q27" value="A"> A &nbsp;the fact that trees might not live as passively as we think</label></div>
+            <div class="single-choice"><label><input type="radio" name="q27" value="B"> B &nbsp;the idea that a forest trip might increase people's vitality</label></div>
+            <div class="single-choice"><label><input type="radio" name="q27" value="C"> C &nbsp;the way that a forest is the key feature of many landscapes</label></div>
+            <div class="single-choice"><label><input type="radio" name="q27" value="D"> D &nbsp;the belief that trees exist only for the benefit of humans</label></div>
+          </div>
+          <p style="margin-bottom:8px;font-size:14px;"><strong>28</strong> According to the reviewer, a unique feature of <em>The Hidden Life of Trees</em> is</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q28" value="A"> A &nbsp;its suggestion that ordinary people can act to protect forests.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q28" value="B"> B &nbsp;its viewpoint that only certain kinds of tree are worth preserving.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q28" value="C"> C &nbsp;its tendency to refer to trees as if they had human qualities.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q28" value="D"> D &nbsp;its simplistic rather than academic approach to writing.</label></div>
+          </div>
+          <p style="margin-bottom:8px;font-size:14px;"><strong>29</strong> What are we told about Peter Wohlleben's time as a state-employed forester?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q29" value="A"> A &nbsp;He hoped he could make a good living from cutting down trees.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q29" value="B"> B &nbsp;He changed his mind about the way in which trees were valuable.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q29" value="C"> C &nbsp;He rejected the ideas that visitors to the beech forest put forward.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q29" value="D"> D &nbsp;He introduced new techniques for improving the growth of trees.</label></div>
+          </div>
+          <p style="margin-bottom:8px;font-size:14px;"><strong>30</strong> The reviewer mentions the tree stump anecdote in order to</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q30" value="A"> A &nbsp;question traditional thinking about the way trees grow.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q30" value="B"> B &nbsp;explain the motivation behind Wohlleben's area of research.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q30" value="C"> C &nbsp;highlight Wohlleben's lack of formal scientific training.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q30" value="D"> D &nbsp;suggest how personal stories have brought a dull topic to life.</label></div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="31" data-q-end="36">
+          <div class="question-prompt">
+            <p><strong>Questions 31–36</strong><br>Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
+            <p>Write <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="31"><div class="tf-question-line"><span class="tf-question-number">31</span><span>Wohlleben was sceptical about the results of Dr Suzanne Simard's research.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q31" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q31" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q31" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="32"><div class="tf-question-line"><span class="tf-question-number">32</span><span>Wohlleben's theories about trees were confirmed after talking to Aachen University scientists.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q32" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q32" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="33"><div class="tf-question-line"><span class="tf-question-number">33</span><span>It was a good decision to get rid of machinery and pesticides from the beech forest.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q33" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q33" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="34"><div class="tf-question-line"><span class="tf-question-number">34</span><span>The translators of <em>The Hidden Life of Trees</em> should be given more recognition for their contribution.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q34" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q34" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="35"><div class="tf-question-line"><span class="tf-question-number">35</span><span>Some of Wohlleben's ideas about trees must be investigated further before they can be accepted as true.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q35" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q35" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="36"><div class="tf-question-line"><span class="tf-question-number">36</span><span><em>The Hidden Life of Trees</em> is likely to affect how forests are managed by the manufacturing industry.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q36" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q36" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+
+        <div class="question" data-q-start="37" data-q-end="40">
+          <div class="question-prompt">
+            <p><strong>Questions 37–40</strong><br>Complete the summary using the list of words, <strong>A–G</strong>, below.</p>
+            <p><em>Drag and drop an option to fill in each blank.</em></p>
+          </div>
+          <div class="summary-options-bank" data-dnd-group="endings-37-40">
+            <div class="drag-item" draggable="true" data-value="A" data-dnd-group="endings-37-40">A &nbsp;may prevent harm occurring to the same tree species.</div>
+            <div class="drag-item" draggable="true" data-value="B" data-dnd-group="endings-37-40">B &nbsp;can be the result of different forms of damage.</div>
+            <div class="drag-item" draggable="true" data-value="C" data-dnd-group="endings-37-40">C &nbsp;might help the spread of trees in a new location.</div>
+            <div class="drag-item" draggable="true" data-value="D" data-dnd-group="endings-37-40">D &nbsp;could be a sign that trees have reached maturity.</div>
+            <div class="drag-item" draggable="true" data-value="E" data-dnd-group="endings-37-40">E &nbsp;may affect how vulnerable young trees are during dry periods.</div>
+            <div class="drag-item" draggable="true" data-value="F" data-dnd-group="endings-37-40">F &nbsp;can play a part in providing essential nutrients.</div>
+            <div class="drag-item" draggable="true" data-value="G" data-dnd-group="endings-37-40">G &nbsp;might encourage disease in trees growing nearby.</div>
+          </div>
+          <div class="summary-text" style="margin-top:16px;">
+            <p style="margin-bottom:14px;">The distance between trees in state-owned forests <span class="summary-drop-zone" data-q-start="37" data-dnd-group="endings-37-40">37</span></p>
+            <p style="margin-bottom:14px;">The fungi growing at the base of trees <span class="summary-drop-zone" data-q-start="38" data-dnd-group="endings-37-40">38</span></p>
+            <p style="margin-bottom:14px;">The scent sometimes given off by trees <span class="summary-drop-zone" data-q-start="39" data-dnd-group="endings-37-40">39</span></p>
+            <p style="margin-bottom:14px;">The electrical signals sent out by trees <span class="summary-drop-zone" data-q-start="40" data-dnd-group="endings-37-40">40</span></p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /questions-panel -->
+  </div>
+</div>
+
+<!-- NAV ARROWS -->
+<div class="nav-arrows" id="nav-arrows">
+  <button class="nav-arrow" id="prevBtn" onclick="previousQuestion()">&#8249;</button>
+  <button class="nav-arrow" id="nextBtn" onclick="nextQuestion()">&#8250;</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav-row" id="nav-row">
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-1">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(1)"><span class="sectionNr">Part 1</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(1)">1</button><button class="subQuestion" onclick="goToQuestion(2)">2</button><button class="subQuestion" onclick="goToQuestion(3)">3</button><button class="subQuestion" onclick="goToQuestion(4)">4</button><button class="subQuestion" onclick="goToQuestion(5)">5</button><button class="subQuestion" onclick="goToQuestion(6)">6</button><button class="subQuestion" onclick="goToQuestion(7)">7</button><button class="subQuestion" onclick="goToQuestion(8)">8</button><button class="subQuestion" onclick="goToQuestion(9)">9</button><button class="subQuestion" onclick="goToQuestion(10)">10</button><button class="subQuestion" onclick="goToQuestion(11)">11</button><button class="subQuestion" onclick="goToQuestion(12)">12</button><button class="subQuestion" onclick="goToQuestion(13)">13</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-2">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(2)"><span class="sectionNr">Part 2</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(14)">14</button><button class="subQuestion" onclick="goToQuestion(15)">15</button><button class="subQuestion" onclick="goToQuestion(16)">16</button><button class="subQuestion" onclick="goToQuestion(17)">17</button><button class="subQuestion" onclick="goToQuestion(18)">18</button><button class="subQuestion" onclick="goToQuestion(19)">19</button><button class="subQuestion" onclick="goToQuestion(20)">20</button><button class="subQuestion" onclick="goToQuestion(21)">21</button><button class="subQuestion" onclick="goToQuestion(22)">22</button><button class="subQuestion" onclick="goToQuestion(23)">23</button><button class="subQuestion" onclick="goToQuestion(24)">24</button><button class="subQuestion" onclick="goToQuestion(25)">25</button><button class="subQuestion" onclick="goToQuestion(26)">26</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-3">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(3)"><span class="sectionNr">Part 3</span><span class="attemptedCount">0 of 14</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(27)">27</button><button class="subQuestion" onclick="goToQuestion(28)">28</button><button class="subQuestion" onclick="goToQuestion(29)">29</button><button class="subQuestion" onclick="goToQuestion(30)">30</button><button class="subQuestion" onclick="goToQuestion(31)">31</button><button class="subQuestion" onclick="goToQuestion(32)">32</button><button class="subQuestion" onclick="goToQuestion(33)">33</button><button class="subQuestion" onclick="goToQuestion(34)">34</button><button class="subQuestion" onclick="goToQuestion(35)">35</button><button class="subQuestion" onclick="goToQuestion(36)">36</button><button class="subQuestion" onclick="goToQuestion(37)">37</button><button class="subQuestion" onclick="goToQuestion(38)">38</button><button class="subQuestion" onclick="goToQuestion(39)">39</button><button class="subQuestion" onclick="goToQuestion(40)">40</button>
+    </div>
+  </div>
+</nav>
+
+<button class="submit-btn-fixed" id="submit-btn-fixed" onclick="submitTest()">Submit Test ✓</button>
+
+<div class="context-menu" id="contextMenu">
+  <div class="context-menu-item" id="highlight-btn">🖊 Highlight</div>
+  <div class="context-menu-item" id="note-btn">📝 Note</div>
+  <div class="context-menu-item" id="clear-btn" style="display:none;">✕ Remove highlight</div>
+  <div class="context-menu-item" id="clear-all-btn">🗑 Clear all</div>
+</div>
+
+<script>
+const PASSWORD='1234';
+let candidateId='',candidateName='',candidateDate='',currentPassage=1,currentQuestion=1,timeInSeconds=3600,timerInterval=null,testCompleted=false,draggedItem=null,savedRange=null,contextTargetEl=null;
+
+const correctAnswers={
+  '1':'TRUE','2':'NOT GIVEN','3':'NOT GIVEN','4':'FALSE','5':'NOT GIVEN','6':'FALSE','7':'TRUE',
+  '8':'twigs','9':'distribution','10':'concrete','11':'hollow bricks','12':'gas','13':'indoor climate',
+  '14':'C','15':'E','16':'F','17':'D','18':'B',
+  '19':'C','20':'A','21':'A','22':'B',
+  '23':'gesture','24':'details','25':'stage','26':'still',
+  '27':'A','28':'C','29':'B','30':'B',
+  '31':'NO','32':'YES','33':'NOT GIVEN','34':'NOT GIVEN','35':'YES','36':'NO',
+  '37':'E','38':'F','39':'A','40':'B'
+};
+
+function submitLogin(){if(document.getElementById('password').value===PASSWORD){document.getElementById('login-screen').style.display='none';document.getElementById('candidate-screen').style.display='flex';}else{document.getElementById('login-error').style.display='block';}}
+function submitCandidate(){const name=(document.getElementById('candidate-name-input').value||'').trim();const date=document.getElementById('test-date-input').value||'';if(name.length<1){document.getElementById('candidate-error').style.display='block';return;}candidateId=candidateName=name;candidateDate=date||new Date().toLocaleDateString();document.getElementById('header-candidate-id').textContent=name;document.getElementById('intro-candidate-name').textContent=name;document.getElementById('candidate-screen').style.display='none';const intro=document.getElementById('intro-screen');intro.style.display='flex';intro.style.flexDirection='column';}
+
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter')submitLogin();});
+  document.getElementById('candidate-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')submitCandidate();});
+  document.getElementById('back-to-login').addEventListener('click',function(){document.getElementById('candidate-screen').style.display='none';document.getElementById('login-screen').style.display='flex';});
+  document.getElementById('start-test-btn').addEventListener('click',function(){
+    document.getElementById('intro-screen').style.display='none';
+    document.getElementById('main-header').style.display='flex';
+    document.getElementById('main-container').style.display='flex';
+    document.getElementById('nav-arrows').style.display='flex';
+    document.getElementById('nav-row').style.display='flex';
+    document.getElementById('submit-btn-fixed').style.display='block';
+    switchToPart(1);initDragDrop();setupInputListeners();updateAllIndicators();startTimer();initResizer();
+  });
+  document.getElementById('logout-btn').addEventListener('click',function(){if(confirm('Logout?'))window.location.reload();});
+  document.getElementById('dark-toggle').addEventListener('click',function(){document.body.classList.toggle('dark');this.textContent=document.body.classList.contains('dark')?'☀️':'🌙';});
+  document.getElementById('highlight-btn').addEventListener('click',doHighlight);
+  document.getElementById('note-btn').addEventListener('click',doNote);
+  document.getElementById('clear-btn').addEventListener('click',doClear);
+  document.getElementById('clear-all-btn').addEventListener('click',doClearAll);
+});
+
+function startTimer(){timerInterval=setInterval(function(){timeInSeconds--;const m=Math.floor(timeInSeconds/60),s=timeInSeconds%60;const d=document.getElementById('timer-display');d.textContent=m+':'+(s<10?'0':'')+s;if(timeInSeconds<=300)d.classList.add('timer-warning');if(timeInSeconds<=0){clearInterval(timerInterval);handleTimeUp();}},1000);}
+function handleTimeUp(){if(testCompleted)return;testCompleted=true;alert("Time's up! Submitting your test.");downloadPDF();setTimeout(()=>{document.getElementById('completion-screen').style.display='flex';},1500);}
+
+function switchToPart(n){currentPassage=n;document.querySelectorAll('.reading-passage,.question-set').forEach(el=>el.classList.add('hidden'));document.getElementById('passage-text-'+n).classList.remove('hidden');document.getElementById('questions-'+n).classList.remove('hidden');const h={1:'<strong>Part 1</strong> — Read the text and answer questions 1–13. (The Romans Reveal their Secrets)',2:'<strong>Part 2</strong> — Read the text and answer questions 14–26. (The Truth about Lying)',3:'<strong>Part 3</strong> — Read the text and answer questions 27–40. (The Hidden Life of Trees)'};document.getElementById('part-header-bar').innerHTML=h[n];document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w,i)=>w.classList.toggle('selected',i+1===n));goToQuestion({1:1,2:14,3:27}[n]);}
+
+function goToQuestion(qNum){currentQuestion=qNum;const part=qNum<=13?1:qNum<=26?2:3;if(currentPassage!==part){switchToPart(part);return;}document.querySelectorAll('.subQuestion').forEach(b=>b.classList.remove('active'));const btn=document.querySelector('.subQuestion[onclick="goToQuestion('+qNum+')"]');if(btn)btn.classList.add('active');let el=document.getElementById('q'+qNum)||document.querySelector('input[name="q'+qNum+'"]')||document.querySelector('.tf-question[data-q-start="'+qNum+'"]')||document.querySelector('.drop-zone[data-q-start="'+qNum+'"]')||document.querySelector('.summary-drop-zone[data-q-start="'+qNum+'"]');if(el){const block=el.closest('.question,.tf-question,.matching-question-item')||el.parentElement;if(block){block.scrollIntoView({behavior:'smooth',block:'center'});block.classList.add('flash');setTimeout(()=>block.classList.remove('flash'),1000);}}updateAllIndicators();}
+
+function previousQuestion(){if(currentQuestion>1)goToQuestion(currentQuestion-1);}
+function nextQuestion(){if(currentQuestion<40)goToQuestion(currentQuestion+1);}
+window.previousQuestion=previousQuestion;window.nextQuestion=nextQuestion;window.goToQuestion=goToQuestion;window.switchToPart=switchToPart;
+
+function isAnswered(q){const txt=document.getElementById('q'+q);if(txt&&txt.value&&txt.value.trim()!=='')return true;if(document.querySelector('input[name="q'+q+'"]:checked'))return true;const sz=document.querySelector('.summary-drop-zone[data-q-start="'+q+'"]');if(sz&&sz.querySelector('.drag-item'))return true;return false;}
+
+function updateAllIndicators(){document.querySelectorAll('.subQuestion').forEach(btn=>{const m=(btn.getAttribute('onclick')||'').match(/goToQuestion\((\d+)\)/);if(!m)return;btn.classList.toggle('answered',isAnswered(parseInt(m[1])));});[[1,1,13],[2,14,26],[3,27,40]].forEach(([part,start,end])=>{let count=0;for(let i=start;i<=end;i++){if(isAnswered(i))count++;}const w=document.getElementById('part-nav-'+part);if(w){const ct=w.querySelector('.attemptedCount');if(ct)ct.textContent=count+' of '+(end-start+1);}});}
+function setupInputListeners(){document.querySelectorAll('.answer-input,input[type="radio"]').forEach(inp=>{inp.addEventListener('input',updateAllIndicators);inp.addEventListener('change',updateAllIndicators);});}
+
+function initDragDrop(){document.querySelectorAll('.drag-item').forEach(item=>{item.addEventListener('dragstart',e=>{draggedItem=e.target;setTimeout(()=>e.target.classList.add('dragging'),0);});item.addEventListener('dragend',e=>{e.target.classList.remove('dragging');draggedItem=null;});item.addEventListener('touchstart',handleTouchStart,{passive:true});item.addEventListener('touchmove',handleTouchMove,{passive:false});item.addEventListener('touchend',handleTouchEnd);});document.querySelectorAll('.drop-zone,.summary-drop-zone,.summary-options-bank').forEach(zone=>{zone.addEventListener('dragover',e=>{e.preventDefault();if(!draggedItem||draggedItem.dataset.dndGroup!==zone.dataset.dndGroup)return;zone.classList.add('drag-over');});zone.addEventListener('dragleave',()=>zone.classList.remove('drag-over'));zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('drag-over');handleDropTo(zone);});});}
+
+function handleDropTo(targetZone){if(!draggedItem||draggedItem.dataset.dndGroup!==targetZone.dataset.dndGroup)return;const sourceZone=draggedItem.parentElement;if(sourceZone===targetZone)return;const isTargetZone=targetZone.classList.contains('drop-zone')||targetZone.classList.contains('summary-drop-zone');const isSourceZone=sourceZone.classList.contains('drop-zone')||sourceZone.classList.contains('summary-drop-zone');const existing=isTargetZone?targetZone.querySelector('.drag-item'):null;if(existing)sourceZone.appendChild(existing);if(isSourceZone&&!sourceZone.querySelector('.drag-item')){sourceZone.classList.remove('filled');sourceZone.textContent=sourceZone.dataset.qStart||'';}targetZone.appendChild(draggedItem);if(isTargetZone)targetZone.classList.add('filled');updateAllIndicators();}
+
+let touchDragged=null,touchClone=null;
+function handleTouchStart(e){touchDragged=this;draggedItem=this;const t=e.touches[0];touchClone=this.cloneNode(true);touchClone.style.cssText='position:fixed;pointer-events:none;opacity:.75;z-index:9999;background:white;border:1px solid #9c9c9c;padding:4px 10px;border-radius:4px;font-size:13px;';touchClone.style.left=(t.clientX-30)+'px';touchClone.style.top=(t.clientY-20)+'px';document.body.appendChild(touchClone);}
+function handleTouchMove(e){if(!touchClone)return;e.preventDefault();const t=e.touches[0];touchClone.style.left=(t.clientX-30)+'px';touchClone.style.top=(t.clientY-20)+'px';}
+function handleTouchEnd(e){if(touchClone){document.body.removeChild(touchClone);touchClone=null;}if(!touchDragged)return;const t=e.changedTouches[0];const el=document.elementFromPoint(t.clientX,t.clientY);const zone=el?(el.closest('.drop-zone,.summary-drop-zone,.summary-options-bank')):null;if(zone)handleDropTo(zone);touchDragged=null;draggedItem=null;}
+
+function initResizer(){const resizer=document.getElementById('resizer'),passage=document.getElementById('passage-panel'),questions=document.getElementById('questions-panel');let isResizing=false,startX,startPassW,startQuestW;resizer.addEventListener('mousedown',e=>{isResizing=true;startX=e.clientX;startPassW=passage.offsetWidth;startQuestW=questions.offsetWidth;document.body.style.cursor='col-resize';document.body.style.userSelect='none';});document.addEventListener('mousemove',e=>{if(!isResizing)return;const dx=e.clientX-startX;passage.style.flex='none';passage.style.width=Math.max(200,startPassW+dx)+'px';questions.style.flex='none';questions.style.width=Math.max(200,startQuestW-dx)+'px';});document.addEventListener('mouseup',()=>{isResizing=false;document.body.style.cursor='';document.body.style.userSelect='';});}
+
+document.addEventListener('selectionchange',function(){const sel=window.getSelection();if(sel&&sel.rangeCount>0&&sel.toString().trim())savedRange=sel.getRangeAt(0).cloneRange();});
+document.addEventListener('contextmenu',function(e){const hl=e.target.closest('.highlight,.comment-highlight');const inPassage=e.target.closest('.passage-panel,.questions-panel');if(!inPassage)return;const sel=window.getSelection();const text=sel?sel.toString().trim():'';if(!text&&!hl)return;e.preventDefault();const menu=document.getElementById('contextMenu');contextTargetEl=hl||null;document.getElementById('clear-btn').style.display=hl?'flex':'none';menu.style.left=e.clientX+'px';menu.style.top=e.clientY+'px';menu.style.display='block';});
+document.addEventListener('click',function(e){if(!e.target.closest('.context-menu'))document.getElementById('contextMenu').style.display='none';});
+function doHighlight(){if(!savedRange||!savedRange.toString().trim()){document.getElementById('contextMenu').style.display='none';return;}try{const span=document.createElement('span');span.className='highlight';savedRange.surroundContents(span);}catch(ex){}window.getSelection().removeAllRanges();savedRange=null;document.getElementById('contextMenu').style.display='none';}
+function doNote(){const note=prompt('Enter your note:');if(note&&savedRange&&!savedRange.collapsed){const span=document.createElement('span');span.className='comment-highlight';const tip=document.createElement('span');tip.className='comment-tooltip';tip.textContent=note;span.appendChild(savedRange.extractContents());span.appendChild(tip);savedRange.insertNode(span);}window.getSelection().removeAllRanges();savedRange=null;document.getElementById('contextMenu').style.display='none';}
+function doClear(){if(contextTargetEl){const parent=contextTargetEl.parentNode;while(contextTargetEl.firstChild)parent.insertBefore(contextTargetEl.firstChild,contextTargetEl);parent.removeChild(contextTargetEl);parent.normalize();contextTargetEl=null;}document.getElementById('contextMenu').style.display='none';}
+function doClearAll(){document.querySelectorAll('.highlight,.comment-highlight').forEach(el=>{const parent=el.parentNode;while(el.firstChild)parent.insertBefore(el.firstChild,el);parent.removeChild(el);parent.normalize();});document.getElementById('contextMenu').style.display='none';}
+
+function submitTest(){if(testCompleted)return;if(!confirm('Submit test and download your PDF results?'))return;testCompleted=true;clearInterval(timerInterval);try{downloadPDF();}catch(e){console.error(e);alert('PDF error: '+e.message);testCompleted=false;return;}setTimeout(()=>{document.getElementById('completion-screen').style.display='flex';},1500);setTimeout(()=>{window.location.href='Writing.html';},3000);}
+
+function getUserAnswer(q){const txt=document.getElementById('q'+q);if(txt&&(txt.tagName==='INPUT'||txt.tagName==='SELECT'))return txt.value.trim();const radio=document.querySelector('input[name="q'+q+'"]:checked');if(radio)return radio.value;const sz=document.querySelector('.summary-drop-zone[data-q-start="'+q+'"]');if(sz&&sz.querySelector('.drag-item'))return sz.querySelector('.drag-item').dataset.value||'';return '';}
+
+function checkCorrect(userAns,correct){if(!userAns)return false;const u=userAns.trim().toLowerCase().replace(/\s+/g,' ');if(Array.isArray(correct))return correct.some(c=>u===c.toLowerCase().replace(/\s+/g,' '));return u===String(correct).toLowerCase().replace(/\s+/g,' ');}
+
+function calculateBand(score){if(score>=39)return'9.0';const map={38:'8.5',37:'8.5',36:'8.0',35:'8.0',34:'7.5',33:'7.5',32:'7.0',31:'7.0',30:'7.0',29:'6.5',28:'6.5',27:'6.5',26:'6.0',25:'6.0',24:'6.0',23:'5.5',22:'5.5',21:'5.5',20:'5.5',19:'5.0',18:'5.0',17:'5.0',16:'5.0',15:'5.0',14:'4.5',13:'4.5',12:'4.0',11:'4.0',10:'4.0',9:'3.5',8:'3.5',7:'3.0',6:'3.0',5:'2.5',4:'2.5'};return map[score]||'0.0';}
+
+function downloadPDF(){if(!window.jspdf||!window.jspdf.jsPDF)throw new Error('jsPDF not loaded.');const{jsPDF}=window.jspdf;const doc=new jsPDF();let score=0;const results=[];for(let i=1;i<=40;i++){const user=getUserAnswer(i);const correct=correctAnswers[String(i)];const ok=checkCorrect(user,correct);if(ok)score++;results.push({q:i,user:user||'—',correct:Array.isArray(correct)?correct[0]:correct,ok});}const band=calculateBand(score);doc.setFontSize(18);doc.setFont(undefined,'bold');doc.text('IELTS Trainer 2 Academic Test 4 — Reading Results',105,20,{align:'center'});doc.setFontSize(14);doc.setFont(undefined,'normal');doc.text('Score: '+score+' / 40',20,40);doc.text('Band Score: '+band,20,50);doc.text('Candidate: '+(candidateName||candidateId),20,60);doc.text('Date: '+(candidateDate||new Date().toLocaleDateString()),20,70);doc.setFontSize(11);doc.setFont(undefined,'bold');doc.text('Q',20,90);doc.text('Your Answer',35,90);doc.text('Correct',100,90);doc.text('Result',155,90);doc.setFont(undefined,'normal');let y=100;results.forEach(r=>{doc.setTextColor('#000000');doc.text(String(r.q),20,y);doc.text(String(r.user).substring(0,30),35,y);doc.text(String(r.correct).substring(0,30),100,y);doc.setTextColor(r.ok?'#1a7a1a':'#c0392b');doc.text(r.ok?'Correct':'Wrong',155,y);y+=8;if(y>280){doc.addPage();y=20;}});doc.setTextColor('#000000');doc.save('IELTS_Trainer2_Academic_Reading_Test4_'+(candidateName||candidateId).replace(/\s+/g,'_')+'.pdf');}
+</script>
+</body>
+</html>
