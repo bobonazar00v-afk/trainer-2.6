@@ -215,11 +215,11 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <p><strong>Task 1</strong> — You should spend about 20 minutes on this task. Write at least <strong>150 words</strong>.</p>
         </div>
         <div class="task-prompt">
-          <p><strong>The diagrams below show the changes of a town called Bridgetown in 1700 and 2000.</strong></p>
+          <p><strong>The pie charts show the average consumption of food in the world in 2008 compared to two countries; China and India.</strong></p>
           <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>
         </div>
         <div class="chart-container">
-          <img src="https://engnovatewebsitestorage.blob.core.windows.net/ielts-writing-task-1-images/ad92f24d962e599b" onerror="this.style.display='none'"/>
+          <img src="https://ieltsmaterial.com/wp-content/uploads/2021/05/2.jpg" onerror="this.style.display='none'"/>
         </div>
       </div>
       <!-- Part 2 -->
@@ -228,9 +228,9 @@ body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
           <p><strong>Task 2</strong> — You should spend about 40 minutes on this task. Write at least <strong>250 words</strong>.</p>
         </div>
         <div class="task-prompt">
-          <p><em>Some people think the most important element of a person's life is work. Without a satisfying job, life is meaningless.</em></p>
+          <p><em> Many children today are overweight. This is a serious health problem. Give the reasons for this and give solutions to solve this.</em></p>
           <br/>
-          <p><em><strong>To what extent do you agree or disagree?</strong></em></p>
+          <p><em><strong> Give the reasons for this and give solutions to solve this. </strong></em></p>
         </div>
       </div>
     </div>
@@ -427,7 +427,7 @@ function downloadPDF() {
     doc.text('TASK 2', MARGIN, 18);
     doc.setFontSize(10); doc.setFont('helvetica','normal');
     y = 26;
-    y = writeLines(doc.splitTextToSize("Some people think the most important element of a person's life is work. Without a satisfying job, life is meaningless. To what extent do you agree or disagree?", PAGE_W), y);
+    y = writeLines(doc.splitTextToSize("Many children today are overweight. This is a serious health problem.", PAGE_W), y);
     y += 4;
     const wc2 = task2Content.trim() === '' ? 0 : task2Content.trim().split(/\s+/).length;
     doc.setFont('helvetica','bold'); doc.text('Word count: ' + wc2, MARGIN, y); y += LINE_H + 4;
