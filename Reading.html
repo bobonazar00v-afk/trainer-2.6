@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #fff; line-height: 1.5; font-size: 15px; }
+
+/* ===== SCREENS ===== */
+@keyframes cardIn { from { opacity:0; transform:translateY(24px) scale(.97); } to { opacity:1; transform:none; } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.4);opacity:.7;} }
+
+.login-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:flex; justify-content:center; align-items:center; z-index:10000; }
+.login-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:400px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.login-logo { margin-bottom:24px; }
+.login-logo img { width:130px; height:130px; object-fit:contain; }
+.login-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:6px; font-weight:700; }
+.login-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.form-group { margin-bottom:18px; text-align:left; }
+.form-group label { display:block; margin-bottom:7px; color:#444; font-size:13px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
+.form-group input { width:100%; padding:12px 16px; border:2px solid #e8ecf0; border-radius:10px; font-size:15px; box-sizing:border-box; transition:border-color .2s; background:#f9fafb; }
+.form-group input:focus { outline:none; border-color:#0f3460; background:#fff; }
+.login-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:8px; transition:transform .15s, box-shadow .15s; }
+.login-button:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(15,52,96,.35); }
+.error-message { color:#e53e3e; font-size:13px; margin-top:10px; display:none; }
+
+.candidate-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; }
+.candidate-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:450px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.candidate-logo img { width:130px; height:130px; object-fit:contain; margin-bottom:20px; }
+.candidate-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:8px; font-weight:700; }
+.candidate-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.candidate-id-input { width:100%; padding:14px 16px; border:2px solid #e8ecf0; border-radius:10px; font-size:20px; text-align:center; letter-spacing:4px; font-weight:700; box-sizing:border-box; background:#f9fafb; }
+.candidate-id-input:focus { outline:none; border-color:#0f3460; background:#fff; }
+.candidate-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:18px; }
+.candidate-button:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(15,52,96,.35); }
+.back-button { background:none; color:#999; border:none; padding:10px 20px; font-size:13px; border-radius:6px; cursor:pointer; margin-top:12px; width:100%; }
+.back-button:hover { color:#555; }
+
+.intro-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; }
+.intro-inner { text-align:center; color:white; padding:40px; max-width:700px; }
+.intro-logo { margin-bottom:32px; opacity:0; animation:fadeUp .6s .2s forwards; }
+.intro-logo img { width:130px; height:130px; object-fit:contain; filter:brightness(0) invert(1); }
+.intro-title { font-size:42px; font-weight:800; letter-spacing:-1px; margin-bottom:10px; opacity:0; animation:fadeUp .6s .4s forwards; }
+.intro-subtitle { font-size:16px; color:rgba(255,255,255,.6); margin-bottom:48px; opacity:0; animation:fadeUp .6s .6s forwards; }
+.intro-candidate-badge { display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:50px; padding:10px 24px; font-size:15px; color:white; margin-bottom:48px; opacity:0; animation:fadeUp .6s .8s forwards; }
+.intro-badge-dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 1.5s infinite; }
+.intro-cards { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; opacity:0; animation:fadeUp .6s 1s forwards; }
+.intro-card { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:20px 24px; min-width:140px; }
+.intro-card-num { font-size:32px; font-weight:800; color:#60a5fa; }
+.intro-card-label { font-size:12px; color:rgba(255,255,255,.5); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+.intro-btn { background:white; color:#0f3460; border:none; padding:16px 52px; font-size:16px; font-weight:800; border-radius:50px; cursor:pointer; opacity:0; animation:fadeUp .6s 1.2s forwards; transition:transform .15s, box-shadow .15s; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+.intro-btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.4); }
+
+/* ===== HEADER ===== */
+.header { background:#fff; padding:0 20px; border-bottom:1px solid #e0e0e0; display:none; justify-content:space-between; align-items:center; position:fixed; top:0; left:0; right:0; z-index:100; height:70px; }
+.header-logo img { width:130px; height:56px; object-fit:contain; }
+.timer-display { font-size:16px; font-weight:600; color:#333; }
+.timer-warning { color:#e53e3e !important; }
+.header-right { display:flex; align-items:center; gap:12px; }
+#logout-btn { background:#e74c3c; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; }
+#candidate-label { color:#333; font-size:13px; font-weight:500; }
+
+/* ===== MAIN LAYOUT ===== */
+.main-container { margin-top:70px; display:none; height:calc(100vh - 70px); flex-direction:column; }
+.part-header-bar { background:#f1f2ec; padding:10px 20px; border-bottom:1px solid #e0e0e0; font-size:14px; flex-shrink:0; }
+.part-header-bar strong { margin-right:8px; }
+.panels-container { display:flex; flex:1; overflow:hidden; }
+
+.passage-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; }
+.resizer { width:8px; cursor:col-resize; background:#f0f0f0; background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30"><path d="M3 10h2v2H3zM3 14h2v2H3zM3 18h2v2H3z" fill="%23aaa"/></svg>'); background-repeat:no-repeat; background-position:center; flex-shrink:0; }
+.questions-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; border-left:1px solid #e0e0e0; }
+
+.reading-passage h4 { font-size:19px; font-weight:bold; margin-bottom:15px; text-align:center; }
+.reading-passage p { margin-bottom:1.1em; }
+.reading-passage .hidden { display:none !important; }
+
+/* ===== QUESTIONS ===== */
+.question { margin-bottom:36px; }
+.question p { margin-bottom:10px; }
+.question-prompt { margin-bottom:18px; }
+.summary-text ul { list-style:none; padding-left:0; }
+.summary-text ul li { margin-bottom:10px; }
+.centered-title { text-align:center; font-weight:bold; margin-bottom:12px; }
+
+.answer-input { border:1px solid #888; border-radius:4px; background:#fff; padding:2px 8px; font-size:14px; height:28px; width:150px; transition:border-color .2s, box-shadow .2s; }
+.answer-input:focus { outline:none; border-color:#4a90e2; box-shadow:0 0 0 2px rgba(74,144,226,.2); }
+.answer-input::placeholder { color:#999; font-weight:bold; text-align:center; }
+select.answer-input { width:auto; min-width:80px; cursor:pointer; }
+
+/* T/F/NG */
+.tf-question { margin-bottom:22px; }
+.tf-question-line { display:flex; align-items:flex-start; margin-bottom:10px; gap:10px; }
+.tf-question-number { border:2px solid #ccc; padding:2px 8px; border-radius:3px; font-weight:bold; white-space:nowrap; }
+.tf-options { padding-left:0; }
+.tf-option { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#fff; cursor:pointer; transition:background .15s; }
+.tf-option:hover { background:#f8fafc; }
+.tf-option:has(input[type="radio"]:checked) { background:#dbeafe; font-weight:600; }
+.tf-option input[type="radio"] { margin-right:8px; }
+
+/* Checkbox group (choose two) */
+.checkbox-group { margin-top:8px; }
+.checkbox-group label { display:block; padding:10px 14px; background:#fff; cursor:pointer; border:1px solid #eee; border-radius:4px; margin-bottom:6px; }
+.checkbox-group label:hover { background:#f5f9ff; }
+.checkbox-group label:has(input[type="checkbox"]:checked) { background:#dbeafe; border-color:#4a90e2; font-weight:600; }
+.checkbox-group input[type="checkbox"] { margin-right:10px; }
+body.dark .checkbox-group label { background:#1e1e1e; color:#e0e0e0; border-color:#3a3a3a; }
+body.dark .checkbox-group label:hover { background:#2a2a2a; }
+body.dark .checkbox-group label:has(input[type="checkbox"]:checked) { background:#2d4a2d; color:#a0e0a0; border-color:#4a90e2; }
+
+/* Single choice */
+.single-choice-container { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.single-choice label { display:block; padding:10px 14px; background:#fff; cursor:pointer; border:1px solid #eee; border-radius:4px; }
+.single-choice label:hover { background:#eef5fd; }
+.single-choice label:has(input[type="radio"]:checked) { background:#cfe3f6; border-color:#4a90e2; }
+
+/* Multi choice */
+.multi-choice-option label { display:block; padding:8px 12px; cursor:pointer; }
+.multi-choice-option label:hover { background:#f5f9ff; }
+.multi-choice-option label:has(input[type="radio"]:checked) { background:#dbeafe; font-weight:600; }
+
+/* Matching form */
+.matching-form-container { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.matching-form-row { display:flex; align-items:center; gap:12px; }
+.matching-form-label { min-width:140px; font-size:14px; }
+
+/* Drag and drop */
+.drag-item { background:white; border:1px solid #9c9c9c; font-weight:600; padding:4px 10px; border-radius:4px; cursor:move; font-size:14px; transition:all .2s; user-select:none; display:inline-block; }
+.drag-item:hover { background:#e9ecef; }
+.drag-item.dragging { opacity:.5; transform:rotate(2deg); }
+.drop-zone { border:2px dashed #aaa; border-radius:4px; min-height:32px; min-width:60px; padding:3px 6px; display:inline-flex; align-items:center; justify-content:center; transition:background .2s, border-color .2s; font-weight:bold; color:#aaa; vertical-align:middle; }
+.drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+.drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone { display:inline-flex; min-width:60px; min-height:28px; border:2px dashed #aaa; border-radius:4px; padding:2px 6px; align-items:center; justify-content:center; font-weight:bold; color:#aaa; vertical-align:middle; transition:background .2s, border-color .2s; }
+.summary-drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+
+.matching-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.matching-question-container { display:flex; flex-direction:column; gap:12px; margin-top:15px; }
+.matching-question-item { display:flex; align-items:center; gap:15px; padding:6px 0; }
+.matching-question-item > span { flex:1; font-size:14px; }
+
+.summary-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.summary-text { font-size:14px; line-height:1.9; }
+
+/* People table */
+.people-table { width:100%; border-collapse:collapse; border:1px solid #ccc; font-size:14px; margin:10px 0; }
+.people-table th,.people-table td { border:1px solid #ddd; padding:8px 10px; }
+.people-table th { background:#f0f0f0; font-weight:bold; text-align:left; }
+
+/* ===== BOTTOM NAV ===== */
+.nav-row { position:fixed; bottom:0; left:0; right:0; background:#fff; padding:0; display:none; align-items:center; height:80px; z-index:100; overflow-x:auto; overflow-y:hidden; white-space:nowrap; border-top:1px solid #e0e0e0; }
+.footer__questionWrapper___1tZ46 { display:inline-flex; align-items:center; margin-right:15px; flex-shrink:0; }
+.footer__questionNo___3WNct { background:none; border:none; padding:10px 15px; font-size:16px; font-weight:600; color:#333; cursor:pointer; display:flex; align-items:center; gap:5px; }
+.footer__questionNo___3WNct:hover { background:#f8f9fa; }
+.footer__questionWrapper___1tZ46.selected .footer__questionNo___3WNct { border-bottom:3px solid #333; }
+.footer__subquestionWrapper___9GgoP { display:none; gap:2px; margin-left:6px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display:flex; }
+.sectionNr { font-size:16px; font-weight:bold; }
+.attemptedCount { font-size:13px; color:#666; margin-left:5px; }
+.subQuestion { background:none; border:1px solid #ccc; border-radius:3px; padding:5px 8px; font-size:13px; cursor:pointer; color:#555; transition:all .2s; }
+.subQuestion:hover { background:#f0f0f0; }
+.subQuestion.active { background:#333; color:white; border-color:#333; }
+.subQuestion.answered { background:#e8f4e8; border-color:#28a745; color:#155724; }
+.subQuestion.answered.active { background:#28a745; color:white; }
+.footer__deliverButton___3FM07 { background:#dc3545; color:white; border:none; padding:10px 26px; border-radius:4px; font-size:16px; font-weight:600; cursor:pointer; margin-left:auto; flex-shrink:0; }
+.footer__deliverButton___3FM07:hover { background:#c82333; }
+
+/* Nav arrows */
+.nav-arrows { position:fixed; bottom:100px; right:20px; display:none; gap:5px; z-index:101; }
+.nav-arrow { width:50px; height:50px; background:#333; color:white; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:bold; }
+.nav-arrow:hover { background:#555; }
+.nav-arrow:disabled { background:#ccc; cursor:not-allowed; }
+
+/* ===== SELECTION TOOLBAR & CONTEXT MENU ===== */
+.selection-toolbar { position:absolute; display:none; gap:4px; background:#1e2130; border:none; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.45); z-index:3000; padding:6px; }
+.selection-toolbar button { display:flex; align-items:center; gap:6px; background:none; border:none; padding:9px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; color:#c8c8d0; transition:background .12s, color .12s; white-space:nowrap; }
+.selection-toolbar button:hover { background:#2a2e42; color:#fff; }
+.selection-toolbar button svg { width:15px; height:15px; fill:currentColor; flex-shrink:0; }
+.context-menu { position:fixed; background:#1e2130; border:none; border-radius:12px; box-shadow:0 8px 32px rgba(0,0,0,.45); z-index:3000; display:none; overflow:hidden; padding:6px; }
+.context-menu-item { padding:10px 16px; cursor:pointer; font-size:12px; font-weight:600; display:flex; align-items:center; gap:8px; color:#c8c8d0; border-radius:8px; transition:background .12s; white-space:nowrap; }
+.context-menu-item:hover { background:#2a2e42; color:#fff; }
+.highlight { background:#f5a623; border-radius:4px; cursor:pointer; padding:1px 2px; transition:background .15s; color:inherit; }
+.highlight:hover { background:#e6950f; }
+.comment-highlight { background:#aed6ff; border-bottom:2px dotted #2a6c96; cursor:help; padding:1px 2px; border-radius:3px; position:relative; color:inherit; }
+.comment-highlight:hover { background:#93c8ff; }
+.comment-tooltip { display:none; position:absolute; bottom:130%; left:50%; transform:translateX(-50%); background:#1e2130; color:#fff; padding:7px 12px; border-radius:8px; font-size:12px; font-weight:500; white-space:normal; max-width:240px; width:max-content; z-index:3001; box-shadow:0 6px 20px rgba(0,0,0,.35); line-height:1.4; }
+.comment-highlight:hover .comment-tooltip { display:block; }
+
+/* ═══ Header tool buttons ═══ */
+.header-tool-btn { width:44px; height:36px; border:1px solid #d5d9e0; border-radius:8px; background:#ffffff; cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; flex-shrink:0; }
+.header-tool-btn:hover { background:#f3f4f6; }
+.header-tool-btn svg { width:20px; height:20px; fill:#1f2937; }
+
+/* ═══ Settings modal ═══ */
+.settings-modal-content { background:#ffffff; border-radius:14px; width:100%; max-width:470px; max-height:88vh; overflow-y:auto; padding:22px 24px 24px; box-shadow:0 10px 34px rgba(0,0,0,.28); }
+.settings-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.settings-title { display:flex; align-items:center; gap:9px; font-size:19px; font-weight:700; color:#111827; }
+.settings-title svg { width:20px; height:20px; fill:#111827; }
+.settings-close { background:none; border:none; font-size:24px; line-height:1; cursor:pointer; color:#6b7280; padding:0 4px; }
+.settings-close:hover { color:#111827; }
+.settings-section-title { display:flex; align-items:center; gap:8px; font-size:15px; font-weight:700; color:#111827; margin:20px 0 10px; }
+.settings-section-title svg { width:17px; height:17px; fill:#111827; }
+.settings-option { display:flex; align-items:center; gap:10px; width:100%; text-align:left; background:#ffffff; border:1px solid #e5e7eb; border-radius:9px; padding:13px 15px; margin-bottom:9px; font-size:15px; font-family:inherit; color:#4b5563; cursor:pointer; }
+.settings-option:hover { background:#f7f8fa; }
+.settings-option svg { width:18px; height:18px; fill:currentColor; flex-shrink:0; }
+.settings-option.selected { background:#eef2f7; color:#111827; font-weight:600; }
+.settings-reset { display:block; width:100%; text-align:left; background:#ffffff; border:1px solid #e5e7eb; border-radius:9px; padding:14px 16px; margin-top:22px; font-family:inherit; cursor:pointer; }
+.settings-reset:hover { background:#f7f8fa; }
+.settings-reset-title { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; color:#111827; margin-bottom:5px; }
+.settings-reset-title svg { width:18px; height:18px; fill:#111827; }
+.settings-reset-sub { font-size:13.5px; color:#6b7280; padding-left:28px; }
+
+/* ═══ Text size ═══ */
+body.text-large .reading-passage, body.text-large .reading-passage p, body.text-large .reading-passage li,
+body.text-large .question-prompt p, body.text-large .tf-question-text, body.text-large .single-choice label,
+body.text-large .answer-input, body.text-large .notes-box, body.text-large .notes-box li, body.text-large .summary-text { font-size:18.5px; }
+body.text-xlarge .reading-passage, body.text-xlarge .reading-passage p, body.text-xlarge .reading-passage li,
+body.text-xlarge .question-prompt p, body.text-xlarge .tf-question-text, body.text-xlarge .single-choice label,
+body.text-xlarge .answer-input, body.text-xlarge .notes-box, body.text-xlarge .notes-box li, body.text-xlarge .summary-text { font-size:21.5px; }
+body.text-large .reading-passage h4, body.text-xlarge .reading-passage h4 { font-size:23px; }
+
+/* ═══ Header tool buttons / settings modal — dark theme ═══ */
+body.dark .header-tool-btn { background:#26282d; border-color:#4b5057; }
+body.dark .header-tool-btn:hover { background:#33363b; }
+body.dark .header-tool-btn svg { fill:#e5e7eb; }
+body.dark .settings-modal-content { background:#26282d; color:#e5e7eb; }
+body.dark .settings-title, body.dark .settings-section-title, body.dark .settings-reset-title { color:#f3f4f6; }
+body.dark .settings-title svg, body.dark .settings-section-title svg, body.dark .settings-reset-title svg { fill:#f3f4f6; }
+body.dark .settings-option, body.dark .settings-reset { background:#26282d; border-color:#3f434a; color:#b7bcc4; }
+body.dark .settings-option:hover, body.dark .settings-reset:hover { background:#31343a; }
+body.dark .settings-option.selected { background:#363a42; color:#ffffff; }
+body.dark .selection-toolbar { background:#2a2a2a; }
+body.dark .highlight { background:#f5a623; color:#111; border-radius:4px; }
+body.dark .highlight:hover { background:#e6950f; }
+
+/* ===== ACTIVE QUESTION ===== */
+.active-question { background:#fffbe6; border-radius:4px; }
+@keyframes flash { 0%{background:#e6f4ff;} 100%{background:transparent;} }
+.flash { animation:flash 1s ease-out; }
+
+/* ===== COMPLETION ===== */
+.completion-screen { position:fixed; inset:0; background:#fff; display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; text-align:center; padding:20px; }
+.completion-screen h2 { font-size:28px; margin-bottom:20px; }
+.restart-btn { background:#dc2626; color:white; border:none; padding:14px 30px; font-size:16px; font-weight:600; border-radius:8px; cursor:pointer; }
+
+/* ===== DARK THEME ===== */
+/* ===== DARK THEME ===== */
+body.dark { background: #121212; color: #e0e0e0; }
+body.dark .header { background: #1e1e1e; border-bottom-color: #333; }
+body.dark .part-header-bar { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
+body.dark .main-container { background: #121212; }
+body.dark .panels-container { background: #121212; }
+body.dark .passage-panel { background: #121212; color: #d0d0d0; }
+body.dark .questions-panel { background: #121212; border-left-color: #333; color: #d0d0d0; }
+body.dark .resizer { background: #2a2a2a; }
+body.dark .reading-passage { color: #d0d0d0; }
+body.dark .reading-passage h4 { color: #ffffff; }
+body.dark .answer-input { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark .answer-input::placeholder { color: #777; }
+body.dark select.answer-input { background: #2a2a2a; color: #e0e0e0; }
+body.dark select.answer-input option { background: #2a2a2a; color: #e0e0e0; }
+body.dark .tf-option { background: #1e1e1e; color: #e0e0e0; }
+body.dark .tf-option:hover { background: #2a2a2a; }
+body.dark .tf-option:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .single-choice label { background: #1e1e1e; color: #e0e0e0; }
+body.dark .single-choice label:hover { background: #2a2a2a; }
+body.dark .single-choice label:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .multi-choice-option label { color: #e0e0e0; }
+body.dark .multi-choice-option label:hover { background: #2a2a2a; }
+body.dark .multi-choice-option label:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .matching-options-bank { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .summary-options-bank { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .drag-item { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark .drag-item:hover { background: #333; }
+body.dark .drop-zone { border-color: #555; }
+body.dark .drop-zone.filled { border-color: #4a90e2; }
+body.dark .summary-drop-zone { border-color: #555; color: #888; }
+body.dark .summary-drop-zone.filled { border-color: #4a90e2; color: #e0e0e0; }
+body.dark .matching-form-label { color: #d0d0d0; }
+body.dark .people-table th { background: #2a2a2a; color: #e0e0e0; }
+body.dark .people-table td { background: #1e1e1e; color: #e0e0e0; border-color: #333; }
+body.dark .nav-row { background: #1e1e1e; border-top-color: #333; }
+body.dark .footer__questionNo___3WNct { color: #ccc; }
+body.dark .footer__questionNo___3WNct:hover { background: #2a2a2a; }
+body.dark .subQuestion { background: #2a2a2a; border-color: #444; color: #aaa; }
+body.dark .subQuestion:hover { background: #333; }
+body.dark .subQuestion.active { background: #555; border-color: #555; color: white; }
+body.dark .subQuestion.answered { background: #1a3a1a; border-color: #2a6a2a; color: #7ecf8e; }
+body.dark .subQuestion.answered.active { background: #2a6a2a; color: white; }
+body.dark .context-menu { background: #2a2a2a; }
+body.dark .context-menu-item { color: #e0e0e0; }
+body.dark .context-menu-item:hover { background: #333; }
+body.dark .nav-arrow { background: #2a2a2a; }
+body.dark .nav-arrow:hover { background: #444; }
+body.dark .nav-arrow:disabled { background: #1e1e1e; color: #555; }
+body.dark .active-question { background: #2a2a1a; }
+body.dark .timer-display { color: #e0e0e0; }
+body.dark #candidate-label { color: #ccc; }
+body.dark .completion-screen { background: #121212; color: #e0e0e0; }
+body.dark .question-prompt p { color: #d0d0d0; }
+body.dark .summary-text { color: #d0d0d0; }
+body.dark .centered-title { color: #ffffff; }
+
+/* Fixed Submit button — bottom right */
+.submit-btn-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 200;
+  display: none;
+  box-shadow: 0 4px 18px rgba(220,53,69,.45);
+  transition: background .15s, transform .15s, box-shadow .15s;
+  letter-spacing: .3px;
+}
+.submit-btn-fixed:hover { background: #c82333; transform: translateY(-2px); box-shadow: 0 7px 24px rgba(220,53,69,.55); }
+body.dark .submit-btn-fixed { box-shadow: 0 4px 18px rgba(220,53,69,.3); }
+
+/* ── DARK MODE: fix all white/light boxes ── */
+body.dark .question { background: #1a1a1a; }
+body.dark .question-prompt p { color: #c8c8c8; }
+
+/* Tables (Passage 1 fill-table, inline tables) */
+body.dark table { background: #1a1a1a; border-color: #3a3a3a; }
+body.dark th { background: #252525 !important; color: #b0b0b0 !important; border-color: #3a3a3a !important; }
+body.dark td { background: #1a1a1a !important; color: #d0d0d0 !important; border-color: #2e2e2e !important; }
+body.dark tr:nth-child(even) td, body.dark tr.alt td { background: #202020 !important; }
+body.dark div[style*="overflow-x:auto"] { border-color: #3a3a3a !important; }
+body.dark div[style*="background:#f0f4ff"] { background: #252535 !important; }
+body.dark div[style*="background:#fafbff"] { background: #1e1e2a !important; }
+
+/* Matching form rows */
+body.dark .matching-form-container { background: #1a1a1a; }
+body.dark .matching-form-row { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .matching-form-label { color: #c8c8c8; }
+body.dark select.answer-input { background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #555 !important; }
+body.dark select.answer-input option { background: #2a2a2a; color: #e0e0e0; }
+
+/* Notes / summary boxes */
+body.dark .notes-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
+body.dark .summary-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
+body.dark .summary-text p, body.dark .summary-text li { color: #d0d0d0; }
+body.dark .fill-table { background: #1a1a1a; }
+body.dark .fill-table th { background: #252525; color: #b0b0b0; border-color: #3a3a3a; }
+body.dark .fill-table td { background: #1a1a1a; color: #d0d0d0; border-color: #2e2e2e; }
+
+/* TF questions */
+body.dark .tf-question { background: #1a1a1a; }
+body.dark .tf-question-line { color: #d0d0d0; }
+body.dark .tf-question-number { color: #7aa0e0; }
+body.dark .tf-question-text { color: #d0d0d0; }
+
+/* Map rows (inline styled) */
+body.dark div[style*="background:#f9fafb"] { background: #1e1e1e !important; color: #d0d0d0 !important; border-color: #3a3a3a !important; }
+body.dark div[style*="background:#f8f8f8"] { background: #1e1e1e !important; }
+body.dark div[style*="border:1.5px solid #e8ecf0"] { border-color: #3a3a3a !important; }
+body.dark div[style*="border:1px solid #eee"] { border-color: #3a3a3a !important; }
+
+/* Passage header title */
+body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3a3a; }
+
+/* Footer nav */
+body.dark .footer__questionWrapper___1tZ46 { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .subQuestion { background: #2a2a2a; border-color: #444; color: #ccc; }
+
+/* Context menu & misc */
+body.dark .context-menu { background: #2a2a2a; border-color: #444; }
+body.dark .active-question { background: #2a2a1a; }
+
+.hidden { display:none !important; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+/* ===== ADMIN PANEL ===== */
+#admin-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:99999; align-items:center; justify-content:center; }
+#admin-overlay.open { display:flex; }
+#admin-box { background:#1a1d27; border:1px solid #3a3f55; border-radius:12px; padding:28px 32px; width:380px; max-width:95vw; color:#e2ddd5; font-family:system-ui,sans-serif; font-size:14px; }
+.admin-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+#admin-box h2 { margin:0; font-size:16px; font-weight:700; color:#fff; }
+#admin-close-x { background:none; border:none; color:#8a8fa0; font-size:22px; cursor:pointer; line-height:1; padding:0 2px; }
+#admin-close-x:hover { color:#e2ddd5; }
+.admin-hint { font-size:11px; color:#555; margin-bottom:20px; }
+#admin-pw-wrap { display:flex; gap:8px; margin-bottom:8px; }
+#admin-pw { flex:1; background:#111318; border:1px solid #3a3f55; border-radius:7px; color:#e2ddd5; font-size:14px; padding:8px 12px; outline:none; }
+#admin-pw:focus { border-color:#4a9eff; }
+#admin-pw-err { color:#e05c5c; font-size:12px; min-height:16px; margin-bottom:12px; }
+#admin-unlock-btn { background:#4a9eff; border:none; color:#fff; border-radius:7px; padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer; }
+#admin-controls { display:none; flex-direction:column; gap:10px; }
+#admin-controls.show { display:flex; }
+.admin-section { background:#111318; border:1px solid #2a2e3a; border-radius:8px; padding:14px; }
+.admin-section h4 { margin:0 0 10px; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#4a9eff; }
+.admin-row { display:flex; align-items:center; gap:8px; }
+.admin-btn { background:#2a2e3a; border:1px solid #3a3f55; color:#e2ddd5; border-radius:6px; padding:7px 13px; font-size:12px; font-weight:600; cursor:pointer; transition:border-color .15s; }
+.admin-btn:hover { border-color:#4a9eff; color:#4a9eff; }
+#admin-timer-status { font-size:12px; color:#8a8fa0; }
+
+/* ===== CONFIRM BLUR MODAL ===== */
+#confirm-overlay { display:none; position:fixed; inset:0; z-index:8000; align-items:center; justify-content:center; }
+#confirm-overlay.open { display:flex; }
+#confirm-backdrop { position:absolute; inset:0; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); background:rgba(0,0,0,.45); }
+#confirm-box { position:relative; z-index:1; background:#fff; border-radius:16px; padding:36px 32px; width:400px; max-width:95vw; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+body.dark #confirm-box { background:#1e2130; color:#e2ddd5; }
+#confirm-box h3 { font-size:20px; font-weight:700; margin-bottom:10px; }
+#confirm-box p { font-size:14px; color:#666; margin-bottom:24px; line-height:1.6; }
+body.dark #confirm-box p { color:#8a8fa0; }
+.confirm-stats { display:flex; gap:12px; justify-content:center; margin-bottom:24px; }
+.confirm-stat { background:#f5f5f5; border-radius:10px; padding:14px 20px; min-width:100px; }
+body.dark .confirm-stat { background:#111318; }
+.confirm-stat-num { font-size:28px; font-weight:800; color:#333; }
+body.dark .confirm-stat-num { color:#e2ddd5; }
+.confirm-stat-label { font-size:11px; color:#888; text-transform:uppercase; letter-spacing:.05em; }
+.confirm-btns { display:flex; gap:10px; }
+.confirm-btn-back { flex:1; background:#f0f0f0; border:none; border-radius:10px; padding:13px; font-size:14px; font-weight:600; cursor:pointer; color:#555; }
+.confirm-btn-back:hover { background:#e0e0e0; }
+body.dark .confirm-btn-back { background:#2a2e3a; color:#c8c8d0; }
+.confirm-btn-submit { flex:1; background:#e53935; border:none; border-radius:10px; padding:13px; font-size:14px; font-weight:700; cursor:pointer; color:#fff; }
+.confirm-btn-submit:hover { background:#c62828; }
+
+body.dark #admin-pw-settings { background:#26282d; border-color:#4b5057; color:#e5e7eb; }
+body.dark #admin-controls-settings > div { background:#26282d; border-color:#3f434a; }
+body.dark #admin-controls-settings > div > div { color:#b7bcc4; }
+body.dark #admin-freeze-btn-s, body.dark #admin-minus5, body.dark #admin-plus5 { background:#33363b; border-color:#4b5057; color:#e5e7eb; }
+body.dark #admin-lock-btn { background:#26282d; border-color:#3f434a; color:#b7bcc4; }
+body.dark #admin-lock-btn svg { fill:#b7bcc4; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-content">
+    <div class="login-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+    <h1>IELTS Academic</h1>
+    <p class="subtitle">Reading Test — Enter your password to continue</p>
+    <div class="form-group">
+      <label for="password">Exam Password</label>
+      <input id="password" type="password" placeholder="Enter exam password"/>
+    </div>
+    <button class="login-button" type="button" onclick="submitLogin()">Continue →</button>
+    <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- CANDIDATE ID -->
+<div class="candidate-screen" id="candidate-screen">
+  <div class="candidate-content">
+    <div class="candidate-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+    <h1>Candidate Details</h1>
+    <p class="subtitle">Please enter your name and test date</p>
+    <div class="form-group" style="text-align:left;margin-bottom:14px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Full Name</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="candidate-name-input" type="text" placeholder="e.g. Azizbek Toshmatov" autocomplete="name" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+    </div>
+    <div class="form-group" style="text-align:left;margin-bottom:20px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Test Date</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="test-date-input" type="date" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+    </div>
+    <input type="hidden" id="candidate-id-input"/>
+    <button class="candidate-button" type="button" onclick="submitCandidate()">Confirm &amp; Proceed →</button>
+    <button class="back-button" id="back-to-login" type="button">← Back</button>
+    <div class="error-message" id="candidate-error">Please enter your full name.</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro-screen" id="intro-screen">
+  <div class="intro-inner">
+    <div class="intro-logo"><img src="logo.png" alt="Logo" onerror="this.textContent='📖'; this.style.fontSize='72px';"/></div>
+    <div class="intro-title">IELTS CRAM MOCK</div>
+    <div class="intro-subtitle">Reading Test · Academic Module</div>
+    <div class="intro-candidate-badge">
+      <span class="intro-badge-dot"></span>
+      <span id="intro-candidate-name"></span>
+      <span style="color:rgba(255,255,255,.4)">·</span>
+      <span style="color:rgba(255,255,255,.5);font-size:13px;">Verified</span>
+    </div>
+    <div class="intro-cards">
+      <div class="intro-card"><div class="intro-card-num">3</div><div class="intro-card-label">Passages</div></div>
+      <div class="intro-card"><div class="intro-card-num">40</div><div class="intro-card-label">Questions</div></div>
+      <div class="intro-card"><div class="intro-card-num">60<span style="font-size:18px;color:rgba(96,165,250,.7)">min</span></div><div class="intro-card-label">Duration</div></div>
+    </div>
+    <button class="intro-btn" id="start-test-btn">Start Test</button>
+  </div>
+</div>
+
+<!-- COMPLETION -->
+<div class="completion-screen" id="completion-screen">
+  <h2>Reading section ended</h2>
+  <a class="restart-btn" href="Writing.html">Please move to writing section</a>
+</div>
+
+<!-- HEADER -->
+<div class="header" id="main-header">
+  <div class="header-logo">
+    <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
+  </div>
+  <div class="timer-container">
+    <span class="timer-display" id="timer-display">60m remaining</span>
+  </div>
+  <div class="header-right">
+    <span id="candidate-label">Candidate: <span id="header-candidate-id"></span></span>
+    <button type="button" id="settings-btn" class="header-tool-btn" title="Settings">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-container" id="main-container">
+  <div id="part-header-bar" class="part-header-bar">
+    <strong>Part 1</strong> — Read the text and answer questions 1–13. (Mindfulness)
+  </div>
+  <div class="panels-container">
+
+    <!-- PASSAGE PANEL -->
+    <div class="passage-panel" id="passage-panel">
+
+    <!-- PASSAGE 1 -->
+      <div id="passage-text-1" class="reading-passage">
+        <h4>Mindfulness</h4>
+        <p>In 2011, the World Health Organisation released a report stating that by 2030 mental ill-health would be the biggest burden of disease in developed countries. In searching for new approaches to tackle this rising global epidemic, mindfulness has gained significant ground. Although research around it remains in its infancy, this ever-accelerating phenomenon has recently become the subject of academic curiosity due to practitioners’ claims of its countless health benefits and flexibility of application.</p>
+        <p>Mindfulness, commonly defined as the state of being attentive to and aware of the present moment, has its roots in reflective Eastern traditions of philosophy. While modern day mindfulness is used as a preventative or therapeutic tool, it was originally taught as a means of seeing the true nature of reality. It was believed that, through careful attention to the sensory experience, one was able to realise the impermanent nature of all things, transcend the concept of self, and ultimately attain a state free from suffering, known as enlightenment.</p>
+        <p>Through the 1970s, Western interest in these concepts and practices rapidly grew, drawing travellers from America and Europe to Asia. One MIT molecular biology student, Jon Kabat-Zinn, was able to take a modern scientific-based perspective to traditional Eastern principles of mindfulness and meditation, resulting in the familiar Western concept which downplays the traditional spiritual or religious aspects. He later founded the Stress Reduction Clinic at the University of Massachusetts Medical School, going on to develop a Mindfulness-Based Stress Reduction (MBSR) programme: an eight-week course aimed at reducing people’s stress levels; and later a Mindfulness-Based Cognitive Therapy (MBCT) programme dealing with severe mental health issues such as depression and anxiety.</p>
+        <p>These days, scientific research into mindfulness abounds and a number of reports have emphasised its potential. A 2013 study conducted by Massachusetts General Hospital of sufferers of Generalised Anxiety Disorder (GAD) showed participants receiving mindfulness-based treatment to have a significantly greater reduction in anxiety than a control group. This response to mindfulness-based treatment does not appear to merely be a psychological one either. A recent paper from Pittsburgh University’s Neuroscience department showed mindfulness can actually shrink the amygdala - the part of our brain controlling our 'fight or flight' response - while simultaneously diminishing the connection between the amygdala and the rest of the brain. What this amounts to is that, through mindfulness, our brain becomes better able to mediate our primal response to stress and, thus, not let it affect us so much.</p>
+        <p>Another booming area of research is the use of mindfulness for helping cancer patients deal with the fear that accompanies diagnosis. One of the largest studies in this area, published in the Journal of Clinical Oncology, showed breast cancer survivors who practised mindfulness exhibited increased calm and wellbeing, better sleep and less physical pain. One cancer survivor, Andy Puddicombe, founder of the mindfulness app 'Headspace', says mindfulness enables us to recognise the patterns of negative thinking that a cancer diagnosis can bring about- such as depressive or anxious thoughts - and embrace them rather than be overwhelmed by them.</p>
+        <p>Yet despite advocates of mindfulness extolling its virtues, there has been a recent backlash against it. One criticism levelled at mindfulness is that, conversely to what has been claimed, it may actually be causing anxiety and depression. The Guardian newspaper recently published the story of a woman who, while attending a three-day mindfulness retreat, experienced panic attacks that continued throughout the retreat and long after, eventually leading her to a nervous breakdown and a spell in a psychiatric ward. And it seems this is not an isolated case. Psychologist Miguel Farias and Catherine Wikholm, who in their book 'The Buddha Pill' explore the adverse effects of mindfulness, have seen numerous accounts of people suffering panic attacks, feelings of dissociation, or hearing voices as a product of their mindfulness practice.</p>
+        <p>Along with the validity of the practice itself, opponents of mindfulness have begun questioning the motivation of many employers and experts who champion its benefits. Will Davies, senior lecturer at Goldsmiths and author of 'The Happiness Industry', claims our mental health has become a huge money-making opportunity. “Companies are increasingly aware of the financial costs that stress, depression and anxiety saddle them with,” he says and, as such, are shifting the responsibility onto the individual by encouraging their employees to meditate and attend relaxation sessions. In doing so, Davies argues they are placing any blame for mental health problems on the individual.</p>
+        <p>This criticism has been acknowledged by some of the leading proponents of mindfulness. Jon Kabat-Zinn states, “As critics are correct to point out, a real understanding of the subtlety of mindfulness is required if it is to be taught effectively: it can never be a quick fix. Some argue that for certain opportunistic elements, mindfulness has become a business that can only disappoint the vulnerable consumers who look to it as a panacea.” He believes the answer is not to reject mindfulness but to increase funding to provide the necessary evidence to establish and disseminate best practice, train teachers, and identify and support those most in need of mindfulness.</p>
+      </div>
+    <!-- PASSAGE 2 -->
+      <div id="passage-text-2" class="reading-passage hidden">
+        <h4>Behind the Times</h4>
+        <p>From observations of the moon’s phases to the introduction of the quartz crystal - regardless of our ever-improving capacity to measure time, its fundamental nature remains an enigma. Despite this intangible intrigue, we must accept time as the driver of our lives. It can be found everywhere that man is, and increasingly pursues him on his daily route - on his wrist, in his pocket, possibly even, in the not-too-distant future, on his retina. Our awareness of time dictates how we live, eat, work, sleep and feel. But how and why did our world become so obsessed with time?</p>
+        <p>You might be surprised to learn that time as we know it - a precise measurement structured into ordered geographic zones of regular intervals - is a relatively recent phenomenon. If you went back as few as two or three centuries, you would find the human experience of time to be quite different, especially if your time travel was followed by travel of the traditional variety. For example, whereas now London and Bristol - approximately 100 miles apart - share the exact same time, Bristol of the early 1800s was approximately ten minutes behind the capital.</p>
+        <p>To understand this leap better, let me start by painting a picture of early Enlightenment Britain. For the most part, and certainly relative to the Britain of today, the country was rather disconnected. There were, of course, roads connecting all settlements regardless of size, but because journeys between them were slow there was little call for exact measurements of duration. Besides, each little town kept its own time, based on its own astronomical observations - specifically the location of the sun throughout the day - and thus kept their own slow pace.</p>
+        <p>This pace began to quicken around the turn of the nineteenth century. As industrial centres ‘blossomed’ far from London, so the need for improved transport links to facilitate trade became more urgent. With the introduction of railroads, the journey to our familiar ‘small world’ had begun. To assist the increasingly confused travellers, who were forced to re-adjust their watches at every station, a standard British time based upon the yearly average time the sun crossed the Greenwich Meridian was introduced. By 1855, 98% of British clocks had been set to this time.</p>
+        <p>While Greenwich’s role in establishing the concept of time standardisation was crucial, the diminutive size of the country meant that the problems Britain had faced were solved by this simple development. Across the Atlantic, American infrastructure and industry were expanding so fast and on such scale that further adaptations had to be made. The introduction of 100 railroad time zones, while a step in the right direction, was only a partial solution and as trains became more rapid, so safety concerns become greater - with many trains sharing a single track, exact time became critical.</p>
+        <p>On November 18, 1883, the United States and Canada introduced five standard time zones. The exception was Detroit, who chose to continue using a local time basis until 1900, when the City Council gave in and prepared to follow Central Standard Time. Even then, though, there remained problems. Half of the city’s businesses obeyed, but many individuals refused, citing what they saw as the ‘dehumanising effect’ of exact time. Incredibly, this reluctance to standardise influenced the City Council to revert to its original solar time. However, it wasn’t long until pressure from railway companies forced them to re-adapt.</p>
+        <p>Not long after the establishment of time zones in North America, interest began to emerge for a standardised system worldwide, largely due to the booming shipping industry, which found itself in a situation not unlike that of the aforementioned railroads. They needed to agree upon just one prime meridian - a global standard. A number of meridians had been used for longitudinal references in the late 1800s but that in Greenwich became almost universally accepted at the International Meridian Conference in 1884. The reasons for this near-unanimity included the fact that an incredible 72% of the world’s commerce was reliant on sea-charts based around the Greenwich Meridian.</p>
+        <p>However, the French fervently refused to acknowledge the decision, instead establishing their meridian within Paris until 1911. Rather than suffer the indignity of giving in to their fierce historical rivals, they finally succumbed to using Greenwich Mean Time (later renamed as Coordinated Universal Time (UTC)) but retained national pride by labelling it as ‘Paris Mean Time minus 9 minutes and 21 seconds’. Not long after, France switched to Central European Time and has remained as such ever since.</p>
+        <p>From the 1920s, the recognition and official registration of time zones spread throughout the world, culminating in Nepal’s 1986 adoption of UTC + 5:45. We now have 24 standard meridians of longitude, 15 degrees apart, with which we structure our days. The concept is vital for our co-operation and commerce, which together form the driving force of the modern world. It is, however, important to recognise just how quickly this change has occurred - it is incredible to think that little over a century ago, the majority would have been comfortable referring to time simply as ‘morning’, ‘afternoon’, ‘evening’ and ‘night’. Might those resolute citizens of Detroit have had a point?</p>
+      </div>
+    <!-- PASSAGE 3 -->
+      <div id="passage-text-3" class="reading-passage hidden">
+        <h4>Onkalo</h4>
+        <p>Despite nuclear energy generally being considered an environmentally friendly source of electricity, the radioactive waste it leaves remains hazardous to life for at least 100,000 years. What to do with this unwanted by-product and how to protect people and the environment from it is a major challenge facing the proponents of nuclear power generation. Currently, it is mostly stored in cool water, which acts as a seal for the radiation, in facilities requiring round-the-clock guarding, surveillance, and maintenance. This may be an effective storage method for now, however, a solution is needed for the next hundred millennia and so scientists have been researching one.</p>
+        <p>In a remote area on the west coast of Finland, there may be an answer: Onkalo. Currently under construction, this spent nuclear fuel repository located at the Olkiluoto Nuclear Power Plant in the municipality of Eurajoki is where they plan to bury this nuclear waste 500 metres below ground in the most secure and stable environment known: the bedrock. While above ground there are wars, natural disasters, the rise and fall of civilisations, the bedrock below remains unchanged for millions of years. This stability, argue scientists, makes it ideal for toxic material disposal. After intense screening of possible sites in the Finnish territory, this location was chosen due to the estimated lower geographical and environmental impact it would cause, as well as taking into consideration the consent of the local community. Construction began in 2004 and is expected to be finished in 2100,  when Onkalo will be sealed, hopefully never to be opened again.</p>
+        <p>Onkalo means ‘hiding place’ or ‘cavity’ in Finnish, and will live up to its name. On a flat stretch of pine-tree-covered land, kilometres from the nearest town, Rauma, on Olkiluoto Island, stands an unprepossessing metal shutter set between walls of rock. From this entrance, a tunnel will snake down five kilometres, 500m into the depths of the earth, ending in tomb-like storage capsules. Nothing like Onkalo has been attempted by humanity before. The facility must last, undisturbed, for 100,000 years – an unimaginably long time, far longer than any other manmade structure so far. The Giza Pyramids, for example, currently the world’s oldest free-standing buildings, have yet to reach the 5000 year mark, a mere one-twentieth of the time Onkalo must withstand.</p>
+        <p>The main purpose of Onkalo is to keep future generations safe from the lethal waste buried within. It is ironic, then, that the main threat to the facility’s security is the very people it aims to protect. Scientists are concerned about future generations finding and opening Onkalo, and perhaps not understanding what they come across. These future generations are essentially unknowable. While it may be possible to predict the nature of people in a hundred years, Onkalo has to consider them in 1,000, 10,000, 100,000 years. The future becomes very foggy when thinking in these timescales and so, when thinking of the future, scientists often look to the past first. Considering 100,000 years ago Neanderthals still walked the Earth, it stands to reason that in another 100,000 people will be unimaginably different from us now. They may have more advanced technology, or, is it possible some disaster will have led them to lose it entirely? Is it equally possible that such poor environmental conditions mean life is only possible underground, or only on other planets? Future generations may interpret Onkalo as something religious, a burial ground, a hidden treasure. The human race could have ceased to exist at all.</p>
+        <p>There are many conflicting ideas about how to tackle this potential problem. One of the fiercest debates is whether to leave warnings for future generations in the form of markers. These would be penned in all major UN languages plus pictographs engraved in stone monoliths around the site. But others point out that anybody able to heed the warning may have died long before these messages were ever discovered. Even pictographs, which we instinctively feel are universal, may be interpreted differently in 50,000 years. More outlandish ideas include covering the ground above Onkalo with a concrete forest of enormous thorns, to make the area as foreboding as possible. Also, the very existence of markers may stoke people’s curiosity, driving them to want to find out what has been hidden. Could talk of Onkalo have become mythical, a legend similar to the Lost City of Atlantis, or would future generations even be familiar with the nature of nuclear waste, possibly having invented new energy sources? Again, we can connect to the past and the discovery of ancient Egyptian tombs; these were covered in warnings to leave well alone that were either not understood or completely disregarded. There is no reason to think the people of the future would be any different. This has led many scientists to conclude no markers should be left and that Onkalo should simply be sealed, covered, and forgotten.</p>
+        <p>Onkalo may very well end up being the longest lasting trace of Western civilisation, yet it will not be a thing of wonder like the Pyramids. It is something that must never be opened, for the safety of the future, though the Ancient Egyptians thought similarly and the deterrents they left were ultimately ignored. Despite the question of whether the past can help us to predict the future remaining moot,  the need for a place like Onkalo leaves one with a certain feeling of ambivalence towards nuclear energy. This waste that comes as part and parcel of generating electricity in this manner is, for many, too high a price to pay.</p>
+      </div>
+
+    </div><!-- /passage-panel -->
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- QUESTIONS PANEL -->
+    <div class="questions-panel" id="questions-panel">
+
+    <!-- QUESTIONS SET 1 -->
+    <div id="questions-1" class="question-set">
+        <div class="question" data-q-start="1" data-q-end="6">
+          <div class="question-prompt">
+            <p><strong>Questions 1–6</strong><br>Do the following statements agree with the information given in the text?</p>
+            <p>Write <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="1"><div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">Mindfulness is a relatively new topic of study.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="2"><div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">The original practice of mindfulness differed from its current application.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="3"><div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">Jon Kabat-Zinn came from a religious background.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="4"><div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">Kabat-Zinn's clinic aimed to help people with a range of problems.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="5"><div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Mindfulness weakens the connection between the part of the brain controlling our response to danger and other brain areas.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="6"><div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">Kabat-Zinn believes criticism of Western mindfulness practice is unjustified.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+        <div class="question" data-q-start="7" data-q-end="13">
+          <div class="question-prompt">
+            <p><strong>Questions 7–13</strong><br>Complete the summary below.</p>
+            <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+          </div>
+          <div class="notes-box">
+            <p style="text-align:center;font-weight:bold;font-size:15px;margin-bottom:12px;">Assessing mindfulness</p>
+            <p style="font-size:14px;line-height:2.4;">Mindfulness has been proven to have a positive impact on people’s wellbeing. One study in 2013 showed patients responding positively to <input class="answer-input" id="q7" type="text" placeholder="7" style="width:150px;"/> involving mindfulness. This is due to a reduction in the size of the <input class="answer-input" id="q8" type="text" placeholder="8" style="width:150px;"/>, which makes us react to danger. Mindfulness can also help cancer patients with negative emotions when they get their <input class="answer-input" id="q9" type="text" placeholder="9" style="width:150px;"/>. Many companies are dealing with their workers’ mental health issues by making <input class="answer-input" id="q10" type="text" placeholder="10" style="width:150px;"/> responsible for mental well-being. Two writers give many examples of the <input class="answer-input" id="q11" type="text" placeholder="11" style="width:150px;"/> of mindfulness. While the practice is intended to reduce <input class="answer-input" id="q12" type="text" placeholder="12" style="width:150px;"/> and depression, some argue that it may be the cause of those conditions. Jon Kabat-Zinn sees mindfulness’s current shortfalls being a need for <input class="answer-input" id="q13" type="text" placeholder="13" style="width:150px;"/> and lack of funding.</p>
+          </div>
+        </div>
+    </div><!-- /questions-1 -->
+
+    <!-- QUESTIONS SET 2 -->
+    <div id="questions-2" class="question-set hidden">
+        <div class="question" data-q-start="14" data-q-end="18">
+          <div class="question-prompt">
+            <p><strong>Questions 14–18</strong><br>Complete the sentences below.</p>
+            <p>Write <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+          </div>
+          <div class="notes-box">
+            <p style="font-size:14px;line-height:2.6;">14&nbsp;&nbsp;Before the introduction of modern time zones, there was a time difference of about <input class="answer-input" id="q14" type="text" placeholder="14" style="width:150px;"/> between Bristol and London.</p>
+            <p style="font-size:14px;line-height:2.6;">15&nbsp;&nbsp;People used to use <input class="answer-input" id="q15" type="text" placeholder="15" style="width:150px;"/> to measure time in each individual settlement.</p>
+            <p style="font-size:14px;line-height:2.6;">16&nbsp;&nbsp;British standard time became necessary as more <input class="answer-input" id="q16" type="text" placeholder="16" style="width:150px;"/> were built.</p>
+            <p style="font-size:14px;line-height:2.6;">17&nbsp;&nbsp;Faster trains led to worries about the <input class="answer-input" id="q17" type="text" placeholder="17" style="width:150px;"/> of having more vehicles on one line.</p>
+            <p style="font-size:14px;line-height:2.6;">18&nbsp;&nbsp;Despite previous attempts to change the time system, it was ultimately <input class="answer-input" id="q18" type="text" placeholder="18" style="width:150px;"/> that made Detroit adopt Central Standard Time.</p>
+          </div>
+        </div>
+        <div class="question" data-q-start="19" data-q-end="22">
+          <div class="question-prompt">
+            <p><strong>Questions 19–22</strong><br>Choose the correct answer, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
+          </div>
+          <p style="margin-bottom:8px;"><strong>19</strong> What was the main factor which drove the need for global time standardisation?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q19" value="A"> A &nbsp;&nbsp;The need to do business with North America</label></div>
+            <div class="single-choice"><label><input type="radio" name="q19" value="B"> B &nbsp;&nbsp;The decline in the use of trains</label></div>
+            <div class="single-choice"><label><input type="radio" name="q19" value="C"> C &nbsp;&nbsp;The rapid expansion of sea trade</label></div>
+            <div class="single-choice"><label><input type="radio" name="q19" value="D"> D &nbsp;&nbsp;The number of different meridians was causing confusion</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>20</strong> Which is one of the reasons given for Greenwich being accepted as the global standard meridian?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q20" value="A"> A &nbsp;&nbsp;The USA was in the same time zone as Greenwich</label></div>
+            <div class="single-choice"><label><input type="radio" name="q20" value="B"> B &nbsp;&nbsp;Greenwich Observatory was conducting the best research on time</label></div>
+            <div class="single-choice"><label><input type="radio" name="q20" value="C"> C &nbsp;&nbsp;The 1884 Conference was held in Greenwich</label></div>
+            <div class="single-choice"><label><input type="radio" name="q20" value="D"> D &nbsp;&nbsp;The majority of trade depended on maps that used the Greenwich Meridian</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>21</strong> According to the writer, why did France initially refuse to adopt Greenwich as their meridian?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q21" value="A"> A &nbsp;&nbsp;They were too proud to accept Greenwich because of their rivalry with the British</label></div>
+            <div class="single-choice"><label><input type="radio" name="q21" value="B"> B &nbsp;&nbsp;They argued that their own meridian would be more effective than Greenwich</label></div>
+            <div class="single-choice"><label><input type="radio" name="q21" value="C"> C &nbsp;&nbsp;Other countries decided to use Greenwich without consulting them</label></div>
+            <div class="single-choice"><label><input type="radio" name="q21" value="D"> D &nbsp;&nbsp;They already had their own system which they had used for a long time</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>22</strong> According to the writer, what might the inhabitants of Detroit have been right about?</p>
+          <div class="single-choice-container" style="">
+            <div class="single-choice"><label><input type="radio" name="q22" value="A"> A &nbsp;&nbsp;Exact time making us feel less human</label></div>
+            <div class="single-choice"><label><input type="radio" name="q22" value="B"> B &nbsp;&nbsp;Our need for precise time measurement for trade</label></div>
+            <div class="single-choice"><label><input type="radio" name="q22" value="C"> C &nbsp;&nbsp;Time standardisation happening too quickly</label></div>
+            <div class="single-choice"><label><input type="radio" name="q22" value="D"> D &nbsp;&nbsp;Days being much simpler when divided into only four time periods</label></div>
+          </div>
+        </div>
+        <div class="question" data-q-start="23" data-q-end="26">
+          <div class="question-prompt">
+            <p><strong>Questions 23–26</strong><br>Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+          </div>
+          <p style="margin-bottom:8px;"><strong>23–24</strong> Which TWO of the following statements agree with the writer’s views?</p>
+          <div class="checkbox-group" style="margin-bottom:22px;max-width:640px;">
+            <label><input type="checkbox" name="q23-24" value="A"> A &nbsp;&nbsp;We do not really know what time is.</label>
+            <label><input type="checkbox" name="q23-24" value="B"> B &nbsp;&nbsp;Humans have become too obsessed with time.</label>
+            <label><input type="checkbox" name="q23-24" value="C"> C &nbsp;&nbsp;We did not measure time until recently.</label>
+            <label><input type="checkbox" name="q23-24" value="D"> D &nbsp;&nbsp;People of the past had a simple view of time.</label>
+            <label><input type="checkbox" name="q23-24" value="E"> E &nbsp;&nbsp;Precise timekeeping was unnecessary in the past.</label>
+          </div>
+          <p style="margin-bottom:8px;"><strong>25–26</strong> Which TWO of the following are given as examples of places that initially resisted popular time standardisation?</p>
+          <div class="checkbox-group" style="max-width:640px;">
+            <label><input type="checkbox" name="q25-26" value="A"> A &nbsp;&nbsp;Greenwich</label>
+            <label><input type="checkbox" name="q25-26" value="B"> B &nbsp;&nbsp;Britain</label>
+            <label><input type="checkbox" name="q25-26" value="C"> C &nbsp;&nbsp;the United States and Canada</label>
+            <label><input type="checkbox" name="q25-26" value="D"> D &nbsp;&nbsp;Detroit</label>
+            <label><input type="checkbox" name="q25-26" value="E"> E &nbsp;&nbsp;France</label>
+          </div>
+        </div>
+    </div><!-- /questions-2 -->
+
+    <!-- QUESTIONS SET 3 -->
+    <div id="questions-3" class="question-set hidden">
+        <div class="question" data-q-start="27" data-q-end="31">
+          <div class="question-prompt">
+            <p><strong>Questions 27–31</strong><br>Complete the summary below.</p>
+            <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+          </div>
+          <div class="notes-box">
+            <p style="text-align:center;font-weight:bold;font-size:15px;margin-bottom:12px;">Onkalo: hiding nuclear waste</p>
+            <p style="font-size:14px;line-height:2.4;">The Finnish site was judged ideal because <input class="answer-input" id="q27" type="text" placeholder="27" style="width:150px;"/> stays durable and consistent over millions of years, and it was selected partly for its limited ecological impact and the approval of the <input class="answer-input" id="q28" type="text" placeholder="28" style="width:150px;"/>. From an unremarkable entrance, a long and deep tunnel leads to <input class="answer-input" id="q29" type="text" placeholder="29" style="width:150px;"/> for the radioactive waste. Carved warnings may be left around the site, and one idea for keeping future civilisations away is a covering of huge artificial <input class="answer-input" id="q30" type="text" placeholder="30" style="width:150px;"/>; even so, markers could simply arouse curiosity among people who may no longer know what <input class="answer-input" id="q31" type="text" placeholder="31" style="width:150px;"/> is.</p>
+          </div>
+        </div>
+        <div class="question" data-q-start="32" data-q-end="36">
+          <div class="question-prompt">
+            <p><strong>Questions 32–36</strong><br>Complete each sentence with the correct ending, <strong>A–H</strong>.</p>
+            <p style="font-size:13px;color:#666;margin-top:6px;">A. involves digging deep into the earth. &nbsp;&nbsp; B. calls for careful consideration of the site's protection. &nbsp;&nbsp; C. involves storing it in cold water. &nbsp;&nbsp; D. suggests the extinction of the human race. &nbsp;&nbsp; E. calls for a retrospective view from scientists. &nbsp;&nbsp; F. relates to those it is designed to safeguard. &nbsp;&nbsp; G. presumes a threat to the future of nuclear power. &nbsp;&nbsp; H. assumes the similarity of future humans to us.</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;margin-bottom:10px;"><strong style="min-width:24px;">32</strong><span style="flex:1;font-size:14px;">The current method of dealing with nuclear waste ...</span><select class="answer-input" id="q32" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;margin-bottom:10px;"><strong style="min-width:24px;">33</strong><span style="flex:1;font-size:14px;">The Onkalo solution ...</span><select class="answer-input" id="q33" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;margin-bottom:10px;"><strong style="min-width:24px;">34</strong><span style="flex:1;font-size:14px;">The principal risk to the protection of Onkalo ...</span><select class="answer-input" id="q34" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;margin-bottom:10px;"><strong style="min-width:24px;">35</strong><span style="flex:1;font-size:14px;">The unforeseeable nature of future civilizations ...</span><select class="answer-input" id="q35" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:10px 14px;background:#f9fafb;border:1.5px solid #e8ecf0;border-radius:8px;margin-bottom:10px;"><strong style="min-width:24px;">36</strong><span style="flex:1;font-size:14px;">The idea by some scientists to hide Onkalo completely ...</span><select class="answer-input" id="q36" style="padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:14px;min-width:70px;"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+        </div>
+        <div class="question" data-q-start="37" data-q-end="40">
+          <div class="question-prompt">
+            <p><strong>Questions 37–40</strong><br>Do the following statements agree with the writer’s claims?</p>
+            <p>Write <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="37"><div class="tf-question-line"><span class="tf-question-number">37</span><span class="tf-question-text">It is probable that people in the future will have their own nuclear waste to deal with.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q37" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q37" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="38"><div class="tf-question-line"><span class="tf-question-number">38</span><span class="tf-question-text">We can trust future generations to listen to our warnings about the danger hidden in Onkalo.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q38" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q38" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="39"><div class="tf-question-line"><span class="tf-question-number">39</span><span class="tf-question-text">As a permanent testimony to our civilisation, Onkalo may well be revered by future inhabitants of the earth.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q39" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q39" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="40"><div class="tf-question-line"><span class="tf-question-number">40</span><span class="tf-question-text">The waste nuclear energy produces makes its overall value questionable.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q40" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q40" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+    </div><!-- /questions-3 -->
+
+    </div><!-- /questions-panel -->
+  </div><!-- /panels-container -->
+</div><!-- /main-container -->
+
+<!-- NAV ARROWS -->
+<div class="nav-arrows" id="nav-arrows">
+  <button class="nav-arrow" id="prevBtn" onclick="previousQuestion()">&#8249;</button>
+  <button class="nav-arrow" id="nextBtn" onclick="nextQuestion()">&#8250;</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav-row" id="nav-row">
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-1">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(1)"><span class="section-prefix">Part </span><span class="sectionNr">1</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(1)">1</button><button class="subQuestion" onclick="goToQuestion(2)">2</button><button class="subQuestion" onclick="goToQuestion(3)">3</button><button class="subQuestion" onclick="goToQuestion(4)">4</button><button class="subQuestion" onclick="goToQuestion(5)">5</button><button class="subQuestion" onclick="goToQuestion(6)">6</button><button class="subQuestion" onclick="goToQuestion(7)">7</button><button class="subQuestion" onclick="goToQuestion(8)">8</button><button class="subQuestion" onclick="goToQuestion(9)">9</button><button class="subQuestion" onclick="goToQuestion(10)">10</button><button class="subQuestion" onclick="goToQuestion(11)">11</button><button class="subQuestion" onclick="goToQuestion(12)">12</button><button class="subQuestion" onclick="goToQuestion(13)">13</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-2">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(2)"><span class="section-prefix">Part </span><span class="sectionNr">2</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(14)">14</button><button class="subQuestion" onclick="goToQuestion(15)">15</button><button class="subQuestion" onclick="goToQuestion(16)">16</button><button class="subQuestion" onclick="goToQuestion(17)">17</button><button class="subQuestion" onclick="goToQuestion(18)">18</button><button class="subQuestion" onclick="goToQuestion(19)">19</button><button class="subQuestion" onclick="goToQuestion(20)">20</button><button class="subQuestion" onclick="goToQuestion(21)">21</button><button class="subQuestion" onclick="goToQuestion(22)">22</button><button class="subQuestion" onclick="goToQuestion(23)">23</button><button class="subQuestion" onclick="goToQuestion(24)">24</button><button class="subQuestion" onclick="goToQuestion(25)">25</button><button class="subQuestion" onclick="goToQuestion(26)">26</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-3">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(3)"><span class="section-prefix">Part </span><span class="sectionNr">3</span><span class="attemptedCount">0 of 14</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(27)">27</button><button class="subQuestion" onclick="goToQuestion(28)">28</button><button class="subQuestion" onclick="goToQuestion(29)">29</button><button class="subQuestion" onclick="goToQuestion(30)">30</button><button class="subQuestion" onclick="goToQuestion(31)">31</button><button class="subQuestion" onclick="goToQuestion(32)">32</button><button class="subQuestion" onclick="goToQuestion(33)">33</button><button class="subQuestion" onclick="goToQuestion(34)">34</button><button class="subQuestion" onclick="goToQuestion(35)">35</button><button class="subQuestion" onclick="goToQuestion(36)">36</button><button class="subQuestion" onclick="goToQuestion(37)">37</button><button class="subQuestion" onclick="goToQuestion(38)">38</button><button class="subQuestion" onclick="goToQuestion(39)">39</button><button class="subQuestion" onclick="goToQuestion(40)">40</button>
+    </div>
+  </div>
+  <button class="footer__deliverButton___3FM07" onclick="openConfirm()">Submit Test</button>
+</nav>
+
+<!-- FIXED SUBMIT BUTTON bottom-right -->
+
+
+<!-- selection-toolbar and context-menu are injected by TextHighlighter -->
+
+<script>
+const PASSWORD = '1234';
+let candidateId = '';
+let candidateName = '';
+let candidateDate = '';
+let currentPassage = 1;
+let currentQuestion = 1;
+let timeInSeconds = 3600;
+let timerInterval = null;
+let testCompleted = false;
+let draggedItem = null;
+
+const correctAnswers = {
+  '1':'TRUE','2':'TRUE','3':'NOT GIVEN','4':'TRUE','5':'TRUE','6':'FALSE',
+  '7':['treatment'],'8':['amygdala'],'9':['diagnosis'],'10':['the individual','employees'],'11':['adverse effects'],'12':['anxiety'],'13':['understanding'],
+  '14':['ten minutes'],'15':['astronomical observations','the sun'],'16':['railroads'],'17':['safety'],'18':['railway companies'],
+  '19':'C','20':'D','21':'A','22':'A',
+  '23':['A','E'],'24':['A','E'],'25':['D','E'],'26':['D','E'],
+  '27':['bedrock'],'28':['local community'],'29':['storage capsules'],'30':['thorns'],'31':['nuclear waste'],
+  '32':'C','33':'A','34':'F','35':'E','36':'H',
+  '37':'NOT GIVEN','38':'NO','39':'NO','40':'YES'
+};
+
+// ---- LOGIN ----
+function submitLogin() {
+  if (document.getElementById('password').value === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('candidate-screen').style.display = 'flex';
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function submitCandidate() {
+  const name = (document.getElementById('candidate-name-input') || {}).value || '';
+  const date = (document.getElementById('test-date-input') || {}).value || '';
+  const val = name.trim();
+  if (val.length < 1) { document.getElementById('candidate-error').style.display = 'block'; return; }
+  candidateId = val;
+  candidateName = val;
+  candidateDate = date || new Date().toLocaleDateString();
+  document.getElementById('header-candidate-id').textContent = val;
+  document.getElementById('intro-candidate-name').textContent = val;
+  document.getElementById('candidate-screen').style.display = 'none';
+  const intro = document.getElementById('intro-screen');
+  intro.style.display = 'flex';
+  intro.style.flexDirection = 'column';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') submitLogin(); });
+  document.getElementById('candidate-name-input') && document.getElementById('candidate-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitCandidate(); });
+  document.getElementById('back-to-login').addEventListener('click', function() {
+    document.getElementById('candidate-screen').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  });
+
+  document.getElementById('start-test-btn').addEventListener('click', function() {
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('main-header').style.display = 'flex';
+    document.getElementById('main-container').style.display = 'flex';
+    document.getElementById('nav-arrows').style.display = 'flex';
+    document.getElementById('nav-row').style.display = 'flex';
+    
+    switchToPart(1);
+    initDragDrop();
+    setupInputListeners();
+    setupCheckboxLimits();
+    updateAllIndicators();
+    startTimer();
+    initResizer();
+  });
+});
+
+// ---- TIMER ----
+function startTimer() {
+  timerInterval = setInterval(function() {
+    timeInSeconds--;
+    const m = Math.floor(timeInSeconds / 60);
+    const s = timeInSeconds % 60;
+    const display = document.getElementById('timer-display');
+    const remaining = Math.ceil(timeInSeconds / 60);
+    display.textContent = remaining + 'm remaining';
+    if (timeInSeconds <= 300) display.classList.add('timer-warning');
+    if (timeInSeconds <= 0) { clearInterval(timerInterval); handleTimeUp(); }
+  }, 1000);
+}
+
+function handleTimeUp() {
+  if (testCompleted) return;
+  testCompleted = true;
+  alert("Time's up! Submitting your test.");
+  downloadPDF();
+  setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
+}
+
+// ---- PART SWITCHING ----
+function switchToPart(n) {
+  currentPassage = n;
+  document.querySelectorAll('.reading-passage,.question-set,.part-header').forEach(el => el.classList.add('hidden'));
+  document.getElementById('passage-text-' + n).classList.remove('hidden');
+  document.getElementById('questions-' + n).classList.remove('hidden');
+  const headers = { 1:'<strong>Part 1</strong> — Read the text and answer questions 1–13. (Mindfulness)', 2:'<strong>Part 2</strong> — Read the text and answer questions 14–26. (Behind the Times)', 3:'<strong>Part 3</strong> — Read the text and answer questions 27–40. (Onkalo)' };
+  document.getElementById('part-header-bar').innerHTML = headers[n];
+  document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w, i) => w.classList.toggle('selected', i + 1 === n));
+  const firstQ = {1:1, 2:14, 3:27}[n];
+  goToQuestion(firstQ);
+}
+
+// ---- NAVIGATION ----
+function goToQuestion(qNum) {
+  currentQuestion = qNum;
+  let part = qNum <= 13 ? 1 : qNum <= 26 ? 2 : 3;
+  if (currentPassage !== part) { switchToPart(part); return; }
+
+  document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+  if (btn) btn.classList.add('active');
+
+  // Find and scroll to element
+  let el = document.getElementById('q' + qNum)
+    || document.querySelector('input[name="q' + qNum + '"]')
+    || document.querySelector('.tf-question[data-q-start="' + qNum + '"]')
+    || document.querySelector('.drop-zone[data-q-start="' + qNum + '"]')
+    || document.querySelector('.summary-drop-zone[data-q-start="' + qNum + '"]');
+
+  if (el) {
+    const block = el.closest('.question, .tf-question, .matching-question-item') || el.parentElement;
+    if (block) {
+      block.scrollIntoView({ behavior:'smooth', block:'center' });
+      block.classList.add('flash');
+      setTimeout(() => block.classList.remove('flash'), 1000);
+    }
+  }
+  updateAllIndicators();
+}
+
+function previousQuestion() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+function nextQuestion() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+window.previousQuestion = previousQuestion;
+window.nextQuestion = nextQuestion;
+window.goToQuestion = goToQuestion;
+window.switchToPart = switchToPart;
+
+// ---- INDICATORS ----
+function isAnswered(q) {
+  const txt = document.getElementById('q' + q);
+  if (txt && txt.value && txt.value.trim() !== '') return true;
+  if (document.querySelector('input[name="q' + q + '"]:checked')) return true;
+  const cbMap = {23:'q23-24',24:'q23-24',25:'q25-26',26:'q25-26'};
+  if (cbMap[q]) {
+    const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
+    if (checked >= 2) return true;
+  }
+  const dz = document.querySelector('.drop-zone[data-q-start="' + q + '"]');
+  if (dz && dz.querySelector('.drag-item')) return true;
+  const sz = document.querySelector('.summary-drop-zone[data-q-start="' + q + '"]');
+  if (sz && sz.querySelector('.drag-item')) return true;
+  return false;
+}
+
+function updateAllIndicators() {
+  document.querySelectorAll('.subQuestion').forEach(btn => {
+    const m = (btn.getAttribute('onclick') || '').match(/goToQuestion\((\d+)\)/);
+    if (!m) return;
+    btn.classList.toggle('answered', isAnswered(parseInt(m[1])));
+  });
+  [[1,1,13],[2,14,26],[3,27,40]].forEach(([part, start, end]) => {
+    let count = 0;
+    for (let i = start; i <= end; i++) { if (isAnswered(i)) count++; }
+    const w = document.getElementById('part-nav-' + part);
+    if (w) { const ct = w.querySelector('.attemptedCount'); if (ct) ct.textContent = count + ' of ' + (end - start + 1); }
+  });
+}
+
+function setupInputListeners() {
+  document.querySelectorAll('.answer-input, input[type="radio"], input[type="checkbox"]').forEach(inp => {
+    inp.addEventListener('input', updateAllIndicators);
+    inp.addEventListener('change', updateAllIndicators);
+  });
+}
+
+function setupCheckboxLimits() {
+  ['q23-24','q25-26'].forEach(name => {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(cb => {
+      cb.addEventListener('click', function() {
+        const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
+        if (checked.length > 2) cb.checked = false;
+      });
+    });
+  });
+}
+
+// ---- DRAG AND DROP ----
+function initDragDrop() {
+  document.querySelectorAll('.drag-item').forEach(item => {
+    item.addEventListener('dragstart', e => { draggedItem = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); });
+    item.addEventListener('dragend', e => { e.target.classList.remove('dragging'); draggedItem = null; });
+    // Touch support
+    item.addEventListener('touchstart', handleTouchStart, { passive: true });
+    item.addEventListener('touchmove', handleTouchMove, { passive: false });
+    item.addEventListener('touchend', handleTouchEnd);
+  });
+  document.querySelectorAll('.drop-zone, .summary-drop-zone, .matching-options-bank, .summary-options-bank').forEach(zone => {
+    zone.addEventListener('dragover', e => { e.preventDefault(); if (!draggedItem || draggedItem.dataset.dndGroup !== zone.dataset.dndGroup) return; zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', e => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handleDropTo(zone); });
+  });
+}
+
+function handleDropTo(targetZone) {
+  if (!draggedItem || draggedItem.dataset.dndGroup !== targetZone.dataset.dndGroup) return;
+  const sourceZone = draggedItem.parentElement;
+  if (sourceZone === targetZone) return;
+  const isTargetZone = targetZone.classList.contains('drop-zone') || targetZone.classList.contains('summary-drop-zone');
+  const isSourceZone = sourceZone.classList.contains('drop-zone') || sourceZone.classList.contains('summary-drop-zone');
+  const existing = isTargetZone ? targetZone.querySelector('.drag-item') : null;
+  if (existing) { sourceZone.appendChild(existing); }
+  if (isSourceZone && !sourceZone.querySelector('.drag-item')) {
+    sourceZone.classList.remove('filled');
+    sourceZone.textContent = sourceZone.dataset.qStart || '';
+  }
+  targetZone.appendChild(draggedItem);
+  if (isTargetZone) { targetZone.classList.add('filled'); }
+  updateAllIndicators();
+}
+
+// Touch drag
+let touchDragged = null, touchClone = null;
+function handleTouchStart(e) {
+  touchDragged = this;
+  draggedItem = this;
+  const t = e.touches[0];
+  touchClone = this.cloneNode(true);
+  touchClone.style.cssText = 'position:fixed;pointer-events:none;opacity:.75;z-index:9999;background:white;border:1px solid #9c9c9c;padding:4px 10px;border-radius:4px;font-size:14px;';
+  touchClone.style.left = (t.clientX - 30) + 'px';
+  touchClone.style.top = (t.clientY - 20) + 'px';
+  document.body.appendChild(touchClone);
+}
+function handleTouchMove(e) {
+  if (!touchClone) return;
+  e.preventDefault();
+  const t = e.touches[0];
+  touchClone.style.left = (t.clientX - 30) + 'px';
+  touchClone.style.top = (t.clientY - 20) + 'px';
+}
+function handleTouchEnd(e) {
+  if (touchClone) { document.body.removeChild(touchClone); touchClone = null; }
+  if (!touchDragged) return;
+  const t = e.changedTouches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const zone = el ? (el.closest('.drop-zone, .summary-drop-zone, .matching-options-bank, .summary-options-bank')) : null;
+  if (zone) handleDropTo(zone);
+  touchDragged = null;
+  draggedItem = null;
+}
+
+// ---- RESIZER ----
+function initResizer() {
+  const resizer = document.getElementById('resizer');
+  const passage = document.getElementById('passage-panel');
+  const questions = document.getElementById('questions-panel');
+  let isResizing = false, startX, startPassW, startQuestW;
+  resizer.addEventListener('mousedown', e => {
+    isResizing = true; startX = e.clientX;
+    startPassW = passage.offsetWidth; startQuestW = questions.offsetWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const dx = e.clientX - startX;
+    const newPassW = Math.max(200, startPassW + dx);
+    const newQuestW = Math.max(200, startQuestW - dx);
+    passage.style.flex = 'none';
+    passage.style.width = newPassW + 'px';
+    questions.style.flex = 'none';
+    questions.style.width = newQuestW + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    isResizing = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+}
+
+// ---- HIGHLIGHT (new system, class defined below) ----
+
+// ---- SUBMIT & PDF ----
+function submitTest() {
+  if (testCompleted) return;
+  if (!confirm('Submit test and download your PDF results?')) return;
+  testCompleted = true;
+  clearInterval(timerInterval);
+  try {
+    downloadPDF();
+  } catch(e) {
+    console.error('PDF error:', e);
+    alert('Could not generate PDF. Please try again.\nError: ' + e.message);
+    testCompleted = false;
+    return;
+  }
+  setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
+  setTimeout(() => { window.location.href = 'Writing.html'; }, 3000);
+}
+
+function getUserAnswer(q) {
+  const txt = document.getElementById('q' + q);
+  if (txt && (txt.tagName === 'INPUT' || txt.tagName === 'SELECT')) return txt.value.trim();
+  const radio = document.querySelector('input[name="q' + q + '"]:checked');
+  if (radio) return radio.value;
+  const cbMap = {23:'q23-24',24:'q23-24',25:'q25-26',26:'q25-26'};
+  if (cbMap[q]) {
+    const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
+    const idx = (q === 23 || q === 25) ? 0 : 1;
+    return vals[idx] || '';
+  }
+  const dz = document.querySelector('.drop-zone[data-q-start="' + q + '"]');
+  if (dz && dz.querySelector('.drag-item')) return dz.querySelector('.drag-item').dataset.value || '';
+  const sz = document.querySelector('.summary-drop-zone[data-q-start="' + q + '"]');
+  if (sz && sz.querySelector('.drag-item')) return sz.querySelector('.drag-item').dataset.value || '';
+  return '';
+}
+
+function checkCorrect(userAns, correct) {
+  if (!userAns) return false;
+  const u = userAns.trim().toLowerCase();
+  if (Array.isArray(correct)) return correct.some(c => u === c.toLowerCase());
+  return u === String(correct).toLowerCase();
+}
+
+function calculateBand(score) {
+  if (score >= 39) return '9.0';
+  const map = {38:'8.5',37:'8.5',36:'8.0',35:'8.0',34:'7.5',33:'7.5',32:'7.0',31:'7.0',30:'7.0',29:'6.5',28:'6.5',27:'6.5',26:'6.0',25:'6.0',24:'6.0',23:'5.5',22:'5.5',21:'5.5',20:'5.5',19:'5.0',18:'5.0',17:'5.0',16:'5.0',15:'5.0',14:'4.5',13:'4.5',12:'4.0',11:'4.0',10:'4.0',9:'3.5',8:'3.5',7:'3.0',6:'3.0',5:'2.5',4:'2.5'};
+  return map[score] || '0.0';
+}
+
+function downloadPDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) throw new Error('jsPDF not loaded. Check your internet connection.');
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let score = 0;
+  const results = [];
+  for (let i = 1; i <= 40; i++) {
+    const user = getUserAnswer(i);
+    const correct = correctAnswers[String(i)];
+    const ok = checkCorrect(user, correct);
+    if (ok) score++;
+    results.push({ q: i, user: user || '—', correct: Array.isArray(correct) ? correct[0] : correct, ok });
+  }
+  const band = calculateBand(score);
+  doc.setFontSize(18); doc.setFont(undefined, 'bold');
+  doc.text('IELTS Reading Practice — Results', 105, 20, { align: 'center' });
+  doc.setFontSize(14); doc.setFont(undefined, 'normal');
+  doc.text('Score: ' + score + ' / 40', 20, 40);
+  doc.text('Band Score: ' + band, 20, 50);
+  doc.text('Candidate: ' + (candidateName || candidateId), 20, 60);
+  doc.text('Date: ' + (candidateDate || new Date().toLocaleDateString()), 20, 70);
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'bold');
+  doc.text('Q', 20, 90); doc.text('Your Answer', 35, 90); doc.text('Correct', 100, 90); doc.text('Result', 155, 90);
+  doc.setFont(undefined, 'normal');
+  let y = 100;
+  results.forEach(r => {
+    doc.setTextColor('#000000');
+    doc.text(String(r.q), 20, y);
+    doc.text(String(r.user), 35, y);
+    doc.text(String(r.correct), 100, y);
+    doc.setTextColor(r.ok ? '#1a7a1a' : '#c0392b');
+    doc.text(r.ok ? 'Correct' : 'Wrong', 155, y);
+    y += 8;
+    if (y > 280) { doc.addPage(); y = 20; }
+  });
+  doc.setTextColor('#000000');
+  doc.save('IELTS_Reading_Practice_' + (candidateName||candidateId).replace(/\s+/g,'_') + '.pdf');
+}
+</script>
+<!-- CONFIRM MODAL (blur backdrop, timer keeps running) -->
+<div id="confirm-overlay">
+  <div id="confirm-backdrop"></div>
+  <div id="confirm-box">
+    <h3>Submit Test?</h3>
+    <p>Once submitted, your answers are locked and the PDF will download.</p>
+    <div class="confirm-stats">
+      <div class="confirm-stat"><div class="confirm-stat-num" id="confirm-answered-num">0</div><div class="confirm-stat-label">Answered</div></div>
+      <div class="confirm-stat"><div class="confirm-stat-num" id="confirm-remaining-num">40</div><div class="confirm-stat-label">Remaining</div></div>
+    </div>
+    <div class="confirm-btns">
+      <button class="confirm-btn-back" onclick="closeConfirm()">← Go Back</button>
+      <button class="confirm-btn-submit" onclick="confirmSubmit()">Submit ✓</button>
+    </div>
+  </div>
+</div>
+    <div id="admin-login">
+      <div id="admin-pw-wrap">
+        <input id="admin-pw" type="password" placeholder="Password…">
+        <button id="admin-unlock-btn" onclick="adminUnlock()">Unlock</button>
+      </div>
+      <div id="admin-pw-err"></div>
+    </div>
+    <div id="admin-controls">
+      <div class="admin-section">
+        <h4>Timer</h4>
+        <div class="admin-row">
+          <span id="admin-timer-status">Running</span>
+          <button class="admin-btn" id="admin-freeze-btn" onclick="adminToggleTimer()">⏸ Freeze</button>
+        </div>
+        <div class="admin-row" style="margin-top:10px;flex-wrap:wrap;">
+          <button class="admin-btn" onclick="adminAdjustTime(-300)">-5m</button>
+          <button class="admin-btn" onclick="adminAdjustTime(-60)">-1m</button>
+          <button class="admin-btn" onclick="adminAdjustTime(60)">+1m</button>
+          <button class="admin-btn" onclick="adminAdjustTime(300)">+5m</button>
+        </div>
+      </div>
+      <button onclick="adminClose()" style="align-self:flex-end;background:none;border:1px solid #3a3f55;color:#8a8fa0;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer;margin-top:4px;">Close Panel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── ADMIN ──────────────────────────────────────────────────────────────────
+const ADMIN_PASSWORD = '456654';
+let adminUnlocked = false, adminOpen = false, adminFrozen = false;
+const _adminKeys = new Set();
+
+document.addEventListener('keydown', e => {
+  _adminKeys.add(e.key);
+  if (e.shiftKey && _adminKeys.has('6') && _adminKeys.has('7')) {
+    e.preventDefault();
+    adminOpen ? adminClose() : adminTogglePanel();
+  }
+});
+document.addEventListener('keyup', e => _adminKeys.delete(e.key));
+
+function adminTogglePanel() {
+  adminOpen = true; adminUnlocked = false;
+  document.getElementById('admin-login').style.display = '';
+  document.getElementById('admin-controls').classList.remove('show');
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('admin-pw-err').textContent = '';
+  document.getElementById('admin-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('admin-pw').focus(), 50);
+}
+function adminClose() {
+  adminOpen = false;
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+function adminUnlock() {
+  if (document.getElementById('admin-pw').value === ADMIN_PASSWORD) {
+    adminUnlocked = true;
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-controls').classList.add('show');
+  } else {
+    document.getElementById('admin-pw-err').textContent = 'Wrong password.';
+    document.getElementById('admin-pw').value = '';
+    document.getElementById('admin-pw').focus();
+  }
+}
+function adminToggleTimer() {
+  adminFrozen = !adminFrozen;
+  const btn = document.getElementById('admin-freeze-btn');
+  const status = document.getElementById('admin-timer-status');
+  btn.textContent = adminFrozen ? '▶ Resume' : '⏸ Freeze';
+  status.textContent = adminFrozen ? 'Frozen ❄️' : 'Running';
+  status.style.color = adminFrozen ? '#e05c5c' : '#8a8fa0';
+}
+function adminAdjustTime(deltaSeconds) {
+  timeInSeconds = Math.max(0, timeInSeconds + deltaSeconds);
+  const m = Math.floor(timeInSeconds / 60);
+  const s = timeInSeconds % 60;
+  const display = document.getElementById('timer-display');
+  if (display) {
+    const remaining = Math.ceil(timeInSeconds / 60);
+    display.textContent = remaining + 'm remaining';
+    display.classList.toggle('timer-warning', timeInSeconds <= 300);
+  }
+  if (timeInSeconds <= 0) { clearInterval(timerInterval); handleTimeUp(); }
+}
+document.getElementById('admin-pw').addEventListener('keydown', e => { if (e.key === 'Enter') adminUnlock(); });
+
+// ── PATCH TIMER to respect adminFrozen ────────────────────────────────────
+// Wrap the existing startTimer to check adminFrozen flag
+const _origInterval = setInterval;
+// Instead, patch by overriding timerInterval tick - we hook into the existing
+// timer by modifying timeInSeconds only when not frozen.
+// The existing startTimer uses setInterval; we patch by monkey-patching
+// the tick: override after DOMContentLoaded.
+document.addEventListener('DOMContentLoaded', function() {
+  // Re-patch start-test to inject adminFrozen check
+  const origStartTest = window.startTest || null;
+  // We patch by replacing timerInterval after startTest runs
+  document.getElementById('start-test-btn').addEventListener('click', function() {
+    // After startTest fires, find and patch the interval
+    setTimeout(() => {
+      // Clear existing interval and restart with adminFrozen check
+      clearInterval(timerInterval);
+      timerInterval = setInterval(function() {
+        if (adminFrozen) return; // freeze check
+        timeInSeconds--;
+        const m = Math.floor(timeInSeconds / 60), s = timeInSeconds % 60;
+        const display = document.getElementById('timer-display');
+        const remaining = Math.ceil(timeInSeconds / 60);
+    display.textContent = remaining + 'm remaining';
+        if (timeInSeconds <= 300) display.classList.add('timer-warning');
+        if (timeInSeconds <= 0) { clearInterval(timerInterval); handleTimeUp(); }
+      }, 1000);
+    }, 100);
+  }, true); // capture phase so runs before existing listener
+});
+
+// ── CONFIRM MODAL ─────────────────────────────────────────────────────────
+function countAnswered() {
+  let n = 0;
+  const cbMap = {23:'q23-24',24:'q23-24',25:'q25-26',26:'q25-26'};
+  for (let i = 1; i <= 40; i++) {
+    if (cbMap[i]) {
+      if (document.querySelectorAll('input[name="' + cbMap[i] + '"]:checked').length >= 2) n++;
+      continue;
+    }
+    const txt = document.getElementById('q' + i);
+    if (txt && txt.value && txt.value.trim()) { n++; continue; }
+    if (document.querySelector('input[name="q' + i + '"]:checked')) { n++; continue; }
+  }
+  return n;
+}
+
+function openConfirm() {
+  const answered = countAnswered();
+  document.getElementById('confirm-answered-num').textContent = answered;
+  document.getElementById('confirm-remaining-num').textContent = 40 - answered;
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('open');
+}
+
+function confirmSubmit() {
+  closeConfirm();
+  submitTest(); // call existing submitTest
+}
+</script>
+
+<script>
+// ════════════════════════════════════════
+// TEXT HIGHLIGHTER
+// Select text → floating toolbar (Highlight / Note)
+// Click/right-click an existing highlight → context menu (Remove)
+// ════════════════════════════════════════
+class TextHighlighter {
+  constructor() {
+    this.selectedRange = null;
+    this.targetElement = null;
+    this._build();
+    this._bind();
+  }
+
+  _build() {
+    this.toolbar = document.createElement('div');
+    this.toolbar.className = 'selection-toolbar';
+    this.toolbar.innerHTML = `
+      <button id="th-highlight-btn">
+        <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        Highlight
+      </button>
+      <button id="th-note-btn">
+        <svg viewBox="0 0 24 24"><path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z"/></svg>
+        Note
+      </button>
+    `;
+    document.body.appendChild(this.toolbar);
+
+    this.ctxMenu = document.createElement('div');
+    this.ctxMenu.className = 'context-menu';
+    this.ctxMenu.style.cssText = 'position:fixed;background:#1e2130;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.45);z-index:4000;display:none;flex-direction:column;padding:6px;min-width:160px;';
+    this.ctxMenu.innerHTML = `
+      <div id="th-remove-btn" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;font-size:13px;font-weight:600;color:#e05c5c;border-radius:8px;" onmouseover="this.style.background='#2a1a1a'" onmouseout="this.style.background='none'">
+        <span>🗑</span> Remove Highlight
+      </div>
+    `;
+    document.body.appendChild(this.ctxMenu);
+  }
+
+  _bind() {
+    document.addEventListener('mouseup', (e) => {
+      if (this.toolbar.contains(e.target) || this.ctxMenu.contains(e.target)) return;
+      if (e.target.closest('#admin-overlay') || e.target.closest('#settings-modal')) return;
+      setTimeout(() => {
+        const sel = window.getSelection();
+        if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+          const range = sel.getRangeAt(0);
+          const container = range.commonAncestorContainer;
+          const parent = container.nodeType === 3 ? container.parentNode : container;
+          if (parent.closest('input,select,textarea,.answer-input')) { this._hideToolbar(); return; }
+          this.selectedRange = range.cloneRange();
+          this._showToolbar(range.getBoundingClientRect());
+        } else {
+          this._hideToolbar();
+        }
+      }, 10);
+    });
+
+    document.addEventListener('mousedown', (e) => {
+      if (!this.toolbar.contains(e.target)) this._hideToolbar();
+      if (!this.ctxMenu.contains(e.target)) this._hideCtx();
+    });
+
+    document.addEventListener('contextmenu', (e) => {
+      const hl = e.target.closest('.highlight,.comment-highlight');
+      if (!hl) return;
+      e.preventDefault();
+      this.targetElement = hl;
+      this._showCtx(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('click', (e) => {
+      const hl = e.target.closest('.highlight,.comment-highlight');
+      if (!hl) return;
+      const sel = window.getSelection();
+      if (sel && sel.toString().trim()) return;
+      this.targetElement = hl;
+      const rect = hl.getBoundingClientRect();
+      this._showCtx(rect.left + rect.width / 2, rect.top - 10);
+    });
+
+    document.getElementById('th-highlight-btn').addEventListener('click', () => {
+      this._apply('highlight', null);
+    });
+
+    document.getElementById('th-note-btn').addEventListener('click', () => {
+      const note = prompt('Enter your note:');
+      if (note && note.trim()) this._apply('comment-highlight', note.trim());
+      else this._hideToolbar();
+    });
+
+    document.getElementById('th-remove-btn').addEventListener('click', () => {
+      if (!this.targetElement) return;
+      const parent = this.targetElement.parentNode;
+      const tip = this.targetElement.querySelector('.comment-tooltip');
+      if (tip) tip.remove();
+      while (this.targetElement.firstChild) parent.insertBefore(this.targetElement.firstChild, this.targetElement);
+      parent.removeChild(this.targetElement);
+      parent.normalize();
+      this.targetElement = null;
+      this._hideCtx();
+    });
+  }
+
+  _apply(className, noteText) {
+    if (!this.selectedRange || !this.selectedRange.toString().trim()) return;
+    const range = this.selectedRange.cloneRange();
+
+    const root = range.commonAncestorContainer;
+    const treeRoot = root.nodeType === Node.TEXT_NODE ? root.parentNode : root;
+    const tw = document.createTreeWalker(treeRoot, NodeFilter.SHOW_TEXT);
+    const toWrap = [];
+    let node;
+    while ((node = tw.nextNode())) {
+      if (node.parentNode.closest('input,select,textarea')) continue;
+      const nr = document.createRange(); nr.selectNode(node);
+      if (range.compareBoundaryPoints(Range.END_TO_START, nr) >= 0) continue;
+      if (range.compareBoundaryPoints(Range.START_TO_END, nr) <= 0) continue;
+      toWrap.push(node);
+    }
+
+    toWrap.forEach(tn => {
+      let start = 0, end = tn.length;
+      if (tn === range.startContainer) start = range.startOffset;
+      if (tn === range.endContainer)   end   = range.endOffset;
+      if (start >= end) return;
+      const before = tn.nodeValue.slice(0, start);
+      const middle = tn.nodeValue.slice(start, end);
+      const after  = tn.nodeValue.slice(end);
+      const sp = document.createElement('span');
+      sp.className = className;
+      sp.textContent = middle;
+      if (noteText) {
+        const tip = document.createElement('span');
+        tip.className = 'comment-tooltip';
+        tip.textContent = noteText;
+        sp.appendChild(tip);
+      }
+      const p = tn.parentNode; if (!p) return;
+      if (before) p.insertBefore(document.createTextNode(before), tn);
+      p.insertBefore(sp, tn);
+      if (after)  p.insertBefore(document.createTextNode(after), tn);
+      p.removeChild(tn);
+    });
+
+    window.getSelection().removeAllRanges();
+    this.selectedRange = null;
+    this._hideToolbar();
+  }
+
+  _showToolbar(rect) {
+    this.toolbar.style.visibility = 'hidden';
+    this.toolbar.style.display = 'flex';
+    const tw = this.toolbar.offsetWidth;
+    this.toolbar.style.display = 'none';
+    this.toolbar.style.visibility = '';
+    let left = rect.left + rect.width / 2 - tw / 2;
+    let top  = rect.top - 50 + window.scrollY;
+    if (left < 4) left = 4;
+    if (left + tw > window.innerWidth - 4) left = window.innerWidth - tw - 4;
+    if (top < 4) top = rect.bottom + window.scrollY + 8;
+    this.toolbar.style.left = left + 'px';
+    this.toolbar.style.top  = top + 'px';
+    this.toolbar.style.display = 'flex';
+  }
+
+  _hideToolbar() {
+    this.toolbar.style.display = 'none';
+    this.selectedRange = null;
+  }
+
+  _showCtx(x, y) {
+    let top = y - 10;
+    if (top < 4) top = y + 20;
+    this.ctxMenu.style.left = x + 'px';
+    this.ctxMenu.style.top  = top + 'px';
+    this.ctxMenu.style.display = 'flex';
+  }
+
+  _hideCtx() {
+    this.ctxMenu.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => { new TextHighlighter(); });
+</script>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;align-items:center;justify-content:center;">
+  <div class="settings-modal-content">
+    <div class="settings-header">
+      <span class="settings-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        Exam Settings
+      </span>
+      <button type="button" id="settings-close" class="settings-close">&times;</button>
+    </div>
+
+    <p class="settings-section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+      Theme
+    </p>
+    <button type="button" class="settings-option" data-theme="light">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
+      Light
+    </button>
+    <button type="button" class="settings-option" data-theme="dark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+      Dark
+    </button>
+    <button type="button" class="settings-option" data-theme="system">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/></svg>
+      System
+    </button>
+
+    <p class="settings-section-title">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg>
+      Text Size
+    </p>
+    <button type="button" class="settings-option" data-textsize="default">Default</button>
+    <button type="button" class="settings-option" data-textsize="large" style="font-size:18.5px;">Large</button>
+    <button type="button" class="settings-option" data-textsize="xlarge" style="font-size:21.5px;">Extra Large</button>
+
+    <!-- Logout section -->
+    <p class="settings-section-title" style="margin-top:24px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      Session
+    </p>
+    <button type="button" id="logout-btn-settings" class="settings-option" style="color:#e53e3e;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="fill:#e53e3e;"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+      Logout
+    </button>
+
+    <!-- Admin section (locked by password) -->
+    <p class="settings-section-title" style="margin-top:24px;">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+      Admin
+    </p>
+    <div id="admin-login-section">
+      <div style="display:flex;gap:8px;margin-bottom:8px;">
+        <input id="admin-pw-settings" type="password" placeholder="Admin password…"
+          style="flex:1;padding:10px 14px;border:1px solid #e5e7eb;border-radius:9px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#111;">
+        <button type="button" id="admin-unlock-settings"
+          style="background:#4a9eff;border:none;color:#fff;border-radius:9px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">
+          Unlock
+        </button>
+      </div>
+      <div id="admin-pw-err-settings" style="color:#e53e3e;font-size:12px;min-height:16px;margin-bottom:4px;"></div>
+    </div>
+    <div id="admin-controls-settings" style="display:none;flex-direction:column;gap:8px;">
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:9px;padding:14px 16px;">
+        <div style="font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;margin-bottom:10px;">Timer</div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="admin-timer-status-s" style="font-size:13px;color:#6b7280;">Running</span>
+          <button type="button" id="admin-freeze-btn-s"
+            style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;color:#374151;">
+            ⏸ Freeze Timer
+          </button>
+          <button type="button" id="admin-minus5"
+            style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:#374151;">
+            −5 min
+          </button>
+          <button type="button" id="admin-plus5"
+            style="background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-size:13px;cursor:pointer;color:#374151;">
+            +5 min
+          </button>
+        </div>
+      </div>
+      <button type="button" id="admin-lock-btn"
+        style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:9px;padding:11px 15px;font-size:14px;font-weight:500;cursor:pointer;color:#6b7280;text-align:left;display:flex;align-items:center;gap:8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:16px;height:16px;fill:#6b7280;flex-shrink:0;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        Lock Admin (re-enter password next time)
+      </button>
+    </div>
+
+    <button type="button" id="reset-settings-btn" class="settings-reset">
+      <span class="settings-reset-title">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-8 8s3.58 8 8 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        Reset Settings
+      </span>
+      <span class="settings-reset-sub">Restore the default theme and text size. Your answers are kept.</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ═══ Settings: Theme + Text Size ═══
+(function() {
+  const settingsModal = document.getElementById('settings-modal');
+  const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  function readSetting(key, fallback) {
+    try { return localStorage.getItem(key) || fallback; } catch(e) { return fallback; }
+  }
+  function saveSetting(key, value) {
+    try { localStorage.setItem(key, value); } catch(e) {}
+  }
+
+  function applyTheme(theme) {
+    const dark = theme === 'dark' || (theme === 'system' && darkQuery.matches);
+    document.body.classList.toggle('dark', dark);
+    document.querySelectorAll('.settings-option[data-theme]').forEach(b => {
+      b.classList.toggle('selected', b.dataset.theme === theme);
+    });
+  }
+
+  function applyTextSize(size) {
+    document.body.classList.remove('text-large', 'text-xlarge');
+    if (size === 'large') document.body.classList.add('text-large');
+    else if (size === 'xlarge') document.body.classList.add('text-xlarge');
+    document.querySelectorAll('.settings-option[data-textsize]').forEach(b => {
+      b.classList.toggle('selected', b.dataset.textsize === size);
+    });
+  }
+
+  document.querySelectorAll('.settings-option[data-theme]').forEach(btn => {
+    btn.addEventListener('click', () => { saveSetting('ielts-theme', btn.dataset.theme); applyTheme(btn.dataset.theme); });
+  });
+  document.querySelectorAll('.settings-option[data-textsize]').forEach(btn => {
+    btn.addEventListener('click', () => { saveSetting('ielts-textsize', btn.dataset.textsize); applyTextSize(btn.dataset.textsize); });
+  });
+
+  darkQuery.addEventListener('change', () => {
+    if (readSetting('ielts-theme', 'light') === 'system') applyTheme('system');
+  });
+
+  document.getElementById('settings-btn').addEventListener('click', () => {
+    settingsModal.style.display = 'flex';
+  });
+  // Logout from settings
+  document.getElementById('logout-btn-settings').addEventListener('click', () => {
+    if (confirm('Are you sure you want to logout?')) window.location.reload();
+  });
+
+  // Admin unlock
+  let adminSettingsUnlocked = false;
+  let adminFrozen = false;
+  const ADMIN_PW = '456654';
+  document.getElementById('admin-unlock-settings').addEventListener('click', adminSettingsUnlock);
+  document.getElementById('admin-pw-settings').addEventListener('keydown', e => { if (e.key === 'Enter') adminSettingsUnlock(); });
+  function adminSettingsUnlock() {
+    const pw = document.getElementById('admin-pw-settings').value;
+    if (pw === ADMIN_PW) {
+      adminSettingsUnlocked = true;
+      document.getElementById('admin-login-section').style.display = 'none';
+      document.getElementById('admin-controls-settings').style.display = 'flex';
+    } else {
+      document.getElementById('admin-pw-err-settings').textContent = 'Wrong password.';
+      document.getElementById('admin-pw-settings').value = '';
+    }
+  }
+  document.getElementById('admin-lock-btn').addEventListener('click', () => {
+    adminSettingsUnlocked = false;
+    document.getElementById('admin-login-section').style.display = '';
+    document.getElementById('admin-controls-settings').style.display = 'none';
+    document.getElementById('admin-pw-settings').value = '';
+    document.getElementById('admin-pw-err-settings').textContent = '';
+  });
+  document.getElementById('admin-freeze-btn-s').addEventListener('click', () => {
+    adminFrozen = !adminFrozen;
+    document.getElementById('admin-freeze-btn-s').textContent = adminFrozen ? '▶ Resume Timer' : '⏸ Freeze Timer';
+    document.getElementById('admin-timer-status-s').textContent = adminFrozen ? 'Frozen ❄️' : 'Running';
+    document.getElementById('admin-timer-status-s').style.color = adminFrozen ? '#e53e3e' : '#6b7280';
+  });
+  document.getElementById('admin-minus5').addEventListener('click', () => { timeInSeconds = Math.max(0, timeInSeconds - 300); updateTimerDisplay(); });
+  document.getElementById('admin-plus5').addEventListener('click', () => { timeInSeconds = Math.min(7200, timeInSeconds + 300); updateTimerDisplay(); });
+  function updateTimerDisplay() {
+    const d = document.getElementById('timer-display');
+    d.textContent = Math.ceil(timeInSeconds / 60) + 'm remaining';
+    if (timeInSeconds <= 300) d.classList.add('timer-warning');
+    else d.classList.remove('timer-warning');
+  }
+
+  // Patch timerInterval to respect adminFrozen
+  document.getElementById('start-test-btn').addEventListener('click', function() {
+    setTimeout(() => {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(function() {
+        if (adminFrozen) return;
+        timeInSeconds--;
+        updateTimerDisplay();
+        if (timeInSeconds <= 0) { clearInterval(timerInterval); handleTimeUp(); }
+      }, 1000);
+    }, 200);
+  }, true);
+
+    document.getElementById('settings-close').addEventListener('click', () => {
+    settingsModal.style.display = 'none';
+  });
+  settingsModal.addEventListener('click', (e) => {
+    if (e.target === settingsModal) settingsModal.style.display = 'none';
+  });
+  document.getElementById('reset-settings-btn').addEventListener('click', () => {
+    saveSetting('ielts-theme', 'light');
+    saveSetting('ielts-textsize', 'default');
+    applyTheme('light');
+    applyTextSize('default');
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTheme(readSetting('ielts-theme', 'light'));
+    applyTextSize(readSetting('ielts-textsize', 'default'));
+  });
+  applyTheme(readSetting('ielts-theme', 'light'));
+  applyTextSize(readSetting('ielts-textsize', 'default'));
+})();
+</script>
+</body>
+</html>
