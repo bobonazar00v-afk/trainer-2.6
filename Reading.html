@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IELTS Reading Test</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #fff; line-height: 1.5; font-size: 15px; }
+
+/* ===== SCREENS ===== */
+@keyframes cardIn { from { opacity:0; transform:translateY(24px) scale(.97); } to { opacity:1; transform:none; } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+@keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.4);opacity:.7;} }
+
+.login-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:flex; justify-content:center; align-items:center; z-index:10000; }
+.login-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:400px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.login-logo { margin-bottom:24px; }
+.login-logo img { width:130px; height:130px; object-fit:contain; }
+.login-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:6px; font-weight:700; }
+.login-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.form-group { margin-bottom:18px; text-align:left; }
+.form-group label { display:block; margin-bottom:7px; color:#444; font-size:13px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; }
+.form-group input { width:100%; padding:12px 16px; border:2px solid #e8ecf0; border-radius:10px; font-size:15px; box-sizing:border-box; transition:border-color .2s; background:#f9fafb; }
+.form-group input:focus { outline:none; border-color:#0f3460; background:#fff; }
+.login-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:8px; transition:transform .15s, box-shadow .15s; }
+.login-button:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(15,52,96,.35); }
+.error-message { color:#e53e3e; font-size:13px; margin-top:10px; display:none; }
+
+.candidate-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; }
+.candidate-content { background:rgba(255,255,255,.97); padding:44px 40px; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.35); max-width:450px; width:90%; text-align:center; animation:cardIn .5s cubic-bezier(.22,1,.36,1); }
+.candidate-logo img { width:130px; height:130px; object-fit:contain; margin-bottom:20px; }
+.candidate-content h1 { color:#1a1a2e; font-size:22px; margin-bottom:8px; font-weight:700; }
+.candidate-content .subtitle { color:#888; font-size:14px; margin-bottom:28px; }
+.candidate-id-input { width:100%; padding:14px 16px; border:2px solid #e8ecf0; border-radius:10px; font-size:20px; text-align:center; letter-spacing:4px; font-weight:700; box-sizing:border-box; background:#f9fafb; }
+.candidate-id-input:focus { outline:none; border-color:#0f3460; background:#fff; }
+.candidate-button { width:100%; background:linear-gradient(135deg,#0f3460,#1a6eb5); color:white; border:none; padding:14px 20px; font-size:15px; font-weight:700; border-radius:10px; cursor:pointer; margin-top:18px; }
+.candidate-button:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(15,52,96,.35); }
+.back-button { background:none; color:#999; border:none; padding:10px 20px; font-size:13px; border-radius:6px; cursor:pointer; margin-top:12px; width:100%; }
+.back-button:hover { color:#555; }
+
+.intro-screen { position:fixed; inset:0; background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; }
+.intro-inner { text-align:center; color:white; padding:40px; max-width:700px; }
+.intro-logo { margin-bottom:32px; opacity:0; animation:fadeUp .6s .2s forwards; }
+.intro-logo img { width:130px; height:130px; object-fit:contain; filter:brightness(0) invert(1); }
+.intro-title { font-size:42px; font-weight:800; letter-spacing:-1px; margin-bottom:10px; opacity:0; animation:fadeUp .6s .4s forwards; }
+.intro-subtitle { font-size:16px; color:rgba(255,255,255,.6); margin-bottom:48px; opacity:0; animation:fadeUp .6s .6s forwards; }
+.intro-candidate-badge { display:inline-flex; align-items:center; gap:10px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:50px; padding:10px 24px; font-size:15px; color:white; margin-bottom:48px; opacity:0; animation:fadeUp .6s .8s forwards; }
+.intro-badge-dot { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 1.5s infinite; }
+.intro-cards { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:48px; opacity:0; animation:fadeUp .6s 1s forwards; }
+.intro-card { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:20px 24px; min-width:140px; }
+.intro-card-num { font-size:32px; font-weight:800; color:#60a5fa; }
+.intro-card-label { font-size:12px; color:rgba(255,255,255,.5); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+.intro-btn { background:white; color:#0f3460; border:none; padding:16px 52px; font-size:16px; font-weight:800; border-radius:50px; cursor:pointer; opacity:0; animation:fadeUp .6s 1.2s forwards; transition:transform .15s, box-shadow .15s; box-shadow:0 4px 20px rgba(0,0,0,.3); }
+.intro-btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,.4); }
+
+/* ===== HEADER ===== */
+.header { background:#fff; padding:0 20px; border-bottom:1px solid #e0e0e0; display:none; justify-content:space-between; align-items:center; position:fixed; top:0; left:0; right:0; z-index:100; height:70px; }
+.header-logo img { width:130px; height:56px; object-fit:contain; }
+.timer-display { font-size:16px; font-weight:600; color:#333; }
+.timer-warning { color:#e53e3e !important; }
+.header-right { display:flex; align-items:center; gap:12px; }
+#dark-toggle { background:none; border:1px solid #ccc; border-radius:6px; padding:5px 10px; cursor:pointer; font-size:18px; }
+#logout-btn { background:#e74c3c; color:white; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:12px; }
+#candidate-label { color:#333; font-size:13px; font-weight:500; }
+
+/* ===== MAIN LAYOUT ===== */
+.main-container { margin-top:70px; display:none; height:calc(100vh - 70px); flex-direction:column; }
+.part-header-bar { background:#f1f2ec; padding:10px 20px; border-bottom:1px solid #e0e0e0; font-size:14px; flex-shrink:0; }
+.part-header-bar strong { margin-right:8px; }
+.panels-container { display:flex; flex:1; overflow:hidden; }
+
+.passage-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; }
+.resizer { width:8px; cursor:col-resize; background:#f0f0f0; background-image:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="30" viewBox="0 0 8 30"><path d="M3 10h2v2H3zM3 14h2v2H3zM3 18h2v2H3z" fill="%23aaa"/></svg>'); background-repeat:no-repeat; background-position:center; flex-shrink:0; }
+.questions-panel { flex:1; padding:20px 20px 120px; overflow-y:auto; min-width:200px; border-left:1px solid #e0e0e0; }
+
+.reading-passage h4 { font-size:19px; font-weight:bold; margin-bottom:15px; text-align:center; }
+.reading-passage p { margin-bottom:1.1em; }
+.reading-passage .hidden { display:none !important; }
+
+/* ===== QUESTIONS ===== */
+.question { margin-bottom:36px; }
+.question p { margin-bottom:10px; }
+.question-prompt { margin-bottom:18px; }
+.summary-text ul { list-style:none; padding-left:0; }
+.summary-text ul li { margin-bottom:10px; }
+.centered-title { text-align:center; font-weight:bold; margin-bottom:12px; }
+
+.answer-input { border:1px solid #888; border-radius:4px; background:#fff; padding:2px 8px; font-size:14px; height:28px; width:150px; transition:border-color .2s, box-shadow .2s; }
+.answer-input:focus { outline:none; border-color:#4a90e2; box-shadow:0 0 0 2px rgba(74,144,226,.2); }
+.answer-input::placeholder { color:#999; font-weight:bold; text-align:center; }
+select.answer-input { width:auto; min-width:80px; cursor:pointer; }
+
+/* T/F/NG */
+.tf-question { margin-bottom:22px; }
+.tf-question-line { display:flex; align-items:flex-start; margin-bottom:10px; gap:10px; }
+.tf-question-number { border:2px solid #ccc; padding:2px 8px; border-radius:3px; font-weight:bold; white-space:nowrap; }
+.tf-options { padding-left:0; }
+.tf-option { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#fff; cursor:pointer; transition:background .15s; }
+.tf-option:hover { background:#f8fafc; }
+.tf-option:has(input[type="radio"]:checked) { background:#dbeafe; font-weight:600; }
+.tf-option input[type="radio"] { margin-right:8px; }
+
+/* Checkbox group (choose two) */
+.checkbox-group { margin-top:8px; }
+.checkbox-group label { display:block; padding:10px 14px; background:#fff; cursor:pointer; border:1px solid #eee; border-radius:4px; margin-bottom:6px; }
+.checkbox-group label:hover { background:#f5f9ff; }
+.checkbox-group label:has(input[type="checkbox"]:checked) { background:#dbeafe; border-color:#4a90e2; font-weight:600; }
+.checkbox-group input[type="checkbox"] { margin-right:10px; }
+body.dark .checkbox-group label { background:#1e1e1e; color:#e0e0e0; border-color:#3a3a3a; }
+body.dark .checkbox-group label:hover { background:#2a2a2a; }
+body.dark .checkbox-group label:has(input[type="checkbox"]:checked) { background:#2d4a2d; color:#a0e0a0; border-color:#4a90e2; }
+
+/* Single choice */
+.single-choice-container { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.single-choice label { display:block; padding:10px 14px; background:#fff; cursor:pointer; border:1px solid #eee; border-radius:4px; }
+.single-choice label:hover { background:#eef5fd; }
+.single-choice label:has(input[type="radio"]:checked) { background:#cfe3f6; border-color:#4a90e2; }
+
+/* Multi choice */
+.multi-choice-option label { display:block; padding:8px 12px; cursor:pointer; }
+.multi-choice-option label:hover { background:#f5f9ff; }
+.multi-choice-option label:has(input[type="radio"]:checked) { background:#dbeafe; font-weight:600; }
+
+/* Matching form */
+.matching-form-container { display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+.matching-form-row { display:flex; align-items:center; gap:12px; }
+.matching-form-label { min-width:140px; font-size:14px; }
+
+/* Drag and drop */
+.drag-item { background:white; border:1px solid #9c9c9c; font-weight:600; padding:4px 10px; border-radius:4px; cursor:move; font-size:14px; transition:all .2s; user-select:none; display:inline-block; }
+.drag-item:hover { background:#e9ecef; }
+.drag-item.dragging { opacity:.5; transform:rotate(2deg); }
+.drop-zone { border:2px dashed #aaa; border-radius:4px; min-height:32px; min-width:60px; padding:3px 6px; display:inline-flex; align-items:center; justify-content:center; transition:background .2s, border-color .2s; font-weight:bold; color:#aaa; vertical-align:middle; }
+.drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+.drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone { display:inline-flex; min-width:60px; min-height:28px; border:2px dashed #aaa; border-radius:4px; padding:2px 6px; align-items:center; justify-content:center; font-weight:bold; color:#aaa; vertical-align:middle; transition:background .2s, border-color .2s; }
+.summary-drop-zone.filled { border:2px solid #2c7be5; color:#333; }
+.summary-drop-zone.drag-over { background:#e6f4ff; border-color:#4a90e2; }
+
+.matching-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.matching-question-container { display:flex; flex-direction:column; gap:12px; margin-top:15px; }
+.matching-question-item { display:flex; align-items:center; gap:15px; padding:6px 0; }
+.matching-question-item > span { flex:1; font-size:14px; }
+
+.summary-options-bank { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; padding:10px; border:1px solid #ddd; border-radius:5px; background:#f9f9f9; }
+.summary-text { font-size:14px; line-height:1.9; }
+
+/* People table */
+.people-table { width:100%; border-collapse:collapse; border:1px solid #ccc; font-size:14px; margin:10px 0; }
+.people-table th,.people-table td { border:1px solid #ddd; padding:8px 10px; }
+.people-table th { background:#f0f0f0; font-weight:bold; text-align:left; }
+
+/* ===== BOTTOM NAV ===== */
+.nav-row { position:fixed; bottom:0; left:0; right:0; background:#fff; padding:0; display:none; align-items:center; height:80px; z-index:100; overflow-x:auto; overflow-y:hidden; white-space:nowrap; border-top:1px solid #e0e0e0; }
+.footer__questionWrapper___1tZ46 { display:inline-flex; align-items:center; margin-right:15px; flex-shrink:0; }
+.footer__questionNo___3WNct { background:none; border:none; padding:10px 15px; font-size:16px; font-weight:600; color:#333; cursor:pointer; display:flex; align-items:center; gap:5px; }
+.footer__questionNo___3WNct:hover { background:#f8f9fa; }
+.footer__questionWrapper___1tZ46.selected .footer__questionNo___3WNct { border-bottom:3px solid #333; }
+.footer__subquestionWrapper___9GgoP { display:none; gap:2px; margin-left:6px; }
+.footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display:flex; }
+.sectionNr { font-size:16px; font-weight:bold; }
+.attemptedCount { font-size:13px; color:#666; margin-left:5px; }
+.subQuestion { background:none; border:1px solid #ccc; border-radius:3px; padding:5px 8px; font-size:13px; cursor:pointer; color:#555; transition:all .2s; }
+.subQuestion:hover { background:#f0f0f0; }
+.subQuestion.active { background:#333; color:white; border-color:#333; }
+.subQuestion.answered { background:#e8f4e8; border-color:#28a745; color:#155724; }
+.subQuestion.answered.active { background:#28a745; color:white; }
+.footer__deliverButton___3FM07 { background:#dc3545; color:white; border:none; padding:10px 20px; border-radius:4px; font-size:16px; font-weight:600; cursor:pointer; margin-left:20px; flex-shrink:0; }
+.footer__deliverButton___3FM07:hover { background:#c82333; }
+
+/* Nav arrows */
+.nav-arrows { position:fixed; bottom:100px; right:20px; display:none; gap:5px; z-index:101; }
+.nav-arrow { width:50px; height:50px; background:#333; color:white; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:bold; }
+.nav-arrow:hover { background:#555; }
+.nav-arrow:disabled { background:#ccc; cursor:not-allowed; }
+
+/* ===== CONTEXT MENU ===== */
+.context-menu { position:fixed; background:white; border:none; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,.18); z-index:3000; display:none; min-width:160px; overflow:hidden; }
+.context-menu-item { padding:13px 18px; cursor:pointer; font-size:14px; font-weight:500; display:flex; align-items:center; gap:10px; color:#333; transition:background .12s; }
+.context-menu-item:hover { background:#f0f4ff; }
+.highlight { background:#ffe066; border-radius:2px; cursor:pointer; padding:0 1px; }
+.highlight:hover { background:#ffd000; }
+.comment-highlight { background:#90EE90; position:relative; cursor:help; }
+.comment-tooltip { position:absolute; bottom:100%; left:50%; transform:translateX(-50%); background:#333; color:white; padding:6px 10px; border-radius:4px; font-size:12px; white-space:nowrap; z-index:1000; opacity:0; pointer-events:none; transition:opacity .2s; }
+.comment-highlight:hover .comment-tooltip { opacity:1; }
+
+/* ===== ACTIVE QUESTION ===== */
+.active-question { background:#fffbe6; border-radius:4px; }
+@keyframes flash { 0%{background:#e6f4ff;} 100%{background:transparent;} }
+.flash { animation:flash 1s ease-out; }
+
+/* ===== COMPLETION ===== */
+.completion-screen { position:fixed; inset:0; background:#fff; display:none; justify-content:center; align-items:center; z-index:10000; flex-direction:column; text-align:center; padding:20px; }
+.completion-screen h2 { font-size:28px; margin-bottom:20px; }
+.restart-btn { background:#dc2626; color:white; border:none; padding:14px 30px; font-size:16px; font-weight:600; border-radius:8px; cursor:pointer; }
+
+/* ===== DARK THEME ===== */
+/* ===== DARK THEME ===== */
+body.dark { background: #121212; color: #e0e0e0; }
+body.dark .header { background: #1e1e1e; border-bottom-color: #333; }
+body.dark .part-header-bar { background: #2a2a2a; border-color: #3a3a3a; color: #e0e0e0; }
+body.dark .main-container { background: #121212; }
+body.dark .panels-container { background: #121212; }
+body.dark .passage-panel { background: #121212; color: #d0d0d0; }
+body.dark .questions-panel { background: #121212; border-left-color: #333; color: #d0d0d0; }
+body.dark .resizer { background: #2a2a2a; }
+body.dark .reading-passage { color: #d0d0d0; }
+body.dark .reading-passage h4 { color: #ffffff; }
+body.dark .answer-input { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark .answer-input::placeholder { color: #777; }
+body.dark select.answer-input { background: #2a2a2a; color: #e0e0e0; }
+body.dark select.answer-input option { background: #2a2a2a; color: #e0e0e0; }
+body.dark .tf-option { background: #1e1e1e; color: #e0e0e0; }
+body.dark .tf-option:hover { background: #2a2a2a; }
+body.dark .tf-option:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .single-choice label { background: #1e1e1e; color: #e0e0e0; }
+body.dark .single-choice label:hover { background: #2a2a2a; }
+body.dark .single-choice label:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .multi-choice-option label { color: #e0e0e0; }
+body.dark .multi-choice-option label:hover { background: #2a2a2a; }
+body.dark .multi-choice-option label:has(input[type="radio"]:checked) { background: #2d4a2d; color: #a0e0a0; }
+body.dark .matching-options-bank { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .summary-options-bank { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .drag-item { background: #2a2a2a; border-color: #555; color: #e0e0e0; }
+body.dark .drag-item:hover { background: #333; }
+body.dark .drop-zone { border-color: #555; }
+body.dark .drop-zone.filled { border-color: #4a90e2; }
+body.dark .summary-drop-zone { border-color: #555; color: #888; }
+body.dark .summary-drop-zone.filled { border-color: #4a90e2; color: #e0e0e0; }
+body.dark .matching-form-label { color: #d0d0d0; }
+body.dark .people-table th { background: #2a2a2a; color: #e0e0e0; }
+body.dark .people-table td { background: #1e1e1e; color: #e0e0e0; border-color: #333; }
+body.dark .nav-row { background: #1e1e1e; border-top-color: #333; }
+body.dark .footer__questionNo___3WNct { color: #ccc; }
+body.dark .footer__questionNo___3WNct:hover { background: #2a2a2a; }
+body.dark .subQuestion { background: #2a2a2a; border-color: #444; color: #aaa; }
+body.dark .subQuestion:hover { background: #333; }
+body.dark .subQuestion.active { background: #555; border-color: #555; color: white; }
+body.dark .subQuestion.answered { background: #1a3a1a; border-color: #2a6a2a; color: #7ecf8e; }
+body.dark .subQuestion.answered.active { background: #2a6a2a; color: white; }
+body.dark .context-menu { background: #2a2a2a; }
+body.dark .context-menu-item { color: #e0e0e0; }
+body.dark .context-menu-item:hover { background: #333; }
+body.dark .nav-arrow { background: #2a2a2a; }
+body.dark .nav-arrow:hover { background: #444; }
+body.dark .nav-arrow:disabled { background: #1e1e1e; color: #555; }
+body.dark #dark-toggle { border-color: #4a5a7a; background: #2a3a5a; }
+body.dark .highlight { background: #7c4dff55; color: #e0e0e0; border-radius: 2px; }
+body.dark .highlight:hover { background: #7c4dff88; }
+body.dark .comment-highlight { background: #2a5a2a; }
+body.dark .active-question { background: #2a2a1a; }
+body.dark .timer-display { color: #e0e0e0; }
+body.dark #candidate-label { color: #ccc; }
+body.dark .completion-screen { background: #121212; color: #e0e0e0; }
+body.dark .question-prompt p { color: #d0d0d0; }
+body.dark .summary-text { color: #d0d0d0; }
+body.dark .centered-title { color: #ffffff; }
+
+/* Dark toggle button */
+#dark-toggle { background: none; border: 1px solid #ccc; border-radius: 6px; padding: 5px 10px; cursor: pointer; font-size: 18px; line-height: 1; }
+
+/* Fixed Submit button — bottom right */
+.submit-btn-fixed {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 200;
+  display: none;
+  box-shadow: 0 4px 18px rgba(220,53,69,.45);
+  transition: background .15s, transform .15s, box-shadow .15s;
+  letter-spacing: .3px;
+}
+.submit-btn-fixed:hover { background: #c82333; transform: translateY(-2px); box-shadow: 0 7px 24px rgba(220,53,69,.55); }
+body.dark .submit-btn-fixed { box-shadow: 0 4px 18px rgba(220,53,69,.3); }
+
+/* ── DARK MODE: fix all white/light boxes ── */
+body.dark .question { background: #1a1a1a; }
+body.dark .question-prompt p { color: #c8c8c8; }
+
+/* Tables (Passage 1 fill-table, inline tables) */
+body.dark table { background: #1a1a1a; border-color: #3a3a3a; }
+body.dark th { background: #252525 !important; color: #b0b0b0 !important; border-color: #3a3a3a !important; }
+body.dark td { background: #1a1a1a !important; color: #d0d0d0 !important; border-color: #2e2e2e !important; }
+body.dark tr:nth-child(even) td, body.dark tr.alt td { background: #202020 !important; }
+body.dark div[style*="overflow-x:auto"] { border-color: #3a3a3a !important; }
+body.dark div[style*="background:#f0f4ff"] { background: #252535 !important; }
+body.dark div[style*="background:#fafbff"] { background: #1e1e2a !important; }
+
+/* Matching form rows */
+body.dark .matching-form-container { background: #1a1a1a; }
+body.dark .matching-form-row { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .matching-form-label { color: #c8c8c8; }
+body.dark select.answer-input { background: #2a2a2a !important; color: #e0e0e0 !important; border-color: #555 !important; }
+body.dark select.answer-input option { background: #2a2a2a; color: #e0e0e0; }
+
+/* Notes / summary boxes */
+body.dark .notes-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
+body.dark .summary-box { background: #1e1e1e; border-color: #3a3a3a; color: #d0d0d0; }
+body.dark .summary-text p, body.dark .summary-text li { color: #d0d0d0; }
+body.dark .fill-table { background: #1a1a1a; }
+body.dark .fill-table th { background: #252525; color: #b0b0b0; border-color: #3a3a3a; }
+body.dark .fill-table td { background: #1a1a1a; color: #d0d0d0; border-color: #2e2e2e; }
+
+/* TF questions */
+body.dark .tf-question { background: #1a1a1a; }
+body.dark .tf-question-line { color: #d0d0d0; }
+body.dark .tf-question-number { color: #7aa0e0; }
+body.dark .tf-question-text { color: #d0d0d0; }
+
+/* Map rows (inline styled) */
+body.dark div[style*="background:#f9fafb"] { background: #1e1e1e !important; color: #d0d0d0 !important; border-color: #3a3a3a !important; }
+body.dark div[style*="background:#f8f8f8"] { background: #1e1e1e !important; }
+body.dark div[style*="border:1.5px solid #e8ecf0"] { border-color: #3a3a3a !important; }
+body.dark div[style*="border:1px solid #eee"] { border-color: #3a3a3a !important; }
+
+/* Passage header title */
+body.dark .part-header { background: #1e1e1e; color: #e0e0e0; border-color: #3a3a3a; }
+
+/* Footer nav */
+body.dark .footer__questionWrapper___1tZ46 { background: #1e1e1e; border-color: #3a3a3a; }
+body.dark .subQuestion { background: #2a2a2a; border-color: #444; color: #ccc; }
+
+/* Context menu & misc */
+body.dark .context-menu { background: #2a2a2a; border-color: #444; }
+body.dark .active-question { background: #2a2a1a; }
+
+.hidden { display:none !important; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-content">
+    <div class="login-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+    <h1>IELTS Academic</h1>
+    <p class="subtitle">Reading Test — Enter your password to continue</p>
+    <div class="form-group">
+      <label for="password">Exam Password</label>
+      <input id="password" type="password" placeholder="Enter exam password"/>
+    </div>
+    <button class="login-button" type="button" onclick="submitLogin()">Continue →</button>
+    <div class="error-message" id="login-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- CANDIDATE ID -->
+<div class="candidate-screen" id="candidate-screen">
+  <div class="candidate-content">
+    <div class="candidate-logo"><img src="logo.png" alt="Logo" onerror="this.style.display='none'"/></div>
+    <h1>Candidate Details</h1>
+    <p class="subtitle">Please enter your name and test date</p>
+    <div class="form-group" style="text-align:left;margin-bottom:14px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Full Name</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="candidate-name-input" type="text" placeholder="e.g. Azizbek Toshmatov" autocomplete="name" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+    </div>
+    <div class="form-group" style="text-align:left;margin-bottom:20px;">
+      <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase;">Test Date</label>
+      <input style="width:100%;padding:13px 16px;border:2px solid #e8ecf0;border-radius:10px;font-size:15px;font-family:inherit;background:#f9fafb;transition:border-color .2s;box-sizing:border-box;outline:none;" id="test-date-input" type="date" onfocus="this.style.borderColor='#0f3460';this.style.background='#fff'" onblur="this.style.borderColor='#e8ecf0';this.style.background='#f9fafb'"/>
+    </div>
+    <input type="hidden" id="candidate-id-input"/>
+    <button class="candidate-button" type="button" onclick="submitCandidate()">Confirm &amp; Proceed →</button>
+    <button class="back-button" id="back-to-login" type="button">← Back</button>
+    <div class="error-message" id="candidate-error">Please enter your full name.</div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="intro-screen" id="intro-screen">
+  <div class="intro-inner">
+    <div class="intro-logo"><img src="logo.png" alt="Logo" onerror="this.textContent='📖'; this.style.fontSize='72px';"/></div>
+    <div class="intro-title">IELTS CRAM MOCK</div>
+    <div class="intro-subtitle">Reading Test · Academic Module</div>
+    <div class="intro-candidate-badge">
+      <span class="intro-badge-dot"></span>
+      <span id="intro-candidate-name"></span>
+      <span style="color:rgba(255,255,255,.4)">·</span>
+      <span style="color:rgba(255,255,255,.5);font-size:13px;">Verified</span>
+    </div>
+    <div class="intro-cards">
+      <div class="intro-card"><div class="intro-card-num">3</div><div class="intro-card-label">Passages</div></div>
+      <div class="intro-card"><div class="intro-card-num">40</div><div class="intro-card-label">Questions</div></div>
+      <div class="intro-card"><div class="intro-card-num">60<span style="font-size:18px;color:rgba(96,165,250,.7)">min</span></div><div class="intro-card-label">Duration</div></div>
+    </div>
+    <button class="intro-btn" id="start-test-btn">Start Test</button>
+  </div>
+</div>
+
+<!-- COMPLETION -->
+<div class="completion-screen" id="completion-screen">
+  <h2>Reading section ended</h2>
+  <a class="restart-btn" href="Writing.html">Please move to writing section</a>
+</div>
+
+<!-- HEADER -->
+<div class="header" id="main-header">
+  <div class="header-logo">
+    <img src="logo.png" alt="Logo" onerror="this.style.display='none'"/>
+  </div>
+  <div class="timer-container">
+    <span class="timer-display" id="timer-display">60:00</span>
+  </div>
+  <div class="header-right">
+    <span id="candidate-label">Candidate: <span id="header-candidate-id"></span></span>
+    <button id="dark-toggle" title="Toggle dark mode">🌙</button>
+    <button id="logout-btn">Logout</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-container" id="main-container">
+  <div id="part-header-bar" class="part-header-bar">
+    <strong>Part 1</strong> — Read the text and answer questions 1–13. (The History of Modern American Dance)
+  </div>
+  <div class="panels-container">
+
+    <!-- PASSAGE PANEL -->
+    <div class="passage-panel" id="passage-panel">
+
+      <!-- PASSAGE 1 -->
+            <div id="passage-text-1" class="reading-passage">
+        <h4>Wooden Buildings</h4>
+        <p>Using wood as a construction material for large buildings is an ancient practice. The 67-metre-high Sakyamuni Pagoda in China was constructed in 1056, while Japan's Hōryū-ji Temple is even older, dating from the 7th or 8th century. That these magnificent structures have survived for over a thousand years is evidence of wood's strength and durability as a building material. Still today, 80% of houses in the USA are built of wood. In Australia the proportion is slightly smaller since stone is also a popular choice, particularly in the southern states, while in New Zealand the figure is more like 85%. Certainly, there are problems associated with wooden constructions: wood can rot when exposed to water and is said to be a fire risk. However, with modern technology these issues can be eliminated, which has led to a dramatic renewal of interest in wood as a building material in recent years.</p>
+        <p>Today, architects and engineers recognise the potential of wood not only for private homes but also for larger multi-storey offices and apartment blocks. In 2015, a 52.8-metre wooden tower block was constructed in Norway, then a world record for an apartment block, but this was soon surpassed by a 53-metre student dormitory at the University of British Columbia in Canada. Then came the 84-metre HoHo building in Vienna, home to a hotel, offices and apartments. Although the HoHo building has a concrete core, most of the structure as well as the floors are built of wood. Many of these advances have been made possible by research at the Technical Institute in Graz, Austria, where new engineering systems based on wood construction have been pioneered.</p>
+        <p>A good example of these techniques is found at the Wood Innovation and Design Centre at the University of Northern British Columbia, Canada. The first stage in the construction of the building saw large planks of Douglas fir being fastened to one another with glue, which these days can be stronger than nails or screws. This produced large heavy sheets of wooden material; these became the basic structural components for the building. These sheets then had to be precision cut to create the thousands of columns and beams necessary—the team employed lasers for this purpose. Once the cutting work was complete, all the wooden components were taken to the site for assembly. The building was constructed one storey at a time, layer upon layer, not unlike the system used to make a large cake. Once the eighth and final storey was completed, the building reached a height of 30 metres and became a notable landmark in its neighbourhood. And, of course, one of the great advantages of wood comes at the end of a building's life, in around 100 years' time. When the Wood Innovation and Design Centre eventually has to be demolished, it will be possible for its principal building material to be recycled, which is not usually practical with steel or concrete.</p>
+        <p>Other significant wooden buildings are to be found in locations around the world. Perhaps not surprisingly, given that the Hōryū-ji Temple may be the oldest large wooden building in the world, Japanese engineers are at the forefront of this process. One thing that has been learned from maintaining the Hōryū-ji Temple over many centuries is that it is often simpler to make major repairs to wooden structures than to those made of concrete and steel. Until quite recently, regulations in Japan have made the construction of very large wooden structures difficult. However, in recognition of new technologies, these are being relaxed by the government, with the result that ever more ambitious projects are being announced. Perhaps the most radical example is the proposed Sumitomo Tower, a skyscraper of 70 storeys to be built largely of wood in central Tokyo; its completion date is 2041.</p>
+        <p>Because wood is more flexible than steel, it has great potential in countries prone to earthquakes, such as Japan and New Zealand. Engineers in New Zealand believe that wood construction can significantly improve building safety in the event of a natural disaster, as has been demonstrated at the new Wynn Williams House. The wood has been left exposed inside the house to showcase how this type of construction provides attractive interiors as well. Another advantage of wood is that it is so light, particularly when compared to steel and concrete. In Australia, the benefits of light weight have been taken advantage of in the city of Melbourne, where a large wooden library has been constructed directly beside water, on land so soft that a heavier building would have been impossible. Furthermore, wood is advantageous even in extreme climates. In Finland, where winter temperatures can fall to -30°C, wood provides all the load-bearing structures for the Puukuokka Block, but also guarantees excellent heat insulation as well.</p>
+        <p>As wood construction technologies continue to develop, it seems probable that architects and engineers will dream up ever more uses for this practical, flexible and beautiful building material.</p>
+      </div>
+      <!-- PASSAGE 2 -->
+            <div id="passage-text-2" class="reading-passage hidden">
+        <h4>Artificial Intelligence in Sport</h4>
+        <p><strong>A</strong>&nbsp;&nbsp;The first sports game was televised in the USA more than fifty years ago. Over the following decades television provided sports coaches with a wealth of information to analyse. By viewing recordings, they could study the number of passes received, tackles avoided, distances covered, speeds achieved and a host of other factors relating to the performance of their teams or athletes. Most of this data, though, consisted of bare statistics without any meaningful context. However, the use of artificial intelligence (AI) is now enabling an alternative approach to coaching. AI means the development of computer systems that can perform tasks usually associated with human intelligence, such as decision making. Increasingly, computers are being trained to understand the rules and objectives of sports so they can coach more directly. AI can analyse not only a player's actions, but also relate those actions to the wider context, including the directives of the coach and the actions of other players. Sports scientists believe that AI is revolutionising sports coaching by analysing patterns of behaviour in ways simply not possible before.</p>
+        <p><strong>B</strong>&nbsp;&nbsp;There may be limitless ways in which AI technology can be developed, but certain practical applications are already apparent. Recently, a research experiment was conducted into the Spanish football league using an AI algorithm to analyse the passing strategies of 20 teams. The research revealed that two teams, Barcelona and Real Madrid, had more than 150 recurring passing patterns. However, the algorithm detected just 31 passing patterns used by Atlético Madrid. All of Atlético's other plays were one-offs that were never repeated, and the team won the league that season. One conclusion seems to be that teams with a less predictable style of play win more games. What's more, according to Dr Johann Muller, a sports scientist who has studied the Spanish research findings, the number of injuries a team suffers increases when they play in a style that prioritises offence.</p>
+        <p><strong>C</strong>&nbsp;&nbsp;Since then, there has been a great deal of interest in the potential of AI. Professor of sports education Rebecca Graves believes that AI can provide coaches with invaluable insights. 'Tactics were once closely guarded secrets,' says Professor Graves, 'but now a coach with access to AI can identify how a rival team is likely to play a match based on historic form. Once this was largely guesswork but now it can be achieved with some confidence.' The expense of AI technology means it will probably remain beyond the reach of all but elite teams, but among this group the implications are enormous. Professor Graves argues that AI allows preparations for a match to be tailored to individual players with much greater precision. She identifies fitness work, skills development, diet and numerous other factors that can be minutely customised, based on an individual's particular strengths and weaknesses.</p>
+        <p><strong>D</strong>&nbsp;&nbsp;Part of the appeal of AI lies in its versatility. Ice hockey coaches in Finland are using AI to analyse the success of different plays. An Indian company has employed wearable technology developed in other fields to analyse stride patterns. This analysis has allowed its technicians to develop sneakers in various styles aimed at both long- and short-distance runners. Coaching practices in professional basketball, American football and tennis are also being transformed by AI. In addition, the technology has applications in highly technical sports such as car racing. Coaches involved in the National Association for Stock Car Auto Racing (NASCAR) believe that AI algorithms not only help drivers go faster but also enhance the safety of the sport because of their ability to monitor and predict potential problems.</p>
+        <p><strong>E</strong>&nbsp;&nbsp;AI doesn't get tired, has extraordinary powers of vision, particularly for objects moving at speed, and is capable of making complex calculations very quickly. For all these reasons AI is increasingly being used in the high-pressure world of judging gymnastics performances. Research has shown that, particularly over a whole day's worth of events, computers are just as reliable as human judges when it comes to giving gymnasts a score. However, computer scientist Henri Simeonson has been quick to warn about some potential difficulties. In particular, Simeonson is concerned that AI is vulnerable to hackers, who might be able to influence the outcome of a tournament.</p>
+        <p><strong>F</strong>&nbsp;&nbsp;It should not be forgotten, either, that many sports stars and sports teams are commercially dependent on their fans. If sufficient supporters do not buy tickets to games or pay to view a recording, the teams might struggle to survive. But now teams and stars are making increasing use of chatbots and other 'virtual assistants' to provide fans with statistics, news and background information about their favourite players. Another innovation is seen in Minor League Baseball in the USA, which is promoting the sport and seeking new fans with the use of AI-enhanced journalism. In this way baseball is keeping supporters informed with all the up-to-the-minute developments in ways not possible with more traditional approaches. Analysts believe these sorts of initiatives are crucial to increasing a player or team's revenue stream. It's just one more way that sports stand to benefit from AI technologies, on and off the field.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+            <div id="passage-text-3" class="reading-passage hidden">
+        <h4>The Influence of the Crime Writer Agatha Christie</h4>
+        <p>Crime fiction books, in which detectives hunt for the perpetrators of crimes, have been popular with readers for many decades — so popular, in fact, that at a recent London Book Fair sales of the genre overtook general fiction for the first time ever, a development that had been widely anticipated. Commercial success, of course, does not impress everyone and there are those who believe crime fiction should not be held in such high regard. Prominent in this group is Sebastian Franklin, who has argued that most crime fiction books better resemble crossword puzzles than literature. His view is shared by other literary critics. However, increasingly this is a minority opinion as crime fiction becomes recognised around the world as a rich and dynamic literary genre in its own right.</p>
+        <p>Crime writing really came to prominence in the 1920s and 30s with the books of the British author Agatha Christie, and to a slightly lesser extent the American James M. Cain. Agatha Christie was a prolific writer, publishing more than 60 detective novels over a 50-year period, beginning in 1920. However, the majority of the general public have never picked up one of her books and are more familiar with Christie from the numerous adaptations of her work for films. The colourful locations around the world where Christie set many of her stories were not fictional depictions, but were informed by her extensive travels, on the Orient Express train, to Cairo and the River Nile, and elsewhere. Her memoir, <em>Come, Tell Me How You Live</em>, published in 1946, is a non-fiction account of these real-life travels, so is unique among Christie's publications. Success brought Christie considerable wealth and international fame, though she never lost her appetite for work, continuing writing and publishing until shortly before her death in 1976.</p>
+        <p>Without doubt there are certain elements that tend to be repeated in Christie's books. The stories generally revolve around a well-off if not aristocratic circle of people, whose privileged lives are thrown into chaos by an unexplained crime. What's more, the location is often a confined space of some sort: a train, an island, a boat, an isolated house or a village. This is quite different, for example, to the world of the fictional detective Sherlock Holmes, who often has as his hunting ground the entire city of London. But the influence of Christie's sheltered, secluded locations has been immense, for they have been used in countless television series ever since.</p>
+        <p>The writer Michael Utley argues that Christie's characters lack depth and are not convincing people we can believe in. This is a not infrequent complaint, but it is quite untrue. Christie was a perceptive observer of human nature and psychology and she put the traits of people she knew into many of her fictional characters. Part of the reason her appeal has been so widespread is that she wrote about human relationships in a way so many of us can relate to. Her very first book, <em>The Mysterious Affair at Styles</em>, features the amateur detective Hercule Poirot. Poirot and Miss Marple are Christie's two best known and most frequently imitated characters precisely because they are so well drawn and believable. Further evidence of Christie's ability at characterisation was provided by a recent survey. The survey asked readers to identify the villain revealed in the final pages of Christie's sixteenth book, <em>Murder on the Orient Express</em>. Most readers could not recall, because for them the really important aspect of the book had been the interplay between the characters, not the outcome. The truth is that Christie's characters were one of her greatest achievements as a writer.</p>
+        <p>The books are also action-packed, no less so than today's most popular thrillers. Christie mastered the art of the page-turner: events unfold so quickly and unpredictably that we keep reading to find out what happens next. The most significant consequence is that it is so simple to overlook vital clues. It is worth reading a Christie book a second time just to notice how carefully she hides crucial information about the criminal's identity. It was there all along, but we just fail to see it because she has created such tension and so many exciting distractions.</p>
+        <p>Attempts to retell Christie's stories in contemporary times have largely been unsuccessful; they work best in their original early twentieth-century settings and cannot accommodate mobile phones, computers and DNA analysis. But that does not mean her influence has come to an end. Indeed, a new generation of global crime writers is emerging in nations as diverse as Brazil, Singapore, South Korea, India and Nigeria, to name but five. And though each new writer adds something of their own, they all employ conventions first established by Christie. If we take just one of her books, <em>The Murder of Roger Ackroyd</em>, we find near perfect examples of conventions that are still used today: tight plotting, clever sub-plots, unexpected twists, perceptive characterisation. Perhaps this is why Christie herself is believed to have ranked <em>The Murder of Roger Ackroyd</em> above all her other work. Certainly, the digital revolution has transformed crime fighting. But a survey of contemporary crime writing shows that Agatha Christie's legacy is more important now than at any time previously, at the very point when crime writing has become the most popular of all book genres.</p>
+      </div>
+
+    </div><!-- /passage-panel -->
+
+    <div class="resizer" id="resizer"></div>
+
+    <!-- QUESTIONS PANEL -->
+    <div class="questions-panel" id="questions-panel">
+
+      <!-- QUESTIONS SET 1 -->
+      <div id="questions-1" class="question-set">
+        <div class="question" data-q-start="1" data-q-end="4">
+          <div class="question-prompt">
+            <p><strong>Questions 1–4</strong><br>Do the following statements agree with the information given in Reading Passage 1?</p>
+            <p>Write <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="1"><div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">More houses are built of wood in Australia than in the USA.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="2"><div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">There are solutions to the problems of building with wood.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="3"><div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">Several different species of tree were used to construct the HoHo building.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="4"><div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">Research at the Technical Institute in Graz improved wooden building technology.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label><label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label><label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+
+        <div class="question" data-q-start="5" data-q-end="8">
+          <div class="question-prompt">
+            <p><strong>Questions 5–8</strong><br>Complete the flow-chart below.</p>
+            <p>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+          </div>
+          <div style="display:inline-block;width:100%;"><div class="flow-chart" style="max-width:650px;border:1px solid #aaa;padding:10px;border-radius:6px;background:#fafafa;">
+            <p style="font-weight:bold;text-align:center;margin-bottom:12px;">Building the Wood Innovation and Design Centre</p>
+            <div class="flow-step" style="border:1px solid #333;padding:6px 10px;margin-bottom:3px;background:white;font-size:14px;">Wooden planks were joined together using <input class="answer-input" id="q5" type="text" placeholder="5" style="width:120px;"/></div>
+            <div class="flow-arrow" style="text-align:center;font-size:20px;margin:2px 0;color:#555;">↓</div>
+            <div class="flow-step" style="border:1px solid #333;padding:6px 10px;margin-bottom:3px;background:white;font-size:14px;"><input class="answer-input" id="q6" type="text" placeholder="6" style="width:120px;"/> were then used to cut this material accurately.</div>
+            <div class="flow-arrow" style="text-align:center;font-size:20px;margin:2px 0;color:#555;">↓</div>
+            <div class="flow-step" style="border:1px solid #333;padding:6px 10px;margin-bottom:3px;background:white;font-size:14px;">The wood was taken to the site.</div>
+            <div class="flow-arrow" style="text-align:center;font-size:20px;margin:2px 0;color:#555;">↓</div>
+            <div class="flow-step" style="border:1px solid #333;padding:6px 10px;margin-bottom:3px;background:white;font-size:14px;">The building was constructed in the same way a <input class="answer-input" id="q7" type="text" placeholder="7" style="width:120px;"/> is put together</div>
+            <div class="flow-arrow" style="text-align:center;font-size:20px;margin:2px 0;color:#555;">↓</div>
+            <div class="flow-step" style="border:1px solid #333;padding:6px 10px;background:white;font-size:14px;">In about 100 years' time, the wood can be <input class="answer-input" id="q8" type="text" placeholder="8" style="width:120px;"/></div>
+          </div></div>
+        </div>
+
+        <div class="question" data-q-start="9" data-q-end="13">
+          <div class="question-prompt">
+            <p><strong>Questions 9–13</strong><br>Complete the notes below.</p>
+            <p>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</p>
+          </div>
+          <div class="notes-box" style="border:1px solid #333;padding:12px 16px;margin:8px 0;background:#fefefe;">
+            <p style="font-weight:bold;text-align:center;font-size:16px;margin-bottom:10px;">Other Significant Wooden Buildings</p>
+            <h3 style="font-size:15px;margin:10px 0 6px;">Japan</h3>
+            <ul style="list-style:disc;padding-left:22px;">
+              <li style="margin-bottom:6px;font-size:14px;">Experience with the Hōryū-ji Temple proves that <input class="answer-input" id="q9" type="text" placeholder="9" style="width:170px;"/> are easier with wood.</li>
+              <li style="margin-bottom:6px;font-size:14px;">New technologies and new <input class="answer-input" id="q10" type="text" placeholder="10" style="width:170px;"/> make large buildings such as the Sumitomo Tower possible</li>
+            </ul>
+            <h3 style="font-size:15px;margin:10px 0 6px;">Other countries</h3>
+            <ul style="list-style:disc;padding-left:22px;">
+              <li style="margin-bottom:6px;font-size:14px;">Wynn Williams House in New Zealand is earthquake-proof and is an example of how wooden buildings can have <input class="answer-input" id="q11" type="text" placeholder="11" style="width:170px;"/></li>
+              <li style="margin-bottom:6px;font-size:14px;">Wood is so light that a new library in Australia was built right next to <input class="answer-input" id="q12" type="text" placeholder="12" style="width:150px;"/></li>
+              <li style="margin-bottom:6px;font-size:14px;">Finland's Puukuokka Block illustrates that wood provides good <input class="answer-input" id="q13" type="text" placeholder="13" style="width:170px;"/> in addition to structural strength.</li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- /questions-1 -->
+
+      <!-- QUESTIONS SET 2 -->
+      <div id="questions-2" class="question-set hidden">
+        <div class="question" data-q-start="14" data-q-end="19">
+          <div class="question-prompt">
+            <p><strong>Questions 14–19</strong><br>Reading Passage 2 has six paragraphs, <strong>A–F</strong>.</p>
+            <p>Choose the correct heading for each paragraph from the list of headings below.</p>
+            <p><em>Drag and drop the headings to the correct paragraphs.</em></p>
+          </div>
+          <div class="matching-options-bank" data-dnd-group="headings-14-19">
+            <div class="drag-item" draggable="true" data-value="i" data-dnd-group="headings-14-19">i &nbsp;AI can improve the profitability of sporting businesses</div>
+            <div class="drag-item" draggable="true" data-value="ii" data-dnd-group="headings-14-19">ii &nbsp;Responses to criticisms of AI in sports coaching</div>
+            <div class="drag-item" draggable="true" data-value="iii" data-dnd-group="headings-14-19">iii &nbsp;A contrast between coaching today and in the past</div>
+            <div class="drag-item" draggable="true" data-value="iv" data-dnd-group="headings-14-19">iv &nbsp;An academic outlines some of the advantages of AI in sport</div>
+            <div class="drag-item" draggable="true" data-value="v" data-dnd-group="headings-14-19">v &nbsp;The businesses responsible for creating AI software</div>
+            <div class="drag-item" draggable="true" data-value="vi" data-dnd-group="headings-14-19">vi &nbsp;The use of AI to decide the results of a competition</div>
+            <div class="drag-item" draggable="true" data-value="vii" data-dnd-group="headings-14-19">vii &nbsp;An academic study into a team sport in one country</div>
+            <div class="drag-item" draggable="true" data-value="viii" data-dnd-group="headings-14-19">viii &nbsp;The uses of AI in coaching a range of different sports</div>
+          </div>
+          <div class="matching-question-container">
+            <div class="matching-question-item"><span>Paragraph A</span><span class="drop-zone" data-q-start="14" data-dnd-group="headings-14-19">14</span></div>
+            <div class="matching-question-item"><span>Paragraph B</span><span class="drop-zone" data-q-start="15" data-dnd-group="headings-14-19">15</span></div>
+            <div class="matching-question-item"><span>Paragraph C</span><span class="drop-zone" data-q-start="16" data-dnd-group="headings-14-19">16</span></div>
+            <div class="matching-question-item"><span>Paragraph D</span><span class="drop-zone" data-q-start="17" data-dnd-group="headings-14-19">17</span></div>
+            <div class="matching-question-item"><span>Paragraph E</span><span class="drop-zone" data-q-start="18" data-dnd-group="headings-14-19">18</span></div>
+            <div class="matching-question-item"><span>Paragraph F</span><span class="drop-zone" data-q-start="19" data-dnd-group="headings-14-19">19</span></div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="20" data-q-end="21">
+          <div class="question-prompt">
+            <p><strong>Questions 20–21</strong><br>The list below gives some ways coaches could use AI. Choose <strong>TWO</strong> letters, <strong>A–E</strong>.</p>
+            <p>Which TWO of these are proposed by Professor Rebecca Graves?</p>
+          </div>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="q20-21" value="A"/> A. speeding up analysis of data</label>
+            <label><input type="checkbox" name="q20-21" value="B"/> B. personalising training programmes</label>
+            <label><input type="checkbox" name="q20-21" value="C"/> C. improving mental toughness</label>
+            <label><input type="checkbox" name="q20-21" value="D"/> D. reducing cost of sports coaching</label>
+            <label><input type="checkbox" name="q20-21" value="E"/> E. identifying opponents' game plans</label>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="22" data-q-end="26">
+          <div class="question-prompt">
+            <p><strong>Questions 22–26</strong><br>Complete the sentences below.</p>
+            <p>Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+          </div>
+          <div class="summary-text">
+            <ul>
+              <li style="margin-bottom:10px;">Analysis of AI data by Dr Johann Muller suggests that teams which play defensively have fewer <input type="text" class="answer-input" id="q22" placeholder="22"/>.</li>
+              <li style="margin-bottom:10px;">An Indian company has designed new <input type="text" class="answer-input" id="q23" placeholder="23"/> using AI technology.</li>
+              <li style="margin-bottom:10px;">The use of AI in NASCAR is believed to improve <input type="text" class="answer-input" id="q24" placeholder="24"/> as well as driver performance.</li>
+              <li style="margin-bottom:10px;">Henri Simeonson says that <input type="text" class="answer-input" id="q25" placeholder="25"/> might be able to disrupt AI and make competitions unfair.</li>
+              <li style="margin-bottom:10px;">In Minor League Baseball, a type of <input type="text" class="answer-input" id="q26" placeholder="26"/> powered by AI is giving the sport greater publicity.</li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- /questions-2 -->
+
+      <!-- QUESTIONS SET 3 -->
+      <div id="questions-3" class="question-set hidden">
+        <div class="question" data-q-start="27" data-q-end="32">
+          <div class="question-prompt">
+            <p><strong>Questions 27–32</strong><br>Do the following statements agree with the claims of the writer in Reading Passage 3?</p>
+            <p>Write <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
+          </div>
+          <div class="tf-question" data-q-start="27"><div class="tf-question-line"><span class="tf-question-number">27</span><span class="tf-question-text">Sales of crime fiction were surprisingly high at a recent London Book Fair.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q27" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q27" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q27" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="28"><div class="tf-question-line"><span class="tf-question-number">28</span><span class="tf-question-text">Literary critics such as Sebastian Franklin think that crime fiction is overrated.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q28" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q28" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q28" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="29"><div class="tf-question-line"><span class="tf-question-number">29</span><span class="tf-question-text">Agatha Christie and James M. Cain admired each other's writing.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q29" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q29" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q29" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="30"><div class="tf-question-line"><span class="tf-question-number">30</span><span class="tf-question-text">Most people know about Christie from films rather than books.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q30" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q30" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q30" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="31"><div class="tf-question-line"><span class="tf-question-number">31</span><span class="tf-question-text">Christie's descriptions of international locations were based on her own experience.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q31" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q31" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q31" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+          <div class="tf-question" data-q-start="32"><div class="tf-question-line"><span class="tf-question-number">32</span><span class="tf-question-text">Christie enjoyed the wealth and fame she achieved through writing.</span></div><div class="tf-options"><label class="tf-option"><input type="radio" name="q32" value="YES"> YES</label><label class="tf-option"><input type="radio" name="q32" value="NO"> NO</label><label class="tf-option"><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label></div></div>
+        </div>
+
+        <div class="question" data-q-start="33" data-q-end="36">
+          <div class="question-prompt">
+            <p><strong>Questions 33–36</strong><br>Choose the correct letter, <strong>A</strong>, <strong>B</strong>, <strong>C</strong> or <strong>D</strong>.</p>
+          </div>
+          <p style="margin-bottom:8px;"><strong>33</strong> What is the writer doing in the third paragraph?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q33" value="A"> A &nbsp;&nbsp;discussing one weakness of Christie's style</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="B"> B &nbsp;&nbsp;identifying a writer who influenced Christie</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="C"> C &nbsp;&nbsp;contrasting different techniques Christie used</label></div>
+            <div class="single-choice"><label><input type="radio" name="q33" value="D"> D &nbsp;&nbsp;listing some features of a typical Christie story</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>34</strong> The writer refers to Michael Utley in order to</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q34" value="A"> A &nbsp;&nbsp;reject a common criticism of Christie's books.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="B"> B &nbsp;&nbsp;compare two of Christie's better-known books.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="C"> C &nbsp;&nbsp;explain the conclusion of one of Christie's books.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q34" value="D"> D &nbsp;&nbsp;suggest that each of Christie's books was different.</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>35</strong> What point does the writer make about Christie's writing style in the fifth paragraph?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q35" value="A"> A &nbsp;&nbsp;Occasionally, the stories do not make sense.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="B"> B &nbsp;&nbsp;Little happens compared to modern stories.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="C"> C &nbsp;&nbsp;Important evidence is very easy to miss.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q35" value="D"> D &nbsp;&nbsp;Some unnecessary details are included.</label></div>
+          </div>
+          <p style="margin-bottom:8px;"><strong>36</strong> What does the writer conclude about Christie in the final paragraph?</p>
+          <div class="single-choice-container" style="margin-bottom:20px;">
+            <div class="single-choice"><label><input type="radio" name="q36" value="A"> A &nbsp;&nbsp;Her influence is slowly beginning to decrease.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q36" value="B"> B &nbsp;&nbsp;She is more influential today than ever before.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q36" value="C"> C &nbsp;&nbsp;One book was more influential than the others.</label></div>
+            <div class="single-choice"><label><input type="radio" name="q36" value="D"> D &nbsp;&nbsp;She has only influenced writers in certain countries.</label></div>
+          </div>
+        </div>
+
+        <div class="question" data-q-start="37" data-q-end="40">
+          <div class="question-prompt">
+            <p><strong>Questions 37–40</strong><br>Complete each sentence with the correct ending, <strong>A–F</strong>, below.</p>
+            <p><em>Drag and drop an option to fill in each blank.</em></p>
+          </div>
+          <div class="summary-options-bank" data-dnd-group="endings-37-40">
+            <div class="drag-item" draggable="true" data-value="A" data-dnd-group="endings-37-40">A &nbsp;is an example of a book disliked by many critics.</div>
+            <div class="drag-item" draggable="true" data-value="B" data-dnd-group="endings-37-40">B &nbsp;has sold more copies than her other books.</div>
+            <div class="drag-item" draggable="true" data-value="C" data-dnd-group="endings-37-40">C &nbsp;has illustrated the fact that readers cannot remember the ending.</div>
+            <div class="drag-item" draggable="true" data-value="D" data-dnd-group="endings-37-40">D &nbsp;was Christie's own favourite from among her books for good reasons.</div>
+            <div class="drag-item" draggable="true" data-value="E" data-dnd-group="endings-37-40">E &nbsp;is different from all of her other books.</div>
+            <div class="drag-item" draggable="true" data-value="F" data-dnd-group="endings-37-40">F &nbsp;introduced one of her most famous and most often copied characters.</div>
+          </div>
+          <div class="summary-text" style="margin-top:16px;">
+            <p>Christie's book <em>Come, Tell Me How You Live</em>, <span class="summary-drop-zone" data-q-start="37" data-dnd-group="endings-37-40">37</span></p>
+            <p>Christie's first book, <em>The Mysterious Affair at Styles</em>, <span class="summary-drop-zone" data-q-start="38" data-dnd-group="endings-37-40">38</span></p>
+            <p>Christie's sixteenth book, <em>Murder on the Orient Express</em>, <span class="summary-drop-zone" data-q-start="39" data-dnd-group="endings-37-40">39</span></p>
+            <p><em>The Murder of Roger Ackroyd</em>, published in 1926, <span class="summary-drop-zone" data-q-start="40" data-dnd-group="endings-37-40">40</span></p>
+          </div>
+        </div>
+      </div><!-- /questions-3 -->
+
+    </div><!-- /questions-panel -->
+  </div><!-- /panels-container -->
+</div><!-- /main-container -->
+
+<!-- NAV ARROWS -->
+<div class="nav-arrows" id="nav-arrows">
+  <button class="nav-arrow" id="prevBtn" onclick="previousQuestion()">&#8249;</button>
+  <button class="nav-arrow" id="nextBtn" onclick="nextQuestion()">&#8250;</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="nav-row" id="nav-row">
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-1">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(1)"><span class="section-prefix">Part </span><span class="sectionNr">1</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(1)">1</button><button class="subQuestion" onclick="goToQuestion(2)">2</button><button class="subQuestion" onclick="goToQuestion(3)">3</button><button class="subQuestion" onclick="goToQuestion(4)">4</button><button class="subQuestion" onclick="goToQuestion(5)">5</button><button class="subQuestion" onclick="goToQuestion(6)">6</button><button class="subQuestion" onclick="goToQuestion(7)">7</button><button class="subQuestion" onclick="goToQuestion(8)">8</button><button class="subQuestion" onclick="goToQuestion(9)">9</button><button class="subQuestion" onclick="goToQuestion(10)">10</button><button class="subQuestion" onclick="goToQuestion(11)">11</button><button class="subQuestion" onclick="goToQuestion(12)">12</button><button class="subQuestion" onclick="goToQuestion(13)">13</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-2">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(2)"><span class="section-prefix">Part </span><span class="sectionNr">2</span><span class="attemptedCount">0 of 13</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(14)">14</button><button class="subQuestion" onclick="goToQuestion(15)">15</button><button class="subQuestion" onclick="goToQuestion(16)">16</button><button class="subQuestion" onclick="goToQuestion(17)">17</button><button class="subQuestion" onclick="goToQuestion(18)">18</button><button class="subQuestion" onclick="goToQuestion(19)">19</button><button class="subQuestion" onclick="goToQuestion(20)">20</button><button class="subQuestion" onclick="goToQuestion(21)">21</button><button class="subQuestion" onclick="goToQuestion(22)">22</button><button class="subQuestion" onclick="goToQuestion(23)">23</button><button class="subQuestion" onclick="goToQuestion(24)">24</button><button class="subQuestion" onclick="goToQuestion(25)">25</button><button class="subQuestion" onclick="goToQuestion(26)">26</button>
+    </div>
+  </div>
+  <div class="footer__questionWrapper___1tZ46" id="part-nav-3">
+    <button class="footer__questionNo___3WNct" onclick="switchToPart(3)"><span class="section-prefix">Part </span><span class="sectionNr">3</span><span class="attemptedCount">0 of 14</span></button>
+    <div class="footer__subquestionWrapper___9GgoP">
+      <button class="subQuestion" onclick="goToQuestion(27)">27</button><button class="subQuestion" onclick="goToQuestion(28)">28</button><button class="subQuestion" onclick="goToQuestion(29)">29</button><button class="subQuestion" onclick="goToQuestion(30)">30</button><button class="subQuestion" onclick="goToQuestion(31)">31</button><button class="subQuestion" onclick="goToQuestion(32)">32</button><button class="subQuestion" onclick="goToQuestion(33)">33</button><button class="subQuestion" onclick="goToQuestion(34)">34</button><button class="subQuestion" onclick="goToQuestion(35)">35</button><button class="subQuestion" onclick="goToQuestion(36)">36</button><button class="subQuestion" onclick="goToQuestion(37)">37</button><button class="subQuestion" onclick="goToQuestion(38)">38</button><button class="subQuestion" onclick="goToQuestion(39)">39</button><button class="subQuestion" onclick="goToQuestion(40)">40</button>
+    </div>
+  </div>
+  <button class="footer__deliverButton___3FM07" style="display:none;">Submit Test</button>
+</nav>
+
+<!-- FIXED SUBMIT BUTTON bottom-right -->
+<button class="submit-btn-fixed" id="submit-btn-fixed" onclick="submitTest()">Submit Test ✓</button>
+
+<!-- CONTEXT MENU -->
+<div class="context-menu" id="contextMenu">
+  <div class="context-menu-item" id="highlight-btn">🖊 Highlight</div>
+  <div class="context-menu-item" id="note-btn">📝 Note</div>
+  <div class="context-menu-item" id="clear-btn" style="display:none;">✕ Remove highlight</div>
+  <div class="context-menu-item" id="clear-all-btn">🗑 Clear all</div>
+</div>
+
+<script>
+const PASSWORD = '1234';
+let candidateId = '';
+let candidateName = '';
+let candidateDate = '';
+let currentPassage = 1;
+let currentQuestion = 1;
+let timeInSeconds = 3600;
+let timerInterval = null;
+let testCompleted = false;
+let draggedItem = null;
+let savedRange = null;
+let contextTargetEl = null;
+
+const correctAnswers = {
+  '1':'FALSE','2':'TRUE','3':'NOT GIVEN','4':'TRUE',
+  '5':'glue','6':'lasers','7':'cake','8':'recycled',
+  '9':['major repairs','repairs'],'10':'regulations','11':['attractive interiors','interiors'],'12':'water','13':['heat insulation','insulation'],
+  '14':'iii','15':'vii','16':'iv','17':'viii','18':'vi','19':'i',
+  '20':'B','21':'E',
+  '22':'injuries','23':'sneakers','24':'safety','25':'hackers','26':'journalism',
+  '27':'NO','28':'YES','29':'NOT GIVEN','30':'YES','31':'YES','32':'NOT GIVEN',
+  '33':'D','34':'A','35':'C','36':'B',
+  '37':'E','38':'F','39':'C','40':'D'
+};
+
+// ---- LOGIN ----
+function submitLogin() {
+  if (document.getElementById('password').value === PASSWORD) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('candidate-screen').style.display = 'flex';
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function submitCandidate() {
+  const name = (document.getElementById('candidate-name-input') || {}).value || '';
+  const date = (document.getElementById('test-date-input') || {}).value || '';
+  const val = name.trim();
+  if (val.length < 1) { document.getElementById('candidate-error').style.display = 'block'; return; }
+  candidateId = val;
+  candidateName = val;
+  candidateDate = date || new Date().toLocaleDateString();
+  document.getElementById('header-candidate-id').textContent = val;
+  document.getElementById('intro-candidate-name').textContent = val;
+  document.getElementById('candidate-screen').style.display = 'none';
+  const intro = document.getElementById('intro-screen');
+  intro.style.display = 'flex';
+  intro.style.flexDirection = 'column';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') submitLogin(); });
+  document.getElementById('candidate-name-input') && document.getElementById('candidate-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitCandidate(); });
+  document.getElementById('back-to-login').addEventListener('click', function() {
+    document.getElementById('candidate-screen').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  });
+
+  document.getElementById('start-test-btn').addEventListener('click', function() {
+    document.getElementById('intro-screen').style.display = 'none';
+    document.getElementById('main-header').style.display = 'flex';
+    document.getElementById('main-container').style.display = 'flex';
+    document.getElementById('nav-arrows').style.display = 'flex';
+    document.getElementById('nav-row').style.display = 'flex';
+    document.getElementById('submit-btn-fixed').style.display = 'block';
+    switchToPart(1);
+    initDragDrop();
+    setupInputListeners();
+    setupCheckboxLimits();
+    updateAllIndicators();
+    startTimer();
+    initResizer();
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', function() {
+    if (confirm('Logout?')) window.location.reload();
+  });
+
+  document.getElementById('dark-toggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    this.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  });
+
+  // Context menu
+  document.getElementById('highlight-btn').addEventListener('click', doHighlight);
+  document.getElementById('note-btn').addEventListener('click', doNote);
+  document.getElementById('clear-btn').addEventListener('click', doClear);
+  document.getElementById('clear-all-btn').addEventListener('click', doClearAll);
+});
+
+// ---- TIMER ----
+function startTimer() {
+  timerInterval = setInterval(function() {
+    timeInSeconds--;
+    const m = Math.floor(timeInSeconds / 60);
+    const s = timeInSeconds % 60;
+    const display = document.getElementById('timer-display');
+    display.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    if (timeInSeconds <= 300) display.classList.add('timer-warning');
+    if (timeInSeconds <= 0) { clearInterval(timerInterval); handleTimeUp(); }
+  }, 1000);
+}
+
+function handleTimeUp() {
+  if (testCompleted) return;
+  testCompleted = true;
+  alert("Time's up! Submitting your test.");
+  downloadPDF();
+  setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
+}
+
+// ---- PART SWITCHING ----
+function switchToPart(n) {
+  currentPassage = n;
+  document.querySelectorAll('.reading-passage,.question-set,.part-header').forEach(el => el.classList.add('hidden'));
+  document.getElementById('passage-text-' + n).classList.remove('hidden');
+  document.getElementById('questions-' + n).classList.remove('hidden');
+  const headers = { 1:'<strong>Part 1</strong> — Read the text and answer questions 1–13.', 2:'<strong>Part 2</strong> — Read the text and answer questions 14–26.', 3:'<strong>Part 3</strong> — Read the text and answer questions 27–40.' };
+  document.getElementById('part-header-bar').innerHTML = headers[n];
+  document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w, i) => w.classList.toggle('selected', i + 1 === n));
+  const firstQ = {1:1, 2:14, 3:27}[n];
+  goToQuestion(firstQ);
+}
+
+// ---- NAVIGATION ----
+function goToQuestion(qNum) {
+  currentQuestion = qNum;
+  let part = qNum <= 13 ? 1 : qNum <= 26 ? 2 : 3;
+  if (currentPassage !== part) { switchToPart(part); return; }
+
+  document.querySelectorAll('.subQuestion').forEach(b => b.classList.remove('active'));
+  const btn = document.querySelector('.subQuestion[onclick="goToQuestion(' + qNum + ')"]');
+  if (btn) btn.classList.add('active');
+
+  // Find and scroll to element
+  let el = document.getElementById('q' + qNum)
+    || document.querySelector('input[name="q' + qNum + '"]')
+    || document.querySelector('.tf-question[data-q-start="' + qNum + '"]')
+    || document.querySelector('.drop-zone[data-q-start="' + qNum + '"]')
+    || document.querySelector('.summary-drop-zone[data-q-start="' + qNum + '"]');
+
+  if (el) {
+    const block = el.closest('.question, .tf-question, .matching-question-item') || el.parentElement;
+    if (block) {
+      block.scrollIntoView({ behavior:'smooth', block:'center' });
+      block.classList.add('flash');
+      setTimeout(() => block.classList.remove('flash'), 1000);
+    }
+  }
+  updateAllIndicators();
+}
+
+function previousQuestion() { if (currentQuestion > 1) goToQuestion(currentQuestion - 1); }
+function nextQuestion() { if (currentQuestion < 40) goToQuestion(currentQuestion + 1); }
+window.previousQuestion = previousQuestion;
+window.nextQuestion = nextQuestion;
+window.goToQuestion = goToQuestion;
+window.switchToPart = switchToPart;
+
+// ---- INDICATORS ----
+function isAnswered(q) {
+  const txt = document.getElementById('q' + q);
+  if (txt && txt.value && txt.value.trim() !== '') return true;
+  if (document.querySelector('input[name="q' + q + '"]:checked')) return true;
+  const cbMap = { 20:'q20-21', 21:'q20-21' };
+  if (cbMap[q]) {
+    const checked = document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked').length;
+    if (checked >= 2) return true;
+  }
+  const dz = document.querySelector('.drop-zone[data-q-start="' + q + '"]');
+  if (dz && dz.querySelector('.drag-item')) return true;
+  const sz = document.querySelector('.summary-drop-zone[data-q-start="' + q + '"]');
+  if (sz && sz.querySelector('.drag-item')) return true;
+  return false;
+}
+
+function updateAllIndicators() {
+  document.querySelectorAll('.subQuestion').forEach(btn => {
+    const m = (btn.getAttribute('onclick') || '').match(/goToQuestion\((\d+)\)/);
+    if (!m) return;
+    btn.classList.toggle('answered', isAnswered(parseInt(m[1])));
+  });
+  [[1,1,13],[2,14,26],[3,27,40]].forEach(([part, start, end]) => {
+    let count = 0;
+    for (let i = start; i <= end; i++) { if (isAnswered(i)) count++; }
+    const w = document.getElementById('part-nav-' + part);
+    if (w) { const ct = w.querySelector('.attemptedCount'); if (ct) ct.textContent = count + ' of ' + (end - start + 1); }
+  });
+}
+
+function setupInputListeners() {
+  document.querySelectorAll('.answer-input, input[type="radio"], input[type="checkbox"]').forEach(inp => {
+    inp.addEventListener('input', updateAllIndicators);
+    inp.addEventListener('change', updateAllIndicators);
+  });
+}
+
+function setupCheckboxLimits() {
+  ['q20-21'].forEach(name => {
+    document.querySelectorAll('input[name="' + name + '"]').forEach(cb => {
+      cb.addEventListener('click', function() {
+        const checked = document.querySelectorAll('input[name="' + name + '"]:checked');
+        if (checked.length > 2) cb.checked = false;
+      });
+    });
+  });
+}
+
+// ---- DRAG AND DROP ----
+function initDragDrop() {
+  document.querySelectorAll('.drag-item').forEach(item => {
+    item.addEventListener('dragstart', e => { draggedItem = e.target; setTimeout(() => e.target.classList.add('dragging'), 0); });
+    item.addEventListener('dragend', e => { e.target.classList.remove('dragging'); draggedItem = null; });
+    // Touch support
+    item.addEventListener('touchstart', handleTouchStart, { passive: true });
+    item.addEventListener('touchmove', handleTouchMove, { passive: false });
+    item.addEventListener('touchend', handleTouchEnd);
+  });
+  document.querySelectorAll('.drop-zone, .summary-drop-zone, .matching-options-bank, .summary-options-bank').forEach(zone => {
+    zone.addEventListener('dragover', e => { e.preventDefault(); if (!draggedItem || draggedItem.dataset.dndGroup !== zone.dataset.dndGroup) return; zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', e => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handleDropTo(zone); });
+  });
+}
+
+function handleDropTo(targetZone) {
+  if (!draggedItem || draggedItem.dataset.dndGroup !== targetZone.dataset.dndGroup) return;
+  const sourceZone = draggedItem.parentElement;
+  if (sourceZone === targetZone) return;
+  const isTargetZone = targetZone.classList.contains('drop-zone') || targetZone.classList.contains('summary-drop-zone');
+  const isSourceZone = sourceZone.classList.contains('drop-zone') || sourceZone.classList.contains('summary-drop-zone');
+  const existing = isTargetZone ? targetZone.querySelector('.drag-item') : null;
+  if (existing) { sourceZone.appendChild(existing); }
+  if (isSourceZone && !sourceZone.querySelector('.drag-item')) {
+    sourceZone.classList.remove('filled');
+    sourceZone.textContent = sourceZone.dataset.qStart || '';
+  }
+  targetZone.appendChild(draggedItem);
+  if (isTargetZone) { targetZone.classList.add('filled'); }
+  updateAllIndicators();
+}
+
+// Touch drag
+let touchDragged = null, touchClone = null;
+function handleTouchStart(e) {
+  touchDragged = this;
+  draggedItem = this;
+  const t = e.touches[0];
+  touchClone = this.cloneNode(true);
+  touchClone.style.cssText = 'position:fixed;pointer-events:none;opacity:.75;z-index:9999;background:white;border:1px solid #9c9c9c;padding:4px 10px;border-radius:4px;font-size:14px;';
+  touchClone.style.left = (t.clientX - 30) + 'px';
+  touchClone.style.top = (t.clientY - 20) + 'px';
+  document.body.appendChild(touchClone);
+}
+function handleTouchMove(e) {
+  if (!touchClone) return;
+  e.preventDefault();
+  const t = e.touches[0];
+  touchClone.style.left = (t.clientX - 30) + 'px';
+  touchClone.style.top = (t.clientY - 20) + 'px';
+}
+function handleTouchEnd(e) {
+  if (touchClone) { document.body.removeChild(touchClone); touchClone = null; }
+  if (!touchDragged) return;
+  const t = e.changedTouches[0];
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  const zone = el ? (el.closest('.drop-zone, .summary-drop-zone, .matching-options-bank, .summary-options-bank')) : null;
+  if (zone) handleDropTo(zone);
+  touchDragged = null;
+  draggedItem = null;
+}
+
+// ---- RESIZER ----
+function initResizer() {
+  const resizer = document.getElementById('resizer');
+  const passage = document.getElementById('passage-panel');
+  const questions = document.getElementById('questions-panel');
+  let isResizing = false, startX, startPassW, startQuestW;
+  resizer.addEventListener('mousedown', e => {
+    isResizing = true; startX = e.clientX;
+    startPassW = passage.offsetWidth; startQuestW = questions.offsetWidth;
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isResizing) return;
+    const dx = e.clientX - startX;
+    const newPassW = Math.max(200, startPassW + dx);
+    const newQuestW = Math.max(200, startQuestW - dx);
+    passage.style.flex = 'none';
+    passage.style.width = newPassW + 'px';
+    questions.style.flex = 'none';
+    questions.style.width = newQuestW + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    isResizing = false;
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+}
+
+// ---- HIGHLIGHT / CONTEXT MENU ----
+document.addEventListener('selectionchange', function() {
+  const sel = window.getSelection();
+  if (sel && sel.rangeCount > 0 && sel.toString().trim()) {
+    savedRange = sel.getRangeAt(0).cloneRange();
+  }
+});
+
+document.addEventListener('contextmenu', function(e) {
+  const hl = e.target.closest('.highlight, .comment-highlight');
+  const inPassage = e.target.closest('.passage-panel, .questions-panel');
+  if (!inPassage) return;
+  const sel = window.getSelection();
+  const text = sel ? sel.toString().trim() : '';
+  if (!text && !hl) return;
+  e.preventDefault();
+  const menu = document.getElementById('contextMenu');
+  contextTargetEl = hl || null;
+  document.getElementById('clear-btn').style.display = hl ? 'flex' : 'none';
+  menu.style.left = e.clientX + 'px';
+  menu.style.top = e.clientY + 'px';
+  menu.style.display = 'block';
+});
+
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('contextMenu');
+  if (!e.target.closest('.context-menu')) menu.style.display = 'none';
+});
+
+function doHighlight() {
+  if (!savedRange || !savedRange.toString().trim()) { document.getElementById('contextMenu').style.display = 'none'; return; }
+  try {
+    const span = document.createElement('span'); span.className = 'highlight';
+    savedRange.surroundContents(span);
+  } catch(ex) {
+    const tw = document.createTreeWalker(savedRange.commonAncestorContainer, NodeFilter.SHOW_TEXT);
+    let node, nodes = [], inRange = false;
+    while ((node = tw.nextNode())) {
+      if (node === savedRange.startContainer) inRange = true;
+      if (inRange) nodes.push(node);
+      if (node === savedRange.endContainer) break;
+    }
+    nodes.forEach((tn, i) => {
+      if (!tn.nodeValue.trim()) return;
+      let s = 0, end = tn.length;
+      if (i === 0 && tn === savedRange.startContainer) s = savedRange.startOffset;
+      if (i === nodes.length-1 && tn === savedRange.endContainer) end = savedRange.endOffset;
+      if (s >= end) return;
+      const sp = document.createElement('span'); sp.className = 'highlight';
+      sp.textContent = tn.nodeValue.slice(s, end);
+      const parent = tn.parentNode;
+      if (!parent) return;
+      if (s > 0) parent.insertBefore(document.createTextNode(tn.nodeValue.slice(0, s)), tn);
+      parent.insertBefore(sp, tn);
+      if (end < tn.length) parent.insertBefore(document.createTextNode(tn.nodeValue.slice(end)), tn);
+      parent.removeChild(tn);
+    });
+  }
+  window.getSelection().removeAllRanges();
+  savedRange = null;
+  document.getElementById('contextMenu').style.display = 'none';
+}
+
+function doNote() {
+  const note = prompt('Enter your note:');
+  if (note && savedRange && !savedRange.collapsed) {
+    const span = document.createElement('span'); span.className = 'comment-highlight';
+    const tip = document.createElement('span'); tip.className = 'comment-tooltip'; tip.textContent = note;
+    span.appendChild(savedRange.extractContents()); span.appendChild(tip);
+    savedRange.insertNode(span);
+  }
+  window.getSelection().removeAllRanges(); savedRange = null;
+  document.getElementById('contextMenu').style.display = 'none';
+}
+
+function doClear() {
+  if (contextTargetEl) {
+    const parent = contextTargetEl.parentNode;
+    while (contextTargetEl.firstChild) parent.insertBefore(contextTargetEl.firstChild, contextTargetEl);
+    parent.removeChild(contextTargetEl); parent.normalize();
+    contextTargetEl = null;
+  }
+  document.getElementById('contextMenu').style.display = 'none';
+}
+
+function doClearAll() {
+  document.querySelectorAll('.highlight,.comment-highlight').forEach(el => {
+    const parent = el.parentNode;
+    while (el.firstChild) parent.insertBefore(el.firstChild, el);
+    parent.removeChild(el); parent.normalize();
+  });
+  document.getElementById('contextMenu').style.display = 'none';
+}
+
+// ---- SUBMIT & PDF ----
+function submitTest() {
+  if (testCompleted) return;
+  if (!confirm('Submit test and download your PDF results?')) return;
+  testCompleted = true;
+  clearInterval(timerInterval);
+  try {
+    downloadPDF();
+  } catch(e) {
+    console.error('PDF error:', e);
+    alert('Could not generate PDF. Please try again.\nError: ' + e.message);
+    testCompleted = false;
+    return;
+  }
+  setTimeout(() => { document.getElementById('completion-screen').style.display = 'flex'; }, 1500);
+  setTimeout(() => { window.location.href = 'Writing.html'; }, 3000);
+}
+
+function getUserAnswer(q) {
+  const txt = document.getElementById('q' + q);
+  if (txt && (txt.tagName === 'INPUT' || txt.tagName === 'SELECT')) return txt.value.trim();
+  const radio = document.querySelector('input[name="q' + q + '"]:checked');
+  if (radio) return radio.value;
+  const cbMap = { 20:'q20-21', 21:'q20-21' };
+  if (cbMap[q]) {
+    const vals = Array.from(document.querySelectorAll('input[name="' + cbMap[q] + '"]:checked')).map(c => c.value).sort();
+    const idx = (q === 20) ? 0 : 1;
+    return vals[idx] || '';
+  }
+  const dz = document.querySelector('.drop-zone[data-q-start="' + q + '"]');
+  if (dz && dz.querySelector('.drag-item')) return dz.querySelector('.drag-item').dataset.value || '';
+  const sz = document.querySelector('.summary-drop-zone[data-q-start="' + q + '"]');
+  if (sz && sz.querySelector('.drag-item')) return sz.querySelector('.drag-item').dataset.value || '';
+  return '';
+}
+
+function checkCorrect(userAns, correct) {
+  if (!userAns) return false;
+  const u = userAns.trim().toLowerCase();
+  if (Array.isArray(correct)) return correct.some(c => u === c.toLowerCase());
+  return u === String(correct).toLowerCase();
+}
+
+function calculateBand(score) {
+  if (score >= 39) return '9.0';
+  const map = {38:'8.5',37:'8.5',36:'8.0',35:'8.0',34:'7.5',33:'7.5',32:'7.0',31:'7.0',30:'7.0',29:'6.5',28:'6.5',27:'6.5',26:'6.0',25:'6.0',24:'6.0',23:'5.5',22:'5.5',21:'5.5',20:'5.5',19:'5.0',18:'5.0',17:'5.0',16:'5.0',15:'5.0',14:'4.5',13:'4.5',12:'4.0',11:'4.0',10:'4.0',9:'3.5',8:'3.5',7:'3.0',6:'3.0',5:'2.5',4:'2.5'};
+  return map[score] || '0.0';
+}
+
+function downloadPDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) throw new Error('jsPDF not loaded. Check your internet connection.');
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  let score = 0;
+  const results = [];
+  for (let i = 1; i <= 40; i++) {
+    const user = getUserAnswer(i);
+    const correct = correctAnswers[String(i)];
+    const ok = checkCorrect(user, correct);
+    if (ok) score++;
+    results.push({ q: i, user: user || '—', correct: Array.isArray(correct) ? correct[0] : correct, ok });
+  }
+  const band = calculateBand(score);
+  doc.setFontSize(18); doc.setFont(undefined, 'bold');
+  doc.text('IELTS Trainer 2 Academic Test 5 — Reading Results', 105, 20, { align: 'center' });
+  doc.setFontSize(14); doc.setFont(undefined, 'normal');
+  doc.text('Score: ' + score + ' / 40', 20, 40);
+  doc.text('Band Score: ' + band, 20, 50);
+  doc.text('Candidate: ' + (candidateName || candidateId), 20, 60);
+  doc.text('Date: ' + (candidateDate || new Date().toLocaleDateString()), 20, 70);
+  doc.setFontSize(11);
+  doc.setFont(undefined, 'bold');
+  doc.text('Q', 20, 90); doc.text('Your Answer', 35, 90); doc.text('Correct', 100, 90); doc.text('Result', 155, 90);
+  doc.setFont(undefined, 'normal');
+  let y = 100;
+  results.forEach(r => {
+    doc.setTextColor('#000000');
+    doc.text(String(r.q), 20, y);
+    doc.text(String(r.user), 35, y);
+    doc.text(String(r.correct), 100, y);
+    doc.setTextColor(r.ok ? '#1a7a1a' : '#c0392b');
+    doc.text(r.ok ? 'Correct' : 'Wrong', 155, y);
+    y += 8;
+    if (y > 280) { doc.addPage(); y = 20; }
+  });
+  doc.setTextColor('#000000');
+  doc.save('IELTS_Trainer2_Academic_Reading_Test5_' + (candidateName||candidateId).replace(/\s+/g,'_') + '.pdf');
+}
+</script>
+</body>
+</html>
